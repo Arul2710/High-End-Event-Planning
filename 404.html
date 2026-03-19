@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" id="htmlTag" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | LuxeEvents</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        rose: '#b5826a',
+                        plum: '#7c5c8a',
+                        gold: '#c9a96e',
+                        deep: '#4a2c40',
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                        cormorant: ['Cormorant Garamond', 'serif']
+                    },
+                    animation: {
+                        'soft-float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-luxury { font-family: 'Cormorant Garamond', serif; }
+    </style>
+</head>
+
+<body class="bg-[#FAF9F6] overflow-hidden"> <div class="relative min-h-screen flex items-center justify-center px-6">
+        
+        <div class="absolute top-10 left-10 w-64 h-64 bg-plum/5 rounded-full blur-3xl animate-soft-float"></div>
+        <div class="absolute bottom-10 right-10 w-96 h-96 bg-gold/10 rounded-full blur-3xl animate-soft-float" style="animation-delay: 2s;"></div>
+
+        <div class="max-w-2xl w-full text-center relative z-10">
+            
+            <div class="flex justify-center mb-8">
+                <div class="p-4 rounded-full border border-gold/30 bg-white shadow-sm">
+                    <i data-lucide="search-x" class="w-12 h-12 text-rose"></i>
+                </div>
+            </div>
+
+            <h1 class="font-luxury text-[150px] leading-none font-bold text-deep opacity-10 absolute -top-20 left-1/2 -translate-x-1/2 select-none">
+                404
+            </h1>
+
+            <h2 class="font-luxury text-4xl md:text-6xl text-deep mb-6">Lost in the Moment</h2>
+            
+            <p class="text-plum text-lg mb-10 max-w-md mx-auto leading-relaxed">
+                Even the most meticulously planned events can have an unexpected turn. The page you are looking for has moved or no longer exists.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 font-inter">
+                <a href="/" class="group flex items-center gap-2 px-8 py-4 bg-deep text-white rounded-full transition-all duration-300 hover:bg-plum hover:shadow-lg">
+                    <i data-lucide="arrow-left" class="w-4 h-4 transition-transform group-hover:-translate-x-1"></i>
+                    Return Home
+                </a>
+                
+                <a href="/contact" class="px-8 py-4 border border-rose/30 text-rose rounded-full transition-all duration-300 hover:bg-rose/5">
+                    Contact Studio
+                </a>
+            </div>
+
+            <div class="mt-20">
+                <p class="text-gold tracking-[0.2em] uppercase text-xs font-semibold">LuxeEvents Styling Studio</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

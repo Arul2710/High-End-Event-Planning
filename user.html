@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en" id="htmlTag" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>LuxeEvents | Client Dashboard</title>
+    <link rel="icon" type="image/png" href="img/groww-prak-logo.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        rose:  '#b5826a',
+                        plum:  '#7c5c8a',
+                        gold:  '#c9a96e',
+                        deep:  '#4a2c40',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root { --rose:#b5826a; --plum:#7c5c8a; --gold:#c9a96e; --deep:#4a2c40; }
+
+        * { font-family:'DM Sans',sans-serif; box-sizing:border-box; -webkit-tap-highlight-color:transparent; transition:background-color .25s,border-color .25s; }
+        body { overflow-x:hidden; width:100%; }
+        body.light { background:linear-gradient(135deg,#fdf6f0,#f5ece8); color:#1a0f14; }
+        body.dark  { background:linear-gradient(135deg,#1a0f14,#2d1a23); color:#f0ddd4; }
+
+        .serif { font-family:'Cormorant Garamond',serif; }
+        .g-text { background:linear-gradient(135deg,var(--rose),var(--plum)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+        /* Sidebar */
+        .sidebar-active { background:linear-gradient(135deg,rgba(181,130,106,.14),rgba(124,92,138,.07))!important; border-left:3px solid var(--rose); color:var(--rose)!important; font-weight:700; }
+        [dir="rtl"] .sidebar-active { border-left:0; border-right:3px solid var(--rose); }
+
+        .sidebar-el { background:white; border-color:rgba(181,130,106,.18); }
+        .dark .sidebar-el { background:#2a1520!important; border-color:rgba(181,130,106,.2)!important; }
+
+        /* Cards */
+        .luxe-card { border:1px solid rgba(181,130,106,.18); background:linear-gradient(135deg,rgba(181,130,106,.03),rgba(255,255,255,1)); transition:box-shadow .3s,transform .25s; }
+        .dark .luxe-card { background:linear-gradient(135deg,rgba(181,130,106,.05),#2a1520); border-color:rgba(181,130,106,.18); }
+        .luxe-card:hover { box-shadow:0 14px 35px rgba(181,130,106,.16); }
+        .stat-card:hover { transform:translateY(-4px); box-shadow:0 20px 40px rgba(181,130,106,.2); }
+
+        /* Page anim */
+        .page-node { display:none; opacity:0; transform:translateY(12px); }
+        .page-node.active { display:block; animation:fadeUp .4s ease forwards; }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+        /* Badges */
+        .b-rose  { background:rgba(181,130,106,.12); color:var(--rose); }
+        .b-plum  { background:rgba(124,92,138,.12);  color:var(--plum); }
+        .b-gold  { background:rgba(201,169,110,.15); color:#a07830; }
+        .b-green { background:rgba(34,197,94,.12);   color:#15803d; }
+        .b-amber { background:rgba(245,158,11,.12);  color:#b45309; }
+        .b-red   { background:rgba(239,68,68,.12);   color:#b91c1c; }
+
+        /* Inputs */
+        .luxe-input { width:100%; padding:11px 14px; border-radius:12px; border:2px solid rgba(181,130,106,.22); background:rgba(255,255,255,.85); font-size:13px; outline:none; transition:border .2s,box-shadow .2s; }
+        .dark .luxe-input { background:rgba(42,21,32,.85); color:#f0ddd4; border-color:rgba(181,130,106,.3); }
+        .luxe-input:focus { border-color:var(--rose); box-shadow:0 0 0 3px rgba(181,130,106,.12); }
+
+        /* BTN */
+        .btn-rose { background:linear-gradient(135deg,var(--rose),var(--plum)); color:white; border:none; cursor:pointer; transition:all .25s; }
+        .btn-rose:hover { transform:translateY(-2px); box-shadow:0 8px 22px rgba(181,130,106,.4); }
+
+        /* Progress */
+        .prog-track { height:7px; border-radius:99px; background:rgba(181,130,106,.15); overflow:hidden; }
+        .prog-fill  { height:100%; border-radius:99px; background:linear-gradient(90deg,var(--rose),var(--plum)); }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar{width:5px;} ::-webkit-scrollbar-track{background:transparent;} ::-webkit-scrollbar-thumb{background:var(--rose);border-radius:3px;}
+
+        @media(max-width:1023px){#sidebar{width:280px;box-shadow:0 0 35px rgba(181,130,106,.22);}}
+        @media(max-width:640px){table{display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}}
+        button,a{min-height:44px;min-width:44px;cursor:pointer;}
+
+        /* Timeline */
+        .tl-dot { width:12px; height:12px; border-radius:50%; background:linear-gradient(135deg,var(--rose),var(--plum)); flex-shrink:0; margin-top:3px; }
+        .tl-line { width:2px; background:rgba(181,130,106,.2); flex-shrink:0; margin:0 5px; min-height:32px; }
+
+        /* Gallery thumb */
+        .gallery-thumb { transition:transform .35s,box-shadow .35s; }
+        .gallery-thumb:hover { transform:scale(1.05); box-shadow:0 12px 28px rgba(181,130,106,.35); }
+    </style>
+</head>
+<body class="light antialiased">
+
+<!-- Mobile Overlay -->
+<div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
+
+<div class="flex min-h-screen w-full overflow-x-hidden">
+
+    <!-- ═══════════ SIDEBAR ═══════════ -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-[280px] sidebar-el bg-white dark:bg-[#2a1520] transition-all duration-300 lg:translate-x-0 -translate-x-full border-r overflow-y-auto">
+        <div class="p-5 h-full flex flex-col">
+
+            <!-- Logo -->
+            <div class="flex items-center justify-between mb-6">
+                <a href="index.html" class="flex items-center gap-2 py-1">
+                    <i class="fas fa-gem text-xl" style="color:var(--rose)"></i>
+                    <span class="serif text-2xl font-bold g-text tracking-wide">LuxeEvents</span>
+                </a>
+                <button onclick="toggleSidebar()" class="lg:hidden p-2 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg">
+                    <i class="fas fa-times text-sm" style="color:var(--rose)"></i>
+                </button>
+            </div>
+
+            <!-- Client Profile Card -->
+            <div class="p-4 rounded-2xl mb-5" style="background:linear-gradient(135deg,rgba(181,130,106,.1),rgba(124,92,138,.06));border:1px solid rgba(181,130,106,.2)">
+                <div class="flex items-center gap-3">
+                    <img src="img/home1-7.jpg"
+                         class="w-14 h-14 rounded-full object-cover border-2" style="border-color:var(--rose)" alt="Priya">
+                    <div>
+                        <p class="font-bold text-gray-900 dark:text-white">Priya Sharma</p>
+                        <p class="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">priya@email.com</p>
+                        <div class="flex items-center gap-1.5 mt-1">
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                            <span class="text-[8px] font-bold text-green-600 uppercase">Active Client</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Badge -->
+            <div class="mb-4 px-3 py-2 rounded-xl text-center" style="background:rgba(181,130,106,.08);border:1px solid rgba(181,130,106,.18)">
+                <span class="text-[9px] font-black uppercase tracking-widest" style="color:var(--rose)">Grand Wedding · 28 Mar 2025</span>
+            </div>
+
+            <!-- Nav -->
+            <nav class="flex-1 space-y-1 overflow-y-auto">
+                <p class="text-[9px] font-black uppercase tracking-widest mb-2 ml-2" style="color:var(--rose)">
+                    <i class="fas fa-crown mr-1"></i> MY EVENT
+                </p>
+
+                <a href="javascript:void(0)" onclick="showPage('overview')" id="btn-overview"
+                   class="nav-btn flex items-center gap-3 p-3.5 rounded-xl sidebar-active hover:bg-rose-50 dark:hover:bg-rose-900/10 transition-all text-sm text-gray-600 dark:text-gray-300">
+                    <i class="fas fa-heart w-5 text-center" style="color:var(--rose)"></i>
+                    <span class="font-semibold">My Event</span>
+                </a>
+
+                <a href="javascript:void(0)" onclick="showPage('timeline')" id="btn-timeline"
+                   class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-900/10 transition-all text-sm text-gray-600 dark:text-gray-300">
+                    <i class="fas fa-list-check w-5 text-center" style="color:var(--plum)"></i>
+                    <span class="font-semibold">Planning Timeline</span>
+                    <span class="ml-auto text-[8px] font-black px-2 py-1 rounded-full b-plum">8/12</span>
+                </a>
+
+                <a href="javascript:void(0)" onclick="showPage('budget')" id="btn-budget"
+                   class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-900/10 transition-all text-sm text-gray-600 dark:text-gray-300">
+                    <i class="fas fa-rupee-sign w-5 text-center" style="color:var(--gold)"></i>
+                    <span class="font-semibold">Budget Tracker</span>
+                </a>
+
+                <a href="javascript:void(0)" onclick="showPage('gallery')" id="btn-gallery"
+                   class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-900/10 transition-all text-sm text-gray-600 dark:text-gray-300">
+                    <i class="fas fa-images w-5 text-center" style="color:var(--rose)"></i>
+                    <span class="font-semibold">Mood Board</span>
+                </a>
+
+                <a href="javascript:void(0)" onclick="showPage('messages')" id="btn-messages"
+                   class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-900/10 transition-all text-sm text-gray-600 dark:text-gray-300">
+                    <i class="fas fa-comments w-5 text-center" style="color:var(--plum)"></i>
+                    <span class="font-semibold">Messages</span>
+                    <span class="ml-auto text-[8px] font-black px-2 py-1 rounded-full b-rose">2</span>
+                </a>
+
+                <div class="mt-5 pt-4 border-t" style="border-color:rgba(181,130,106,.18)">
+                    <p class="text-[9px] font-black uppercase tracking-widest mb-2 ml-2" style="color:var(--rose)">
+                        <i class="fas fa-cog mr-1"></i> ACCOUNT
+                    </p>
+                    <a href="javascript:void(0)" onclick="showPage('settings')" id="btn-settings"
+                       class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-900/10 transition-all text-sm text-gray-600 dark:text-gray-300">
+                        <i class="fas fa-user-edit w-5 text-center" style="color:var(--gold)"></i>
+                        <span class="font-semibold">Profile & Settings</span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Bottom Controls -->
+            <div class="pt-4 mt-4 border-t" style="border-color:rgba(181,130,106,.18)">
+                <div class="flex items-center justify-between rounded-2xl p-2 mb-4" style="background:rgba(181,130,106,.07)">
+                    <button onclick="toggleDirection()" class="p-2.5 hover:bg-white dark:hover:bg-rose-900/30 rounded-xl transition-all text-gray-400">
+                        <i class="fas fa-left-right text-xs"></i>
+                    </button>
+                    <button onclick="toggleDarkMode()" class="p-2.5 bg-white dark:bg-rose-900/30 rounded-xl shadow-sm hover:scale-110 transition-all" style="color:var(--rose)">
+                        <i id="themeIconFA" class="fas fa-moon text-sm"></i>
+                    </button>
+                    <a href="login.html" class="p-2.5 rounded-xl transition-all hover:scale-110" style="background:rgba(181,130,106,.12);color:var(--rose)">
+                        <i class="fas fa-sign-out-alt text-sm"></i>
+                    </a>
+                </div>
+                <!-- Plan badge -->
+                <div class="p-3 rounded-xl text-center" style="background:linear-gradient(135deg,rgba(181,130,106,.08),rgba(124,92,138,.05));border:1px solid rgba(181,130,106,.15)">
+                    <p class="text-[9px] font-black uppercase tracking-widest" style="color:var(--rose)">Full Planning Package</p>
+                    <p class="text-[8px] text-gray-400 mt-0.5">₹28 Lakhs · Advance Paid</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ═══════════ MAIN CONTENT ═══════════ -->
+    <main class="flex-1 lg:ml-[280px] p-4 sm:p-5 md:p-6 lg:p-8 transition-all duration-300 w-full overflow-x-hidden">
+
+        <!-- Header -->
+        <header class="flex items-center justify-between mb-6 sm:mb-8">
+            <div class="flex-1 flex items-center gap-3">
+                <button onclick="toggleSidebar()" class="lg:hidden p-2.5 bg-white dark:bg-[#2a1520] rounded-xl border shadow-sm" style="border-color:rgba(181,130,106,.25)">
+                    <i class="fas fa-bars text-sm" style="color:var(--rose)"></i>
+                </button>
+                <div>
+                    <h1 id="pageTitle" class="serif text-2xl sm:text-3xl font-bold g-text">My Event</h1>
+                    <p class="text-xs text-gray-400 mt-0.5">Welcome back, <span class="font-bold" style="color:var(--rose)">Priya</span> 🌸</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Days countdown -->
+                <div class="hidden sm:flex flex-col items-center bg-white dark:bg-[#2a1520] px-4 py-2 rounded-xl border shadow-sm" style="border-color:rgba(181,130,106,.2)">
+                    <span id="daysCount" class="serif text-xl font-bold g-text leading-none">42</span>
+                    <span class="text-[8px] text-gray-400 uppercase tracking-widest">days to go</span>
+                </div>
+                <!-- Notification bell -->
+                <button onclick="showPage('messages')" class="w-10 h-10 rounded-full relative flex items-center justify-center" style="background:rgba(181,130,106,.1)">
+                    <i class="fas fa-bell text-sm" style="color:var(--rose)"></i>
+                    <span class="absolute -top-1 -right-1 text-white text-[8px] font-black px-1.5 py-0.5 rounded-full" style="background:var(--rose)">2</span>
+                </button>
+                <!-- Avatar -->
+                <img src="img/home1-7.jpg"
+                     class="w-10 h-10 rounded-full object-cover border-2" style="border-color:var(--rose)" alt="Priya">
+            </div>
+        </header>
+
+        <div id="mainDisplay" class="space-y-6">
+
+            <!-- ══ 1. MY EVENT OVERVIEW ══ -->
+            <div id="page-overview" class="page-node active">
+
+                <!-- Hero event banner -->
+                <div class="relative rounded-3xl overflow-hidden mb-6 h-44 sm:h-56">
+                    <img src="img/services-1.jpg"
+                         class="w-full h-full object-cover" alt="Wedding venue">
+                    <div class="absolute inset-0 flex flex-col justify-end p-5 sm:p-7" style="background:linear-gradient(to top,rgba(74,44,64,.85),transparent)">
+                        <div class="flex items-end justify-between">
+                            <div>
+                                <span class="text-[9px] font-black uppercase tracking-widest text-white mb-1 block">Your Event</span>
+                                <h2 class="serif text-2xl sm:text-3xl font-bold text-white">Priya & Arjun Wedding</h2>
+                                <p class="text-white text-xs mt-1 flex items-center gap-2">
+                                    <i class="fas fa-calendar-alt"></i> 28 March 2025
+                                    <i class="fas fa-map-marker-alt ml-2"></i> ITC Grand Chola, Mumbai
+                                </p>
+                            </div>
+                            <span class="text-[9px] font-black px-3 py-1.5 rounded-full b-green hidden sm:block">Confirmed</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stat cards -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div class="stat-card luxe-card bg-white dark:bg-[#2a1520] p-4 sm:p-5 rounded-2xl transition-all">
+                        <p class="text-[9px] font-black uppercase tracking-widest mb-1" style="color:var(--rose)">Days Left</p>
+                        <h3 class="serif text-3xl font-bold text-gray-900 dark:text-white">42</h3>
+                        <p class="text-[9px] text-gray-400 mt-1">Until your big day 🎉</p>
+                    </div>
+                    <div class="stat-card luxe-card bg-white dark:bg-[#2a1520] p-4 sm:p-5 rounded-2xl transition-all">
+                        <p class="text-[9px] font-black uppercase tracking-widest mb-1" style="color:var(--plum)">Tasks Done</p>
+                        <h3 class="serif text-3xl font-bold text-gray-900 dark:text-white">8/12</h3>
+                        <div class="prog-track mt-2"><div class="prog-fill" style="width:67%"></div></div>
+                    </div>
+                    <div class="stat-card luxe-card bg-white dark:bg-[#2a1520] p-4 sm:p-5 rounded-2xl transition-all">
+                        <p class="text-[9px] font-black uppercase tracking-widest mb-1" style="color:var(--gold)">Budget Used</p>
+                        <h3 class="serif text-3xl font-bold text-gray-900 dark:text-white">72%</h3>
+                        <p class="text-[9px] text-gray-400 mt-1">₹20.2 L of ₹28 L</p>
+                    </div>
+                    <div class="stat-card luxe-card bg-white dark:bg-[#2a1520] p-4 sm:p-5 rounded-2xl transition-all">
+                        <p class="text-[9px] font-black uppercase tracking-widest mb-1" style="color:var(--rose)">Guests RSVP</p>
+                        <h3 class="serif text-3xl font-bold text-gray-900 dark:text-white">218</h3>
+                        <p class="text-[9px] text-gray-400 mt-1">of 300 invited</p>
+                    </div>
+                </div>
+
+                <!-- Two column: upcoming + team -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+
+                    <!-- Upcoming milestones -->
+                    <div class="luxe-card bg-white dark:bg-[#2a1520] p-5 rounded-2xl">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="serif font-bold text-gray-800 dark:text-white">Upcoming Milestones</h4>
+                            <button onclick="showPage('timeline')" class="text-[9px] font-black hover:underline" style="color:var(--rose)">View All</button>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 p-3 rounded-xl" style="background:rgba(181,130,106,.06)">
+                                <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(181,130,106,.15)">
+                                    <i class="fas fa-spa text-sm" style="color:var(--rose)"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white">Floral Trial</p>
+                                    <p class="text-[9px] text-gray-400">15 Mar · Bloom & Blossom, Bangalore</p>
+                                </div>
+                                <span class="text-[8px] font-black px-2 py-1 rounded-full b-amber flex-shrink-0">5 days</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-xl" style="background:rgba(124,92,138,.06)">
+                                <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(124,92,138,.15)">
+                                    <i class="fas fa-camera text-sm" style="color:var(--plum)"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white">Pre-wedding Shoot</p>
+                                    <p class="text-[9px] text-gray-400">20 Mar · Frames & Feels, Mumbai</p>
+                                </div>
+                                <span class="text-[8px] font-black px-2 py-1 rounded-full b-plum flex-shrink-0">10 days</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-xl" style="background:rgba(201,169,110,.07)">
+                                <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(201,169,110,.18)">
+                                    <i class="fas fa-utensils text-sm" style="color:var(--gold)"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white">Menu Tasting</p>
+                                    <p class="text-[9px] text-gray-400">22 Mar · Rasa Catering, Mumbai</p>
+                                </div>
+                                <span class="text-[8px] font-black px-2 py-1 rounded-full b-gold flex-shrink-0">12 days</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Your Planning Team -->
+                    <div class="luxe-card bg-white dark:bg-[#2a1520] p-5 rounded-2xl">
+                        <h4 class="serif font-bold text-gray-800 dark:text-white mb-4">Your Planning Team</h4>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 p-3 rounded-xl" style="background:rgba(181,130,106,.06)">
+                                <img src="img/home1-7.jpg"
+                                     class="w-10 h-10 rounded-full object-cover flex-shrink-0" alt="">
+                                <div class="flex-1">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white">Meera Nair</p>
+                                    <p class="text-[9px] text-gray-400">Lead Planner · Studio Director</p>
+                                </div>
+                                <a href="tel:+11111111113333" class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(181,130,106,.15)">
+                                    <i class="fas fa-phone text-xs" style="color:var(--rose)"></i>
+                                </a>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-xl" style="background:rgba(124,92,138,.06)">
+                                <img src="img/home1-8.jpg"
+                                     class="w-10 h-10 rounded-full object-cover flex-shrink-0" alt="">
+                                <div class="flex-1">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white">Ananya Reddy</p>
+                                    <p class="text-[9px] text-gray-400">Floral Designer</p>
+                                </div>
+                                <a href="tel:+919876543211" class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(124,92,138,.15)">
+                                    <i class="fas fa-phone text-xs" style="color:var(--plum)"></i>
+                                </a>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-xl" style="background:rgba(201,169,110,.07)">
+                                <img src="img/home1-9.jpg"
+                                     class="w-10 h-10 rounded-full object-cover flex-shrink-0" alt="">
+                                <div class="flex-1">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white">Kavya Menon</p>
+                                    <p class="text-[9px] text-gray-400">Client Concierge · 24/7</p>
+                                </div>
+                                <a href="https://wa.me/919876543212" target="_blank" class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(34,197,94,.12)">
+                                    <i class="fab fa-whatsapp text-xs text-green-500"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ 2. PLANNING TIMELINE ══ -->
+            <div id="page-timeline" class="page-node">
+                <div class="luxe-card bg-white dark:bg-[#2a1520] p-5 sm:p-7 rounded-2xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h3 class="serif text-xl font-bold text-gray-800 dark:text-white">Planning Timeline</h3>
+                            <p class="text-[9px] text-gray-400 mt-0.5">8 of 12 tasks completed · On track ✓</p>
+                        </div>
+                        <span class="text-[9px] font-black px-3 py-1.5 rounded-full b-green">67% Done</span>
+                    </div>
+
+                    <!-- Overall progress -->
+                    <div class="mb-7 p-4 rounded-2xl" style="background:rgba(181,130,106,.06);border:1px solid rgba(181,130,106,.15)">
+                        <div class="flex justify-between items-center mb-2">
+                            <p class="text-xs font-bold text-gray-700 dark:text-gray-300">Overall Progress</p>
+                            <p class="text-xs font-black" style="color:var(--rose)">67%</p>
+                        </div>
+                        <div class="prog-track"><div class="prog-fill" style="width:67%"></div></div>
+                    </div>
+
+                    <!-- Timeline items -->
+                    <div class="space-y-0">
+
+                        <!-- Completed -->
+                        <div class="flex gap-4">
+                            <div class="flex flex-col items-center">
+                                <div class="tl-dot" style="background:var(--rose)"></div>
+                                <div class="tl-line"></div>
+                            </div>
+                            <div class="pb-5 flex-1">
+                                <div class="flex items-center justify-between flex-wrap gap-2">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white">Consultation & Vision Call</p>
+                                    <span class="text-[8px] font-black px-2 py-1 rounded-full b-green">✓ Completed</span>
+                                </div>
+                                <p class="text-[9px] text-gray-400 mt-0.5">Jan 10, 2025 · Studio visit + mood board discussion</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="flex flex-col items-center">
+                                <div class="tl-dot"></div>
+                                <div class="tl-line"></div>
+                            </div>
+                            <div class="pb-5 flex-1">
+                                <div class="flex items-center justify-between flex-wrap gap-2">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white">Contract Signed & Advance Paid</p>
+                                    <span class="text-[8px] font-black px-2 py-1 rounded-full b-green">✓ Completed</span>
+                                </div>
+                                <p class="text-[9px] text-gray-400 mt-0.5">Jan 18, 2025 · ₹5,60,000 advance received</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="flex flex-col items-center">
+                                <div class="tl-dot"></div>
+                                <div class="tl-line"></div>
+                            </div>
+                            <div class="pb-5 flex-1">
+                                <div class="flex items-center justify-between flex-wrap gap-2">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white">Venue Finalized</p>
+                                    <span class="text-[8px] font-black px-2 py-1 rounded-full b-green">✓ Completed</span>
+                                </div>
+                                <p class="text-[9px] text-gray-400 mt-0.5">Feb 2, 2025 · ITC Grand Chola Mumbai · 300 capacity</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="flex flex-col items-center">
+                                <div class="tl-dot"></div>
+                                <div class="tl-line"></div>
+                            </div>
+                            <div class="pb-5 flex-1">
+                                <div class="flex items-center justify-between flex-wrap gap-2">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white">Guest List & Invitations</p>
+                                    <span class="text-[8px] font-black px-2 py-1 rounded-full b-green">✓ Completed</span>
+                                </div>
+                                <p class="text-[9px] text-gray-400 mt-0.5">Feb 14, 2025 · 300 invitations sent · 218 confirmed</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="flex flex-col items-center">
+                                <div class="tl-dot"></div>
+                                <div class="tl-line"></div>
+                            </div>
+                            <div class="pb-5 flex-1">
+                                <div class="flex items-center justify-between flex-wrap gap-2">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white">Décor Concept Approved</p>
+                                    <span class="text-[8px] font-black px-2 py-1 rounded-full b-green">✓ Completed</span>
+                                </div>
+                                <p class="text-[9px] text-gray-400 mt-0.5">Feb 20, 2025 · Rose gold & ivory palette confirmed</p>
+                            </div>
+                        </div>
+
+                        <!-- Upcoming -->
+                        <div class="flex gap-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-3 h-3 rounded-full border-2 flex-shrink-0 mt-0.5" style="border-color:var(--rose);background:rgba(181,130,106,.15)"></div>
+                                <div class="tl-line"></div>
+                            </div>
+                            <div class="pb-5 flex-1">
+                                <div class="flex items-center justify-between flex-wrap gap-2">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white">Floral Trial</p>
+                                    <span class="text-[8px] font-black px-2 py-1 rounded-full b-amber">15 Mar · Upcoming</span>
+                                </div>
+                                <p class="text-[9px] text-gray-400 mt-0.5">Bloom & Blossom · Bangalore showroom · 11am</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-3 h-3 rounded-full border-2 flex-shrink-0 mt-0.5" style="border-color:var(--plum);background:rgba(124,92,138,.1)"></div>
+                                <div class="tl-line"></div>
+                            </div>
+                            <div class="pb-5 flex-1">
+                                <div class="flex items-center justify-between flex-wrap gap-2">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white">Pre-Wedding Shoot</p>
+                                    <span class="text-[8px] font-black px-2 py-1 rounded-full b-plum">20 Mar · Upcoming</span>
+                                </div>
+                                <p class="text-[9px] text-gray-400 mt-0.5">Frames & Feels · Marine Drive, Mumbai · Sunset</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-3 h-3 rounded-full border-2 flex-shrink-0 mt-0.5" style="border-color:var(--gold);background:rgba(201,169,110,.12)"></div>
+                                <div class="tl-line"></div>
+                            </div>
+                            <div class="pb-5 flex-1">
+                                <div class="flex items-center justify-between flex-wrap gap-2">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white">Menu Tasting</p>
+                                    <span class="text-[8px] font-black px-2 py-1 rounded-full b-gold">22 Mar · Upcoming</span>
+                                </div>
+                                <p class="text-[9px] text-gray-400 mt-0.5">Rasa Catering · ITC Kitchen · Final menu selection</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-3 h-3 rounded-full border-2 flex-shrink-0 mt-0.5" style="border-color:var(--rose);background:rgba(181,130,106,.08)"></div>
+                            </div>
+                            <div class="pb-2 flex-1">
+                                <div class="flex items-center justify-between flex-wrap gap-2">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white">Wedding Day 🎊</p>
+                                    <span class="text-[8px] font-black px-2 py-1 rounded-full b-rose">28 Mar</span>
+                                </div>
+                                <p class="text-[9px] text-gray-400 mt-0.5">ITC Grand Chola · The day of your dreams!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ 3. BUDGET TRACKER ══ -->
+            <div id="page-budget" class="page-node">
+                <div class="luxe-card bg-white dark:bg-[#2a1520] p-5 sm:p-7 rounded-2xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h3 class="serif text-xl font-bold text-gray-800 dark:text-white">Budget Tracker</h3>
+                            <p class="text-[9px] text-gray-400 mt-0.5">Full Wedding Package · ₹28,00,000</p>
+                        </div>
+                        <span class="text-[9px] font-black px-3 py-1.5 rounded-full b-amber">₹7.8 L Remaining</span>
+                    </div>
+
+                    <!-- Summary -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-7">
+                        <div class="p-4 rounded-2xl text-center" style="background:rgba(181,130,106,.07);border:1px solid rgba(181,130,106,.15)">
+                            <p class="text-[9px] font-black uppercase" style="color:var(--rose)">Total Budget</p>
+                            <p class="serif text-2xl font-bold text-gray-800 dark:text-white mt-1">₹28,00,000</p>
+                        </div>
+                        <div class="p-4 rounded-2xl text-center" style="background:rgba(124,92,138,.07);border:1px solid rgba(124,92,138,.15)">
+                            <p class="text-[9px] font-black uppercase" style="color:var(--plum)">Spent So Far</p>
+                            <p class="serif text-2xl font-bold text-gray-800 dark:text-white mt-1">₹20,20,000</p>
+                        </div>
+                        <div class="p-4 rounded-2xl text-center" style="background:rgba(201,169,110,.07);border:1px solid rgba(201,169,110,.2)">
+                            <p class="text-[9px] font-black uppercase" style="color:var(--gold)">Remaining</p>
+                            <p class="serif text-2xl font-bold text-gray-800 dark:text-white mt-1">₹7,80,000</p>
+                        </div>
+                    </div>
+
+                    <!-- Chart -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-7">
+                        
+                        <div>
+                            <h4 class="serif font-bold text-gray-800 dark:text-white mb-3">Payment Status</h4>
+                            <div class="space-y-3">
+                                <div class="p-3 rounded-xl" style="background:rgba(181,130,106,.06)">
+                                    <div class="flex justify-between text-xs mb-1"><span class="font-semibold">Venue & Catering</span><span class="font-bold" style="color:var(--rose)">₹9.2 L</span></div>
+                                    <div class="prog-track"><div class="prog-fill" style="width:85%"></div></div>
+                                </div>
+                                <div class="p-3 rounded-xl" style="background:rgba(124,92,138,.05)">
+                                    <div class="flex justify-between text-xs mb-1"><span class="font-semibold">Florals & Décor</span><span class="font-bold" style="color:var(--plum)">₹5.5 L</span></div>
+                                    <div class="prog-track"><div class="prog-fill" style="width:70%"></div></div>
+                                </div>
+                                <div class="p-3 rounded-xl" style="background:rgba(201,169,110,.05)">
+                                    <div class="flex justify-between text-xs mb-1"><span class="font-semibold">Photography & Video</span><span class="font-bold" style="color:var(--gold)">₹3.2 L</span></div>
+                                    <div class="prog-track"><div class="prog-fill" style="width:60%"></div></div>
+                                </div>
+                                <div class="p-3 rounded-xl" style="background:rgba(181,130,106,.06)">
+                                    <div class="flex justify-between text-xs mb-1"><span class="font-semibold">Lighting & AV</span><span class="font-bold" style="color:var(--rose)">₹2.3 L</span></div>
+                                    <div class="prog-track"><div class="prog-fill" style="width:50%"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transactions -->
+                    <h4 class="serif font-bold text-gray-800 dark:text-white mb-3">Payment History</h4>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between p-3 rounded-xl" style="background:rgba(181,130,106,.05)">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(34,197,94,.12)"><i class="fas fa-arrow-down text-green-600 text-xs"></i></div>
+                                <div><p class="text-xs font-bold text-gray-800 dark:text-white">Advance Payment</p><p class="text-[8px] text-gray-400">Jan 18, 2025</p></div>
+                            </div>
+                            <p class="text-xs font-bold text-green-600">-₹5,60,000</p>
+                        </div>
+                        <div class="flex items-center justify-between p-3 rounded-xl" style="background:rgba(181,130,106,.05)">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(34,197,94,.12)"><i class="fas fa-arrow-down text-green-600 text-xs"></i></div>
+                                <div><p class="text-xs font-bold text-gray-800 dark:text-white">Venue Booking — ITC Mumbai</p><p class="text-[8px] text-gray-400">Feb 5, 2025</p></div>
+                            </div>
+                            <p class="text-xs font-bold text-green-600">-₹8,40,000</p>
+                        </div>
+                        <div class="flex items-center justify-between p-3 rounded-xl" style="background:rgba(181,130,106,.05)">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(34,197,94,.12)"><i class="fas fa-arrow-down text-green-600 text-xs"></i></div>
+                                <div><p class="text-xs font-bold text-gray-800 dark:text-white">Florals Advance — Bloom & Blossom</p><p class="text-[8px] text-gray-400">Feb 20, 2025</p></div>
+                            </div>
+                            <p class="text-xs font-bold text-green-600">-₹2,75,000</p>
+                        </div>
+                        <div class="flex items-center justify-between p-3 rounded-xl" style="background:rgba(181,130,106,.05)">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(34,197,94,.12)"><i class="fas fa-arrow-down text-green-600 text-xs"></i></div>
+                                <div><p class="text-xs font-bold text-gray-800 dark:text-white">Photography — Frames & Feels</p><p class="text-[8px] text-gray-400">Mar 1, 2025</p></div>
+                            </div>
+                            <p class="text-xs font-bold text-green-600">-₹1,60,000</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ 4. MOOD BOARD GALLERY ══ -->
+            <div id="page-gallery" class="page-node">
+                <div class="luxe-card bg-white dark:bg-[#2a1520] p-5 sm:p-7 rounded-2xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h3 class="serif text-xl font-bold text-gray-800 dark:text-white">Your Mood Board</h3>
+                            <p class="text-[9px] text-gray-400 mt-0.5">Curated by your LuxeEvents team · Rose Gold & Ivory theme</p>
+                        </div>
+                        <button class="btn-rose flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black">
+                            <i class="fas fa-heart"></i> Save Ideas
+                        </button>
+                    </div>
+
+                    <!-- Theme palette -->
+                    <div class="flex flex-wrap items-center gap-3 mb-6 p-4 rounded-2xl" style="background:rgba(181,130,106,.06);border:1px solid rgba(181,130,106,.15)">
+                        <p class="text-xs font-bold text-gray-600 dark:text-gray-300">Your Colour Palette:</p>
+                        <div class="flex gap-2">
+                            <div class="flex flex-col items-center gap-1"><div class="w-8 h-8 rounded-lg" style="background:#b5826a"></div><p class="text-[7px] text-gray-500">Rose Gold</p></div>
+                            <div class="flex flex-col items-center gap-1"><div class="w-8 h-8 rounded-lg" style="background:#f9ede6"></div><p class="text-[7px] text-gray-500">Blush</p></div>
+                            <div class="flex flex-col items-center gap-1"><div class="w-8 h-8 rounded-lg" style="background:#c9a96e"></div><p class="text-[7px] text-gray-500">Champagne</p></div>
+                            <div class="flex flex-col items-center gap-1"><div class="w-8 h-8 rounded-lg" style="background:#fff8f3"></div><p class="text-[7px] text-gray-500">Ivory</p></div>
+                            <div class="flex flex-col items-center gap-1"><div class="w-8 h-8 rounded-lg" style="background:#4a2c40"></div><p class="text-[7px] text-gray-500">Deep Plum</p></div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery grid -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                        <div class="gallery-thumb rounded-2xl overflow-hidden h-32 sm:h-40 cursor-pointer">
+                            <img src="img/gallery-12.jpg" class="w-full h-full object-cover" alt="Grand Venue">
+                        </div>
+                        <div class="gallery-thumb rounded-2xl overflow-hidden h-32 sm:h-40 cursor-pointer">
+                            <img src="img/gallery-11.jpg" class="w-full h-full object-cover" alt="Florals">
+                        </div>
+                        <div class="gallery-thumb rounded-2xl overflow-hidden h-32 sm:h-40 cursor-pointer">
+                            <img src="img/gallery-14.jpg" class="w-full h-full object-cover" alt="Tablescape">
+                        </div>
+                        <div class="gallery-thumb rounded-2xl overflow-hidden h-32 sm:h-40 cursor-pointer">
+                            <img src="img/gallery-13.jpg" class="w-full h-full object-cover" alt="Rose Wall">
+                        </div>
+                        <div class="gallery-thumb rounded-2xl overflow-hidden h-32 sm:h-40 cursor-pointer">
+                            <img src="img/gallery-3.jpg" class="w-full h-full object-cover" alt="Reception">
+                        </div>
+                        <div class="gallery-thumb rounded-2xl overflow-hidden h-32 sm:h-40 cursor-pointer">
+                            <img src="img/gallery-6.jpg" class="w-full h-full object-cover" alt="Destination">
+                        </div>
+                        <div class="gallery-thumb rounded-2xl overflow-hidden h-32 sm:h-40 cursor-pointer">
+                            <img src="img/gallery-6.jpg" class="w-full h-full object-cover" alt="Dining">
+                        </div>
+                        <div class="gallery-thumb rounded-2xl overflow-hidden h-32 sm:h-40 cursor-pointer flex items-center justify-center border-2 border-dashed" style="border-color:rgba(181,130,106,.3)">
+                            <div class="text-center">
+                                <i class="fas fa-plus text-2xl mb-2" style="color:rgba(181,130,106,.4)"></i>
+                                <p class="text-[9px] text-gray-400">Add Inspiration</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ 5. MESSAGES ══ -->
+            <div id="page-messages" class="page-node">
+                <div class="luxe-card bg-white dark:bg-[#2a1520] rounded-2xl overflow-hidden">
+                    <div class="p-5 border-b flex items-center justify-between" style="border-color:rgba(181,130,106,.15)">
+                        <div>
+                            <h3 class="serif text-xl font-bold text-gray-800 dark:text-white">Messages</h3>
+                            <p class="text-[9px] text-gray-400 mt-0.5">Direct line to your planning team</p>
+                        </div>
+                        <span class="text-[9px] font-black px-3 py-1.5 rounded-full b-rose">2 Unread</span>
+                    </div>
+
+                    <div class="divide-y" style="divide-color:rgba(181,130,106,.1)">
+                        <!-- Unread -->
+                        <div class="p-5 cursor-pointer transition-all" style="background:rgba(181,130,106,.05)">
+                            <div class="flex gap-3">
+                                <img src="img/home1-7.jpg"
+                                     class="w-11 h-11 rounded-full object-cover flex-shrink-0" alt="">
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between flex-wrap gap-1">
+                                        <p class="text-sm font-black text-gray-800 dark:text-white">Meera Nair</p>
+                                        <span class="text-[8px] text-gray-400">10 min ago</span>
+                                    </div>
+                                    <p class="text-[9px] font-bold text-gray-700 dark:text-gray-300 mt-0.5">Floral trial is confirmed for March 15!</p>
+                                    <p class="text-[8px] text-gray-500 mt-0.5">Hi Priya! Just wanted to confirm your floral trial appointment at Bloom & Blossom on Saturday at 11am. Ananya will be showcasing the centrepiece options and the mandap arch design. Please let us know if you'd like to bring any family...</p>
+                                    <span class="inline-block mt-2 text-[7px] font-black px-2 py-0.5 rounded-full b-rose">NEW</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Unread -->
+                        <div class="p-5 cursor-pointer transition-all" style="background:rgba(124,92,138,.04)">
+                            <div class="flex gap-3">
+                                <img src="img/home1-8.jpg"
+                                     class="w-11 h-11 rounded-full object-cover flex-shrink-0" alt="">
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between flex-wrap gap-1">
+                                        <p class="text-sm font-black text-gray-800 dark:text-white">Ananya Reddy</p>
+                                        <span class="text-[8px] text-gray-400">2 hrs ago</span>
+                                    </div>
+                                    <p class="text-[9px] font-bold text-gray-700 dark:text-gray-300 mt-0.5">Rose arch design — your feedback needed!</p>
+                                    <p class="text-[8px] text-gray-500 mt-0.5">Hi! I've prepared 3 options for the mandap rose arch. Option A uses garden roses with trailing jasmine, Option B is a compact blush peony arrangement, and Option C is our signature cascading design...</p>
+                                    <span class="inline-block mt-2 text-[7px] font-black px-2 py-0.5 rounded-full b-plum">NEW</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Read -->
+                        <div class="p-5 cursor-pointer hover:bg-rose-50/30 dark:hover:bg-rose-900/10 transition-all">
+                            <div class="flex gap-3">
+                                <img src="img/home1-9.jpg"
+                                     class="w-11 h-11 rounded-full object-cover flex-shrink-0" alt="">
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between flex-wrap gap-1">
+                                        <p class="text-sm font-semibold text-gray-600 dark:text-gray-300">Kavya Menon</p>
+                                        <span class="text-[8px] text-gray-400">Yesterday</span>
+                                    </div>
+                                    <p class="text-[9px] text-gray-500 mt-0.5">Your final invoice summary is ready for review. Total: ₹28,00,000. Balance due: ₹7,80,000. Please check the breakdown and let us know if you have any questions...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reply box -->
+                    <div class="p-5 border-t" style="border-color:rgba(181,130,106,.15)">
+                        <div class="flex gap-3">
+                            <img src="img/home1-5.jpg"
+                                 class="w-9 h-9 rounded-full object-cover flex-shrink-0" alt="">
+                            <div class="flex-1 flex gap-2">
+                                <input type="text" class="luxe-input flex-1" placeholder="Reply to your team…">
+                                <button class="btn-rose px-4 py-2 rounded-xl text-xs font-black flex-shrink-0">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ 6. PROFILE & SETTINGS ══ -->
+            <div id="page-settings" class="page-node">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+
+                    <!-- Profile card -->
+                    <div class="lg:col-span-1 luxe-card bg-white dark:bg-[#2a1520] p-6 rounded-2xl text-center">
+                        <img src="img/user-18.jpg"
+                             class="w-24 h-24 rounded-full object-cover mx-auto border-4 shadow-lg mb-4" style="border-color:var(--rose)" alt="Priya">
+                        <h2 class="serif text-xl font-bold text-gray-800 dark:text-white">Priya Sharma</h2>
+                        <p class="text-xs text-gray-400 mt-1">priya@email.com</p>
+                        <div class="flex justify-center gap-2 mt-3">
+                            <span class="text-[9px] font-black px-3 py-1.5 rounded-full b-green">✓ Verified</span>
+                            <span class="text-[9px] font-black px-3 py-1.5 rounded-full b-rose">Full Package</span>
+                        </div>
+                        <div class="mt-5 space-y-2 text-left text-xs">
+                            <div class="flex justify-between py-1 border-b" style="border-color:rgba(181,130,106,.12)"><span class="text-gray-400">Phone</span><span class="font-bold">+11 111111113333</span></div>
+                            <div class="flex justify-between py-1 border-b" style="border-color:rgba(181,130,106,.12)"><span class="text-gray-400">City</span><span class="font-bold">Mumbai, India</span></div>
+                            <div class="flex justify-between py-1 border-b" style="border-color:rgba(181,130,106,.12)"><span class="text-gray-400">Event Date</span><span class="font-bold" style="color:var(--rose)">28 Mar 2025</span></div>
+                            <div class="flex justify-between py-1"><span class="text-gray-400">Client Since</span><span class="font-bold">Jan 2025</span></div>
+                        </div>
+                        <button class="btn-rose w-full mt-5 py-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-2">
+                            <i class="fas fa-camera"></i> Change Photo
+                        </button>
+                    </div>
+
+                    <!-- Settings form -->
+                    <div class="lg:col-span-2 luxe-card bg-white dark:bg-[#2a1520] p-6 rounded-2xl">
+                        <h3 class="serif text-lg font-bold text-gray-800 dark:text-white mb-5">Profile & Preferences</h3>
+
+                        <div class="grid sm:grid-cols-2 gap-4 mb-6">
+                            <div><label class="text-[9px] font-black uppercase tracking-widest block mb-1.5" style="color:var(--rose)">Full Name</label><input class="luxe-input" value="Priya Sharma" type="text"></div>
+                            <div><label class="text-[9px] font-black uppercase tracking-widest block mb-1.5" style="color:var(--rose)">Partner's Name</label><input class="luxe-input" value="Arjun Sharma" type="text"></div>
+                            <div><label class="text-[9px] font-black uppercase tracking-widest block mb-1.5" style="color:var(--rose)">Email</label><input class="luxe-input" value="priya@email.com" type="email"></div>
+                            <div><label class="text-[9px] font-black uppercase tracking-widest block mb-1.5" style="color:var(--rose)">Phone</label><input class="luxe-input" value="+11 111111113333" type="tel"></div>
+                            <div><label class="text-[9px] font-black uppercase tracking-widest block mb-1.5" style="color:var(--rose)">Event Date</label><input class="luxe-input" value="2025-03-28" type="date"></div>
+                            <div><label class="text-[9px] font-black uppercase tracking-widest block mb-1.5" style="color:var(--rose)">Venue</label><input class="luxe-input" value="ITC Grand Chola, Mumbai" type="text"></div>
+                            <div class="sm:col-span-2"><label class="text-[9px] font-black uppercase tracking-widest block mb-1.5" style="color:var(--rose)">Special Notes / Preferences</label>
+                                <textarea class="luxe-input" rows="3" style="resize:vertical">No gluten options needed. Prefer soft live music. Prefer white & blush florals.</textarea>
+                            </div>
+                        </div>
+
+                        <!-- Notification preferences -->
+                        <h4 class="text-xs font-black uppercase mb-3" style="color:var(--plum)">Notification Preferences</h4>
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center justify-between p-3 rounded-xl" style="background:rgba(181,130,106,.06)">
+                                <div><p class="text-xs font-bold text-gray-700 dark:text-gray-300">Email Updates</p><p class="text-[8px] text-gray-400">Milestone reminders & event updates</p></div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer" checked>
+                                    <div class="w-10 h-5 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-gradient-to-r" style="--tw-gradient-from:var(--rose);--tw-gradient-to:var(--plum);background:linear-gradient(135deg,var(--rose),var(--plum))"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between p-3 rounded-xl" style="background:rgba(124,92,138,.05)">
+                                <div><p class="text-xs font-bold text-gray-700 dark:text-gray-300">WhatsApp Messages</p><p class="text-[8px] text-gray-400">Quick updates from your team</p></div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer" checked>
+                                    <div class="w-10 h-5 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all" style="background:linear-gradient(135deg,var(--rose),var(--plum))"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between p-3 rounded-xl" style="background:rgba(201,169,110,.05)">
+                                <div><p class="text-xs font-bold text-gray-700 dark:text-gray-300">Promotional Offers</p><p class="text-[8px] text-gray-400">Add-on services & seasonal discounts</p></div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer">
+                                    <div class="w-10 h-5 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <button class="btn-rose px-6 py-2.5 rounded-xl text-xs font-black">Save Changes</button>
+                            <button class="px-6 py-2.5 rounded-xl text-xs font-black border transition-all hover:bg-rose-50" style="border-color:rgba(181,130,106,.3);color:var(--rose)">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /mainDisplay -->
+
+        <footer class="mt-10 text-center text-[8px] text-gray-400 uppercase tracking-wider">
+            <p>© 2025 LuxeEvents Studio · <span style="color:var(--rose)">Client Portal</span> · All rights reserved</p>
+        </footer>
+    </main>
+</div>
+
+<!-- ═══════════ SCRIPTS ═══════════ -->
+<script>
+    /* ── Dark mode restore ── */
+    (function(){
+        if(localStorage.getItem('darkMode')==='dark'){
+            document.documentElement.classList.add('dark');
+            document.body.classList.remove('light');
+            document.body.classList.add('dark');
+        }
+    })();
+
+    /* ── Countdown ── */
+    function updateCountdown(){
+        var el=document.getElementById('daysCount');
+        if(!el) return;
+        var wedding=new Date('2025-03-28');
+        var today=new Date();
+        var diff=Math.ceil((wedding-today)/(1000*60*60*24));
+        el.textContent=diff>0?diff:'🎊';
+    }
+    updateCountdown();
+
+    /* ── Sidebar ── */
+    function toggleSidebar(){
+        var s=document.getElementById('sidebar');
+        var o=document.getElementById('sidebarOverlay');
+        s.classList.toggle('-translate-x-full');
+        if(o) o.classList.toggle('hidden');
+    }
+    window.addEventListener('resize',function(){
+        var s=document.getElementById('sidebar');
+        var o=document.getElementById('sidebarOverlay');
+        if(window.innerWidth>=1024){s.classList.remove('-translate-x-full');if(o)o.classList.add('hidden');}
+        else{s.classList.add('-translate-x-full');if(o)o.classList.add('hidden');}
+    });
+
+    /* ── Dark mode toggle ── */
+    function toggleDarkMode(){
+        var html=document.documentElement;
+        var body=document.body;
+        html.classList.toggle('dark');
+        var isDark=html.classList.contains('dark');
+        body.classList.toggle('dark',isDark);
+        body.classList.toggle('light',!isDark);
+        var icon=document.getElementById('themeIconFA');
+        if(icon) icon.className=isDark?'fas fa-sun text-sm':'fas fa-moon text-sm';
+        localStorage.setItem('darkMode',isDark?'dark':'light');
+    }
+    (function(){
+        var isDark=document.documentElement.classList.contains('dark');
+        var icon=document.getElementById('themeIconFA');
+        if(icon) icon.className=isDark?'fas fa-sun text-sm':'fas fa-moon text-sm';
+        document.body.classList.add(isDark?'dark':'light');
+    })();
+
+    /* ── Direction ── */
+    function toggleDirection(){
+        var html=document.getElementById('htmlTag');
+        html.dir=html.dir==='rtl'?'ltr':'rtl';
+    }
+
+    /* ── Page switching ── */
+    var pageTitles={
+        overview:'My Event', timeline:'Planning Timeline',
+        budget:'Budget Tracker', gallery:'Mood Board',
+        messages:'Messages', settings:'Profile & Settings'
+    };
+    function showPage(id){
+        document.querySelectorAll('.page-node').forEach(function(p){p.classList.remove('active');});
+        var node=document.getElementById('page-'+id);
+        if(node) node.classList.add('active');
+        var title=document.getElementById('pageTitle');
+        if(title) title.innerText=pageTitles[id]||id;
+        document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('sidebar-active');});
+        var btn=document.getElementById('btn-'+id);
+        if(btn) btn.classList.add('sidebar-active');
+        if(window.innerWidth<1024){
+            var s=document.getElementById('sidebar');
+            if(s&&!s.classList.contains('-translate-x-full')) toggleSidebar();
+        }
+        if(id==='budget'&&!window.budgetChart) initBudgetChart();
+    }
+
+    /* ── Budget Chart ── */
+    function initBudgetChart(){
+        var ctx=document.getElementById('budgetChart');
+        if(!ctx) return;
+        window.budgetChart=new Chart(ctx.getContext('2d'),{
+            type:'doughnut',
+            data:{
+                labels:['Venue & Catering','Florals & Décor','Photography','Lighting & AV','Others'],
+                datasets:[{
+                    data:[920000,550000,320000,230000,180000],
+                    backgroundColor:['#b5826a','#7c5c8a','#c9a96e','#d4a58a','#a87ab8'],
+                    borderWidth:0,
+                    hoverOffset:6
+                }]
+            },
+            options:{
+                responsive:true, maintainAspectRatio:false, cutout:'68%',
+                plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:10}}}
+            }
+        });
+    }
+
+    /* ── Init ── */
+    showPage('overview');
+</script>
+</body>
+</html>

@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en" id="htmlTag" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>LuxeEvents | Admin Dashboard</title>
+    <link rel="icon" type="image/png" href="img/groww-prak-logo.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        rose:  '#b5826a',
+                        plum:  '#7c5c8a',
+                        gold:  '#c9a96e',
+                        deep:  '#4a2c40',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --rose:  #b5826a;
+            --plum:  #7c5c8a;
+            --gold:  #c9a96e;
+            --deep:  #4a2c40;
+            --blush: #fdf0ea;
+        }
+
+        * { font-family: 'DM Sans', sans-serif; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body { overflow-x: hidden; width: 100%; transition: background .3s, color .3s; }
+
+        /* ── LIGHT / DARK ── */
+        body.light { background: linear-gradient(135deg,#fdf6f0,#f5ece8); }
+        body.dark  { background: linear-gradient(135deg,#1a0f14,#2d1a23); }
+        .dark .sidebar-el { background: #2a1520 !important; border-color: rgba(181,130,106,.18) !important; }
+
+        /* ── SCROLLBAR ── */
+        ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: var(--rose); border-radius: 3px; }
+
+        /* ── SIDEBAR ── */
+        .sidebar-active {
+            background: linear-gradient(135deg, rgba(181,130,106,.15), rgba(124,92,138,.08)) !important;
+            border-left: 3px solid var(--rose);
+            color: var(--rose) !important;
+            font-weight: 700;
+        }
+        [dir="rtl"] .sidebar-active { border-left: 0; border-right: 3px solid var(--rose); }
+
+        /* ── PAGE ANIMATION ── */
+        .page-node { display: none; opacity: 0; transform: translateY(12px); }
+        .page-node.active { display: block; animation: fadeUp .4s ease forwards; }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+        /* ── CARDS ── */
+        .luxe-card {
+            border: 1px solid rgba(181,130,106,.2);
+            background: linear-gradient(135deg, rgba(181,130,106,.03) 0%, rgba(255,255,255,1) 100%);
+            transition: box-shadow .3s, transform .25s;
+        }
+        .dark .luxe-card {
+            background: linear-gradient(135deg, rgba(181,130,106,.06) 0%, #2a1520 100%);
+            border-color: rgba(181,130,106,.18);
+        }
+        .luxe-card:hover { box-shadow: 0 16px 40px rgba(181,130,106,.18); }
+
+        /* stat card hover lift */
+        .stat-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(181,130,106,.22); }
+
+        /* ── BADGE ── */
+        .badge-rose   { background: rgba(181,130,106,.12); color: var(--rose); }
+        .badge-plum   { background: rgba(124,92,138,.12);  color: var(--plum); }
+        .badge-gold   { background: rgba(201,169,110,.15); color: #a07830; }
+        .badge-green  { background: rgba(34,197,94,.12);   color: #15803d; }
+        .badge-amber  { background: rgba(245,158,11,.12);  color: #b45309; }
+        .badge-red    { background: rgba(239,68,68,.12);   color: #b91c1c; }
+
+        /* ── GRADIENT TEXT ── */
+        .g-text { background: linear-gradient(135deg,var(--rose),var(--plum)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+        /* ── FORM ── */
+        .luxe-input { width:100%; padding:10px 14px; border-radius:12px; border:2px solid rgba(181,130,106,.25); background:rgba(255,255,255,.8); font-size:13px; outline:none; transition:border .2s; }
+        .dark .luxe-input { background:rgba(42,21,32,.8); color:#f0ddd4; border-color:rgba(181,130,106,.3); }
+        .luxe-input:focus { border-color:var(--rose); box-shadow:0 0 0 3px rgba(181,130,106,.12); }
+
+        /* ── BTN ── */
+        .btn-rose { background:linear-gradient(135deg,var(--rose),var(--plum)); color:white; border:none; cursor:pointer; transition:all .25s; }
+        .btn-rose:hover { transform:translateY(-2px); box-shadow:0 8px 22px rgba(181,130,106,.4); }
+
+        /* ── SERIF heading ── */
+        .serif { font-family: 'Cormorant Garamond', serif; }
+
+        /* ── TABLE ── */
+        @media (max-width:640px) { table { display:block; width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; } }
+
+        button, a { min-height:44px; min-width:44px; cursor:pointer; }
+
+        /* ── NOTIFICATION HOVER ── */
+        .notif-item:hover { background: rgba(181,130,106,.06); }
+
+        /* ── PROGRESS BAR ── */
+        .progress-bar { height:6px; border-radius:99px; background:rgba(181,130,106,.15); overflow:hidden; }
+        .progress-fill { height:100%; border-radius:99px; background:linear-gradient(90deg,var(--rose),var(--plum)); transition:width .8s ease; }
+
+        /* ── MOBILE SIDEBAR ── */
+        @media (max-width: 1023px) {
+            #sidebar { width: 280px; box-shadow: 0 0 40px rgba(181,130,106,.2); }
+        }
+
+        /* ── CALENDAR DAY ── */
+        .cal-day { transition: all .2s; }
+        .cal-day:hover { background: rgba(181,130,106,.1); border-radius:8px; }
+        .cal-day.has-event { position:relative; }
+        .cal-day.has-event::after { content:''; position:absolute; bottom:2px; left:50%; transform:translateX(-50%); width:5px; height:5px; border-radius:50%; background:var(--rose); }
+        .cal-day.today { background:linear-gradient(135deg,var(--rose),var(--plum)); color:white!important; border-radius:8px; }
+    </style>
+</head>
+<body class="light text-gray-900 antialiased">
+
+<!-- Mobile Overlay -->
+<div id="sidebarOverlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+<div class="flex min-h-screen w-full overflow-x-hidden">
+
+    <!-- ══════════════════════════════════════════
+         SIDEBAR
+    ══════════════════════════════════════════ -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-[280px] bg-white dark:bg-[#2a1520] sidebar-el transition-all duration-300 ease-in-out lg:translate-x-0 -translate-x-full border-r border-rose-100 dark:border-rose-900/30 overflow-y-auto">
+        <div class="p-5 h-full flex flex-col">
+
+            <!-- Logo -->
+            <div class="flex items-center justify-between mb-7">
+                <a href="index.html" class="flex items-center gap-2 py-1">
+                    <i class="fas fa-gem text-xl" style="color:var(--rose)"></i>
+                    <span class="serif text-2xl font-bold g-text tracking-wide">LuxeEvents</span>
+                </a>
+                <button onclick="toggleSidebar()" class="lg:hidden p-2 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg">
+                    <i class="fas fa-times text-sm" style="color:var(--rose)"></i>
+                </button>
+            </div>
+
+            <!-- Studio badge -->
+            <div class="mb-5 px-3 py-2 rounded-xl text-center" style="background:rgba(181,130,106,.1);border:1px solid rgba(181,130,106,.2)">
+                <span class="text-[9px] font-black uppercase tracking-widest" style="color:var(--rose)">Studio Admin · 2025–26 Season</span>
+            </div>
+
+            <!-- Nav -->
+            <nav class="flex-1 space-y-1 overflow-y-auto">
+                <p class="text-[9px] font-black uppercase tracking-widest mb-2 ml-2" style="color:var(--rose)">
+                    <i class="fas fa-crown mr-1"></i> MAIN MENU
+                </p>
+
+                <a href="javascript:void(0)" onclick="showPage('dashboard')" id="btn-dashboard" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl sidebar-active transition-all hover:bg-rose-50 dark:hover:bg-rose-900/10 group text-sm text-gray-600 dark:text-gray-300">
+                    <i class="fas fa-chart-line w-5 text-center" style="color:var(--rose)"></i>
+                    <span class="font-semibold">Dashboard</span>
+                </a>
+
+                <a href="javascript:void(0)" onclick="showPage('events')" id="btn-events" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-900/10 transition-all group text-sm text-gray-600 dark:text-gray-300">
+                    <i class="fas fa-calendar-check w-5 text-center" style="color:var(--gold)"></i>
+                    <span class="font-semibold">Events</span>
+                    <span class="ml-auto text-[8px] font-black px-2 py-1 rounded-full badge-rose">24</span>
+                </a>
+
+                <a href="javascript:void(0)" onclick="showPage('clients')" id="btn-clients" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-900/10 transition-all group text-sm text-gray-600 dark:text-gray-300">
+                    <i class="fas fa-users w-5 text-center" style="color:var(--plum)"></i>
+                    <span class="font-semibold">Clients</span>
+                    <span class="ml-auto text-[8px] font-black px-2 py-1 rounded-full badge-plum">142</span>
+                </a>
+
+                <a href="javascript:void(0)" onclick="showPage('bookings')" id="btn-bookings" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-900/10 transition-all group text-sm text-gray-600 dark:text-gray-300">
+                    <i class="fas fa-bookmark w-5 text-center" style="color:var(--rose)"></i>
+                    <span class="font-semibold">Bookings</span>
+                </a>
+
+                <a href="javascript:void(0)" onclick="showPage('vendors')" id="btn-vendors" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-900/10 transition-all group text-sm text-gray-600 dark:text-gray-300">
+                    <i class="fas fa-handshake w-5 text-center" style="color:var(--gold)"></i>
+                    <span class="font-semibold">Vendors</span>
+                </a>
+
+                <a href="javascript:void(0)" onclick="showPage('gallery')" id="btn-gallery" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-900/10 transition-all group text-sm text-gray-600 dark:text-gray-300">
+                    <i class="fas fa-images w-5 text-center" style="color:var(--plum)"></i>
+                    <span class="font-semibold">Gallery</span>
+                </a>
+
+                <!-- Settings -->
+                <div class="mt-6 pt-5 border-t" style="border-color:rgba(181,130,106,.2)">
+                    <p class="text-[9px] font-black uppercase tracking-widest mb-2 ml-2" style="color:var(--rose)">
+                        <i class="fas fa-cog mr-1"></i> SETTINGS
+                    </p>
+
+                    <a href="javascript:void(0)" onclick="showPage('notifications')" id="btn-notifications" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-900/10 transition-all text-sm text-gray-600 dark:text-gray-300">
+                        <i class="fas fa-bell w-5 text-center" style="color:var(--rose)"></i>
+                        <span class="font-semibold">Notifications</span>
+                        <span class="ml-auto text-[8px] font-black px-2 py-1 rounded-full badge-rose">5</span>
+                    </a>
+
+                    <a href="javascript:void(0)" onclick="showPage('finance')" id="btn-finance" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-900/10 transition-all text-sm text-gray-600 dark:text-gray-300">
+                        <i class="fas fa-rupee-sign w-5 text-center" style="color:var(--gold)"></i>
+                        <span class="font-semibold">Finance</span>
+                    </a>
+
+                    <a href="javascript:void(0)" onclick="showPage('settings')" id="btn-settings" class="nav-btn flex items-center gap-3 p-3.5 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-900/10 transition-all text-sm text-gray-600 dark:text-gray-300">
+                        <i class="fas fa-shield-alt w-5 text-center" style="color:var(--plum)"></i>
+                        <span class="font-semibold">Settings</span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Bottom Controls -->
+            <div class="pt-5 mt-4 border-t" style="border-color:rgba(181,130,106,.2)">
+                <div class="flex items-center justify-between rounded-2xl p-2 mb-4" style="background:rgba(181,130,106,.07)">
+                    <button onclick="toggleDirection()" class="p-2.5 hover:bg-white dark:hover:bg-rose-900/30 rounded-xl transition-all text-gray-400" title="Toggle RTL/LTR">
+                        <i class="fas fa-left-right text-xs"></i>
+                    </button>
+                    <button onclick="toggleDarkMode()" class="p-2.5 bg-white dark:bg-rose-900/30 rounded-xl shadow-sm hover:scale-110 transition-all" style="color:var(--rose)">
+                        <i id="themeIconFA" class="fas fa-moon text-sm"></i>
+                    </button>
+                    <a href="login.html" class="p-2.5 rounded-xl transition-all hover:scale-110" style="background:rgba(181,130,106,.12);color:var(--rose)">
+                        <i class="fas fa-sign-out-alt text-sm"></i>
+                    </a>
+                </div>
+
+                <!-- Admin Profile -->
+                <div class="p-3 rounded-2xl" style="background:linear-gradient(135deg,rgba(181,130,106,.08),rgba(124,92,138,.05));border:1px solid rgba(181,130,106,.15)">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-black text-sm" style="background:linear-gradient(135deg,var(--rose),var(--plum))">
+                            MN
+                        </div>
+                        <div>
+                            <p class="font-bold text-sm text-gray-900 dark:text-white">Meera Nair</p>
+                            <p class="text-[9px] font-black uppercase tracking-widest" style="color:var(--rose)">Studio Director</p>
+                            <p class="text-[7px] text-gray-400">meera@luxeevents.in</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ══════════════════════════════════════════
+         MAIN CONTENT
+    ══════════════════════════════════════════ -->
+    <main class="flex-1 lg:ml-[280px] p-4 sm:p-5 md:p-6 lg:p-8 transition-all duration-300 w-full overflow-x-hidden">
+
+        <!-- Header -->
+        <header class="flex items-center justify-between mb-6 sm:mb-8">
+            <div class="flex-1 flex items-center gap-3">
+                <button onclick="toggleSidebar()" class="lg:hidden p-2.5 bg-white dark:bg-[#2a1520] rounded-xl border shadow-sm" style="border-color:rgba(181,130,106,.25)">
+                    <i id="menuIconFA" class="fas fa-bars text-sm" style="color:var(--rose)"></i>
+                </button>
+                <div>
+                    <h1 id="pageTitle" class="serif text-2xl sm:text-3xl font-bold g-text tracking-wide">Dashboard</h1>
+                    <p class="text-xs text-gray-400 font-medium mt-0.5">
+                        <span class="font-bold" style="color:var(--rose)">LuxeEvents Studio</span> · Admin Panel
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Live clock -->
+                <div class="hidden sm:flex items-center gap-2 bg-white dark:bg-[#2a1520] px-4 py-2 rounded-xl border shadow-sm" style="border-color:rgba(181,130,106,.2)">
+                    <i class="fas fa-clock text-xs" style="color:var(--rose)"></i>
+                    <span class="text-xs font-semibold" id="liveTime">10:30 AM</span>
+                </div>
+                <!-- Notification bell -->
+                <button onclick="showPage('notifications')" class="w-10 h-10 rounded-full relative flex items-center justify-center" style="background:rgba(181,130,106,.1)">
+                    <i class="fas fa-bell text-sm" style="color:var(--rose)"></i>
+                    <span class="absolute -top-1 -right-1 text-white text-[8px] font-black px-1.5 py-0.5 rounded-full" style="background:var(--rose)">5</span>
+                </button>
+                <!-- Quick add event -->
+                <button onclick="showPage('bookings')" class="hidden sm:flex btn-rose items-center gap-2 px-4 py-2 rounded-xl text-xs font-black">
+                    <i class="fas fa-plus text-xs"></i> New Event
+                </button>
+            </div>
+        </header>
+
+        <!-- ════════ PAGE NODES ════════ -->
+        <div id="mainDisplay" class="space-y-6">
+
+            <!-- ══ DASHBOARD ══ -->
+            <div id="page-dashboard" class="page-node active">
+
+                <!-- Stat cards -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-6">
+
+                    <div class="stat-card luxe-card bg-white dark:bg-[#2a1520] p-4 sm:p-5 rounded-2xl transition-all">
+                        <p class="text-[9px] font-black uppercase tracking-widest mb-1" style="color:var(--rose)">Total Revenue</p>
+                        <h3 class="serif text-2xl font-bold text-gray-900 dark:text-white">₹1.28 Cr</h3>
+                        <div class="flex items-center gap-1 mt-1">
+                            <i class="fas fa-arrow-trend-up text-green-500 text-[10px]"></i>
+                            <p class="text-[9px] text-gray-400">+18% this quarter</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card luxe-card bg-white dark:bg-[#2a1520] p-4 sm:p-5 rounded-2xl transition-all">
+                        <p class="text-[9px] font-black uppercase tracking-widest mb-1" style="color:var(--plum)">Events This Year</p>
+                        <h3 class="serif text-2xl font-bold text-gray-900 dark:text-white">87</h3>
+                        <div class="flex items-center gap-1 mt-1">
+                            <i class="fas fa-calendar-check text-[10px]" style="color:var(--plum)"></i>
+                            <p class="text-[9px] text-gray-400">24 upcoming</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card luxe-card bg-white dark:bg-[#2a1520] p-4 sm:p-5 rounded-2xl transition-all">
+                        <p class="text-[9px] font-black uppercase tracking-widest mb-1" style="color:var(--gold)">Active Clients</p>
+                        <h3 class="serif text-2xl font-bold text-gray-900 dark:text-white">142</h3>
+                        <div class="flex items-center gap-1 mt-1">
+                            <i class="fas fa-users text-[10px]" style="color:var(--gold)"></i>
+                            <p class="text-[9px] text-gray-400">+12 this month</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card luxe-card bg-white dark:bg-[#2a1520] p-4 sm:p-5 rounded-2xl transition-all">
+                        <p class="text-[9px] font-black uppercase tracking-widest mb-1" style="color:var(--rose)">Satisfaction</p>
+                        <h3 class="serif text-2xl font-bold text-gray-900 dark:text-white">98.2%</h3>
+                        <div class="flex items-center gap-1 mt-1">
+                            <i class="fas fa-star text-yellow-500 text-[10px]"></i>
+                            <p class="text-[9px] text-gray-400">from 142 reviews</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-6">
+                    <!-- Revenue Chart -->
+                    <div class="lg:col-span-2 luxe-card bg-white dark:bg-[#2a1520] p-5 rounded-2xl">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h4 class="serif font-bold text-gray-800 dark:text-white">Revenue Trend 2025</h4>
+                                <p class="text-[9px] text-gray-400 mt-0.5">Monthly event revenue (₹ Lakhs)</p>
+                            </div>
+                            <span class="text-[9px] font-black px-3 py-1 rounded-full badge-rose">2025</span>
+                        </div>
+                        <div class="h-[200px] sm:h-[240px]">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Event Type Breakdown -->
+                    <div class="luxe-card bg-white dark:bg-[#2a1520] p-5 rounded-2xl">
+                        <h4 class="serif font-bold text-gray-800 dark:text-white mb-1">Event Types</h4>
+                        <p class="text-[9px] text-gray-400 mb-4">Breakdown by category</p>
+                        <div class="h-[200px] sm:h-[180px] flex items-center justify-center">
+                            <canvas id="eventTypeChart"></canvas>
+                        </div>
+                        <div class="mt-3 space-y-1.5">
+                            <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full" style="background:var(--rose)"></span><span class="text-[9px]">Weddings (45%)</span></div>
+                            <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full" style="background:var(--plum)"></span><span class="text-[9px]">Corporate (28%)</span></div>
+                            <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full" style="background:var(--gold)"></span><span class="text-[9px]">Private (27%)</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming Events + Recent Enquiries -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+
+                    <!-- Upcoming Events -->
+                    <div class="luxe-card bg-white dark:bg-[#2a1520] p-5 rounded-2xl">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="serif font-bold text-gray-800 dark:text-white">Upcoming Events</h4>
+                            <button onclick="showPage('events')" class="text-[9px] font-black uppercase hover:underline" style="color:var(--rose)">View All</button>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 p-3 rounded-xl" style="background:rgba(181,130,106,.06)">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(181,130,106,.15)">
+                                    <i class="fas fa-ring text-sm" style="color:var(--rose)"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white truncate">Sharma – Kapoor Wedding</p>
+                                    <p class="text-[9px] text-gray-400">28 Mar · ITC Grand Chola, Mumbai</p>
+                                </div>
+                                <span class="text-[8px] font-black px-2 py-1 rounded-full badge-rose flex-shrink-0">Wedding</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-xl" style="background:rgba(124,92,138,.06)">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(124,92,138,.15)">
+                                    <i class="fas fa-briefcase text-sm" style="color:var(--plum)"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white truncate">InnovateTech Annual Gala</p>
+                                    <p class="text-[9px] text-gray-400">2 Apr · JW Marriott, Bangalore</p>
+                                </div>
+                                <span class="text-[8px] font-black px-2 py-1 rounded-full badge-plum flex-shrink-0">Corporate</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-xl" style="background:rgba(201,169,110,.08)">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(201,169,110,.2)">
+                                    <i class="fas fa-birthday-cake text-sm" style="color:var(--gold)"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white truncate">Sunita's 50th Birthday</p>
+                                    <p class="text-[9px] text-gray-400">5 Apr · Private Estate, Chennai</p>
+                                </div>
+                                <span class="text-[8px] font-black px-2 py-1 rounded-full badge-gold flex-shrink-0">Private</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Enquiries -->
+                    <div class="luxe-card bg-white dark:bg-[#2a1520] p-5 rounded-2xl">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="serif font-bold text-gray-800 dark:text-white">Recent Enquiries</h4>
+                            <button onclick="showPage('clients')" class="text-[9px] font-black uppercase hover:underline" style="color:var(--rose)">View All</button>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 p-3 rounded-xl notif-item transition-all">
+                                <img src="img/home1-7.jpg" class="w-9 h-9 rounded-full object-cover flex-shrink-0" alt="">
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white">Priya Mehta</p>
+                                    <p class="text-[9px] text-gray-400">Wedding · March 2026 · 300 guests</p>
+                                </div>
+                                <span class="text-[8px] font-black px-2 py-1 rounded-full badge-amber flex-shrink-0">New</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-xl notif-item transition-all">
+                                <img src="img/home1-8.jpg" class="w-9 h-9 rounded-full object-cover flex-shrink-0" alt="">
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white">Neha Kapoor</p>
+                                    <p class="text-[9px] text-gray-400">Corporate Gala · May 2025 · 250 guests</p>
+                                </div>
+                                <span class="text-[8px] font-black px-2 py-1 rounded-full badge-green flex-shrink-0">Confirmed</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-xl notif-item transition-all">
+                                <img src="img/home1-9.jpg" class="w-9 h-9 rounded-full object-cover flex-shrink-0" alt="">
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-bold text-gray-800 dark:text-white">Ananya Reddy</p>
+                                    <p class="text-[9px] text-gray-400">Birthday · April 2025 · 80 guests</p>
+                                </div>
+                                <span class="text-[8px] font-black px-2 py-1 rounded-full badge-rose flex-shrink-0">In Review</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ EVENTS ══ -->
+            <div id="page-events" class="page-node">
+                <div class="luxe-card bg-white dark:bg-[#2a1520] p-5 sm:p-7 rounded-2xl">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                        <div>
+                            <h3 class="serif text-xl font-bold text-gray-800 dark:text-white">All Events</h3>
+                            <p class="text-[9px] text-gray-400 mt-0.5">87 events managed · 24 upcoming</p>
+                        </div>
+                        <button class="btn-rose w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black">
+                            <i class="fas fa-plus"></i> Add New Event
+                        </button>
+                    </div>
+
+                    <!-- Filter tabs -->
+                    <div class="flex flex-wrap gap-2 mb-5">
+                        <button class="text-[9px] font-black px-4 py-2 rounded-xl btn-rose">All</button>
+                        <button class="text-[9px] font-black px-4 py-2 rounded-xl badge-rose">Weddings</button>
+                        <button class="text-[9px] font-black px-4 py-2 rounded-xl badge-plum">Corporate</button>
+                        <button class="text-[9px] font-black px-4 py-2 rounded-xl badge-gold">Private</button>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-[640px] text-left">
+                            <thead class="text-[9px] uppercase font-black border-b" style="border-color:rgba(181,130,106,.2);color:var(--rose)">
+                                <tr>
+                                    <th class="pb-3">Event / Client</th>
+                                    <th class="pb-3">Date & Venue</th>
+                                    <th class="pb-3">Type</th>
+                                    <th class="pb-3">Budget</th>
+                                    <th class="pb-3 text-center">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-xs divide-y" style="divide-color:rgba(181,130,106,.08)">
+                                <tr class="hover:bg-rose-50/50 dark:hover:bg-rose-900/10 transition-colors">
+                                    <td class="py-3.5">
+                                        <p class="font-bold text-gray-800 dark:text-white">Sharma – Kapoor Wedding</p>
+                                        <p class="text-[9px] text-gray-400">Priya & Arjun Sharma</p>
+                                    </td>
+                                    <td class="py-3.5">
+                                        <p class="font-semibold">28 Mar 2025</p>
+                                        <p class="text-[9px] text-gray-400">ITC Grand Chola, Mumbai</p>
+                                    </td>
+                                    <td class="py-3.5"><span class="badge-rose text-[8px] font-black px-2 py-1 rounded-full">Wedding</span></td>
+                                    <td class="py-3.5 font-bold" style="color:var(--rose)">₹28 L</td>
+                                    <td class="py-3.5 text-center"><span class="badge-green text-[8px] font-black px-2 py-1 rounded-full">Confirmed</span></td>
+                                </tr>
+                                <tr class="hover:bg-rose-50/50 dark:hover:bg-rose-900/10 transition-colors">
+                                    <td class="py-3.5">
+                                        <p class="font-bold text-gray-800 dark:text-white">InnovateTech Annual Gala</p>
+                                        <p class="text-[9px] text-gray-400">Neha Kapoor · VP Marketing</p>
+                                    </td>
+                                    <td class="py-3.5">
+                                        <p class="font-semibold">2 Apr 2025</p>
+                                        <p class="text-[9px] text-gray-400">JW Marriott, Bangalore</p>
+                                    </td>
+                                    <td class="py-3.5"><span class="badge-plum text-[8px] font-black px-2 py-1 rounded-full">Corporate</span></td>
+                                    <td class="py-3.5 font-bold" style="color:var(--plum)">₹12 L</td>
+                                    <td class="py-3.5 text-center"><span class="badge-green text-[8px] font-black px-2 py-1 rounded-full">Confirmed</span></td>
+                                </tr>
+                                <tr class="hover:bg-rose-50/50 dark:hover:bg-rose-900/10 transition-colors">
+                                    <td class="py-3.5">
+                                        <p class="font-bold text-gray-800 dark:text-white">Sunita's 50th Birthday</p>
+                                        <p class="text-[9px] text-gray-400">Sunita Mehta</p>
+                                    </td>
+                                    <td class="py-3.5">
+                                        <p class="font-semibold">5 Apr 2025</p>
+                                        <p class="text-[9px] text-gray-400">Private Estate, Chennai</p>
+                                    </td>
+                                    <td class="py-3.5"><span class="badge-gold text-[8px] font-black px-2 py-1 rounded-full">Private</span></td>
+                                    <td class="py-3.5 font-bold" style="color:var(--gold)">₹6 L</td>
+                                    <td class="py-3.5 text-center"><span class="badge-amber text-[8px] font-black px-2 py-1 rounded-full">Planning</span></td>
+                                </tr>
+                                <tr class="hover:bg-rose-50/50 dark:hover:bg-rose-900/10 transition-colors">
+                                    <td class="py-3.5">
+                                        <p class="font-bold text-gray-800 dark:text-white">Rambagh Palace Wedding</p>
+                                        <p class="text-[9px] text-gray-400">Kavitha & Rohan Iyer</p>
+                                    </td>
+                                    <td class="py-3.5">
+                                        <p class="font-semibold">18 Apr 2025</p>
+                                        <p class="text-[9px] text-gray-400">Rambagh Palace, Jaipur</p>
+                                    </td>
+                                    <td class="py-3.5"><span class="badge-rose text-[8px] font-black px-2 py-1 rounded-full">Wedding</span></td>
+                                    <td class="py-3.5 font-bold" style="color:var(--rose)">₹45 L</td>
+                                    <td class="py-3.5 text-center"><span class="badge-rose text-[8px] font-black px-2 py-1 rounded-full">Proposal</span></td>
+                                </tr>
+                                <tr class="hover:bg-rose-50/50 dark:hover:bg-rose-900/10 transition-colors">
+                                    <td class="py-3.5">
+                                        <p class="font-bold text-gray-800 dark:text-white">Zuri Beach Engagement</p>
+                                        <p class="text-[9px] text-gray-400">Preethi & Rajan Das</p>
+                                    </td>
+                                    <td class="py-3.5">
+                                        <p class="font-semibold">22 Apr 2025</p>
+                                        <p class="text-[9px] text-gray-400">W Hotel, Goa</p>
+                                    </td>
+                                    <td class="py-3.5"><span class="badge-plum text-[8px] font-black px-2 py-1 rounded-full">Engagement</span></td>
+                                    <td class="py-3.5 font-bold" style="color:var(--plum)">₹4.5 L</td>
+                                    <td class="py-3.5 text-center"><span class="badge-green text-[8px] font-black px-2 py-1 rounded-full">Confirmed</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ CLIENTS ══ -->
+            <div id="page-clients" class="page-node">
+                <div class="luxe-card bg-white dark:bg-[#2a1520] p-5 sm:p-7 rounded-2xl">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                        <div>
+                            <h3 class="serif text-xl font-bold text-gray-800 dark:text-white">Clients</h3>
+                            <p class="text-[9px] text-gray-400 mt-0.5">142 active clients across India</p>
+                        </div>
+                        <button class="btn-rose w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black">
+                            <i class="fas fa-user-plus"></i> Add Client
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full min-w-[560px] text-left">
+                            <thead class="text-[9px] uppercase font-black border-b" style="border-color:rgba(181,130,106,.2);color:var(--rose)">
+                                <tr>
+                                    <th class="pb-3">Client</th>
+                                    <th class="pb-3">Event Type</th>
+                                    <th class="pb-3">City</th>
+                                    <th class="pb-3">Event Date</th>
+                                    <th class="pb-3 text-center">Stage</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-xs divide-y" style="divide-color:rgba(181,130,106,.08)">
+                                <tr class="hover:bg-rose-50/50 dark:hover:bg-rose-900/10 transition-colors">
+                                    <td class="py-3.5">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-black" style="background:linear-gradient(135deg,var(--rose),var(--plum))">PH</div>
+                                            <div>
+                                                <p class="font-bold text-gray-800 dark:text-white">Priya Sharma</p>
+                                                <p class="text-[8px] text-gray-400">priya@email.com</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-3.5"><span class="badge-rose text-[8px] font-black px-2 py-1 rounded-full">Wedding</span></td>
+                                    <td class="py-3.5 text-gray-600 dark:text-gray-300">Mumbai</td>
+                                    <td class="py-3.5 text-gray-600 dark:text-gray-300">28 Mar 2025</td>
+                                    <td class="py-3.5 text-center"><span class="badge-green text-[8px] font-black px-2 py-1 rounded-full">Confirmed</span></td>
+                                </tr>
+                                <tr class="hover:bg-rose-50/50 dark:hover:bg-rose-900/10 transition-colors">
+                                    <td class="py-3.5">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-black" style="background:linear-gradient(135deg,var(--rose),var(--plum))">NK</div>
+                                            <div>
+                                                <p class="font-bold text-gray-800 dark:text-white">Neha Kapoor</p>
+                                                <p class="text-[8px] text-gray-400">neha@innovate.com</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-3.5"><span class="badge-plum text-[8px] font-black px-2 py-1 rounded-full">Corporate</span></td>
+                                    <td class="py-3.5 text-gray-600 dark:text-gray-300">Bangalore</td>
+                                    <td class="py-3.5 text-gray-600 dark:text-gray-300">2 Apr 2025</td>
+                                    <td class="py-3.5 text-center"><span class="badge-green text-[8px] font-black px-2 py-1 rounded-full">Confirmed</span></td>
+                                </tr>
+                                <tr class="hover:bg-rose-50/50 dark:hover:bg-rose-900/10 transition-colors">
+                                    <td class="py-3.5">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-black" style="background:linear-gradient(135deg,var(--rose),var(--plum))">SM</div>
+                                            <div>
+                                                <p class="font-bold text-gray-800 dark:text-white">Sunita Mehta</p>
+                                                <p class="text-[8px] text-gray-400">sunita@gmail.com</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-3.5"><span class="badge-gold text-[8px] font-black px-2 py-1 rounded-full">Birthday</span></td>
+                                    <td class="py-3.5 text-gray-600 dark:text-gray-300">Chennai</td>
+                                    <td class="py-3.5 text-gray-600 dark:text-gray-300">5 Apr 2025</td>
+                                    <td class="py-3.5 text-center"><span class="badge-amber text-[8px] font-black px-2 py-1 rounded-full">Planning</span></td>
+                                </tr>
+                                <tr class="hover:bg-rose-50/50 dark:hover:bg-rose-900/10 transition-colors">
+                                    <td class="py-3.5">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-black" style="background:linear-gradient(135deg,var(--rose),var(--plum))">KI</div>
+                                            <div>
+                                                <p class="font-bold text-gray-800 dark:text-white">Kavitha Iyer</p>
+                                                <p class="text-[8px] text-gray-400">kavitha@yahoo.com</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-3.5"><span class="badge-rose text-[8px] font-black px-2 py-1 rounded-full">Wedding</span></td>
+                                    <td class="py-3.5 text-gray-600 dark:text-gray-300">Jaipur</td>
+                                    <td class="py-3.5 text-gray-600 dark:text-gray-300">18 Apr 2025</td>
+                                    <td class="py-3.5 text-center"><span class="badge-rose text-[8px] font-black px-2 py-1 rounded-full">Proposal</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ BOOKINGS ══ -->
+            <div id="page-bookings" class="page-node">
+                <div class="luxe-card bg-white dark:bg-[#2a1520] p-5 sm:p-7 rounded-2xl">
+                    <h3 class="serif text-xl font-bold text-gray-800 dark:text-white mb-6">New Booking Request</h3>
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div><label class="text-[10px] font-black uppercase tracking-widest block mb-1.5" style="color:var(--rose)">Client Name</label><input class="luxe-input" placeholder="e.g. Priya Sharma" type="text"></div>
+                        <div><label class="text-[10px] font-black uppercase tracking-widest block mb-1.5" style="color:var(--rose)">Phone Number</label><input class="luxe-input" placeholder="+11 111111113333" type="tel"></div>
+                        <div><label class="text-[10px] font-black uppercase tracking-widest block mb-1.5" style="color:var(--rose)">Email Address</label><input class="luxe-input" placeholder="email@example.com" type="email"></div>
+                        <div><label class="text-[10px] font-black uppercase tracking-widest block mb-1.5" style="color:var(--rose)">Event Type</label>
+                            <select class="luxe-input">
+                                <option>Wedding</option><option>Engagement</option><option>Corporate Gala</option><option>Birthday</option><option>Baby Shower</option><option>Other</option>
+                            </select>
+                        </div>
+                        <div><label class="text-[10px] font-black uppercase tracking-widest block mb-1.5" style="color:var(--rose)">Event Date</label><input class="luxe-input" type="date"></div>
+                        <div><label class="text-[10px] font-black uppercase tracking-widest block mb-1.5" style="color:var(--rose)">Venue / City</label><input class="luxe-input" placeholder="e.g. Taj Hotel, Mumbai" type="text"></div>
+                        <div><label class="text-[10px] font-black uppercase tracking-widest block mb-1.5" style="color:var(--rose)">Guest Count</label>
+                            <select class="luxe-input"><option>Under 50</option><option>50 – 150</option><option>150 – 300</option><option>300 – 500</option><option>500+</option></select>
+                        </div>
+                        <div><label class="text-[10px] font-black uppercase tracking-widest block mb-1.5" style="color:var(--rose)">Budget Range</label>
+                            <select class="luxe-input"><option>Under ₹2 L</option><option>₹2–5 L</option><option>₹5–10 L</option><option>₹10–25 L</option><option>₹25 L+</option></select>
+                        </div>
+                        <div class="sm:col-span-2"><label class="text-[10px] font-black uppercase tracking-widest block mb-1.5" style="color:var(--rose)">Special Requirements</label><textarea class="luxe-input" rows="3" placeholder="Theme ideas, specific services, notes…"></textarea></div>
+                        <div class="sm:col-span-2"><button class="btn-rose w-full py-3 rounded-xl font-black text-sm flex items-center justify-center gap-2"><i class="fas fa-save"></i> Save Booking Request</button></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ VENDORS ══ -->
+            <div id="page-vendors" class="page-node">
+                <div class="luxe-card bg-white dark:bg-[#2a1520] p-5 sm:p-7 rounded-2xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h3 class="serif text-xl font-bold text-gray-800 dark:text-white">Vendor Network</h3>
+                            <p class="text-[9px] text-gray-400 mt-0.5">30+ curated partners</p>
+                        </div>
+                        <button class="btn-rose flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black"><i class="fas fa-plus"></i> Add Vendor</button>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div class="p-4 rounded-2xl border transition-all hover:-translate-y-1" style="background:rgba(181,130,106,.05);border-color:rgba(181,130,106,.2)">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(181,130,106,.15)"><i class="fas fa-spa" style="color:var(--rose)"></i></div>
+                                <div><p class="font-bold text-sm text-gray-800 dark:text-white">Bloom & Blossom</p><p class="text-[8px] text-gray-400">Floral Design</p></div>
+                            </div>
+                            <p class="text-[9px] text-gray-500 mb-2">Bangalore · 5 years partner</p>
+                            <div class="flex items-center gap-1 text-yellow-400 text-xs mb-2">★★★★★ <span class="text-[9px] text-gray-400 ml-1">(48 events)</span></div>
+                            <span class="badge-green text-[8px] font-black px-2 py-1 rounded-full">Active</span>
+                        </div>
+                        <div class="p-4 rounded-2xl border transition-all hover:-translate-y-1" style="background:rgba(124,92,138,.05);border-color:rgba(124,92,138,.2)">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(124,92,138,.15)"><i class="fas fa-camera" style="color:var(--plum)"></i></div>
+                                <div><p class="font-bold text-sm text-gray-800 dark:text-white">Frames & Feels</p><p class="text-[8px] text-gray-400">Photography & Video</p></div>
+                            </div>
+                            <p class="text-[9px] text-gray-500 mb-2">Mumbai · 3 years partner</p>
+                            <div class="flex items-center gap-1 text-yellow-400 text-xs mb-2">★★★★★ <span class="text-[9px] text-gray-400 ml-1">(32 events)</span></div>
+                            <span class="badge-green text-[8px] font-black px-2 py-1 rounded-full">Active</span>
+                        </div>
+                        <div class="p-4 rounded-2xl border transition-all hover:-translate-y-1" style="background:rgba(201,169,110,.05);border-color:rgba(201,169,110,.2)">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(201,169,110,.15)"><i class="fas fa-utensils" style="color:var(--gold)"></i></div>
+                                <div><p class="font-bold text-sm text-gray-800 dark:text-white">Rasa Catering Co.</p><p class="text-[8px] text-gray-400">Catering & Desserts</p></div>
+                            </div>
+                            <p class="text-[9px] text-gray-500 mb-2">Chennai · 4 years partner</p>
+                            <div class="flex items-center gap-1 text-yellow-400 text-xs mb-2">★★★★☆ <span class="text-[9px] text-gray-400 ml-1">(27 events)</span></div>
+                            <span class="badge-green text-[8px] font-black px-2 py-1 rounded-full">Active</span>
+                        </div>
+                        <div class="p-4 rounded-2xl border transition-all hover:-translate-y-1" style="background:rgba(181,130,106,.05);border-color:rgba(181,130,106,.2)">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(181,130,106,.15)"><i class="fas fa-music" style="color:var(--rose)"></i></div>
+                                <div><p class="font-bold text-sm text-gray-800 dark:text-white">Rhythms Live</p><p class="text-[8px] text-gray-400">Music & Entertainment</p></div>
+                            </div>
+                            <p class="text-[9px] text-gray-500 mb-2">Delhi · 2 years partner</p>
+                            <div class="flex items-center gap-1 text-yellow-400 text-xs mb-2">★★★★★ <span class="text-[9px] text-gray-400 ml-1">(19 events)</span></div>
+                            <span class="badge-amber text-[8px] font-black px-2 py-1 rounded-full">On Break</span>
+                        </div>
+                        <div class="p-4 rounded-2xl border transition-all hover:-translate-y-1" style="background:rgba(124,92,138,.05);border-color:rgba(124,92,138,.2)">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(124,92,138,.15)"><i class="fas fa-lightbulb" style="color:var(--plum)"></i></div>
+                                <div><p class="font-bold text-sm text-gray-800 dark:text-white">Lumière Lighting</p><p class="text-[8px] text-gray-400">Lighting & AV</p></div>
+                            </div>
+                            <p class="text-[9px] text-gray-500 mb-2">Bangalore · 6 years partner</p>
+                            <div class="flex items-center gap-1 text-yellow-400 text-xs mb-2">★★★★★ <span class="text-[9px] text-gray-400 ml-1">(61 events)</span></div>
+                            <span class="badge-green text-[8px] font-black px-2 py-1 rounded-full">Active</span>
+                        </div>
+                        <div class="p-4 rounded-2xl border transition-all hover:-translate-y-1" style="background:rgba(201,169,110,.05);border-color:rgba(201,169,110,.2)">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(201,169,110,.15)"><i class="fas fa-car" style="color:var(--gold)"></i></div>
+                                <div><p class="font-bold text-sm text-gray-800 dark:text-white">Prestige Transport</p><p class="text-[8px] text-gray-400">Luxury Vehicles</p></div>
+                            </div>
+                            <p class="text-[9px] text-gray-500 mb-2">Pan India · 3 years partner</p>
+                            <div class="flex items-center gap-1 text-yellow-400 text-xs mb-2">★★★★☆ <span class="text-[9px] text-gray-400 ml-1">(22 events)</span></div>
+                            <span class="badge-green text-[8px] font-black px-2 py-1 rounded-full">Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ GALLERY ══ -->
+            <div id="page-gallery" class="page-node">
+                <div class="luxe-card bg-white dark:bg-[#2a1520] p-5 sm:p-7 rounded-2xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h3 class="serif text-xl font-bold text-gray-800 dark:text-white">Studio Portfolio</h3>
+                            <p class="text-[9px] text-gray-400 mt-0.5">Manage event photos & assets</p>
+                        </div>
+                        <button class="btn-rose flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black"><i class="fas fa-upload"></i> Upload</button>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                        <div class="group relative rounded-2xl overflow-hidden h-32 sm:h-40 cursor-pointer">
+                            <img src="img/gallery-1.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="">
+                            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-black" style="background:rgba(74,44,64,.7)">Wedding · Mumbai</div>
+                        </div>
+                        <div class="group relative rounded-2xl overflow-hidden h-32 sm:h-40 cursor-pointer">
+                            <img src="img/gallery-2.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="">
+                            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-black" style="background:rgba(74,44,64,.7)">Florals · Bangalore</div>
+                        </div>
+                        <div class="group relative rounded-2xl overflow-hidden h-32 sm:h-40 cursor-pointer">
+                            <img src="img/gallery-12.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="">
+                            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-black" style="background:rgba(74,44,64,.7)">Tablescape · Delhi</div>
+                        </div>
+                        <div class="group relative rounded-2xl overflow-hidden h-32 sm:h-40 cursor-pointer">
+                            <img src="img/gallery-5.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="">
+                            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-black" style="background:rgba(74,44,64,.7)">Garden Gala</div>
+                        </div>
+                        <div class="group relative rounded-2xl overflow-hidden h-32 sm:h-40 cursor-pointer">
+                            <img src="img/gallery-10.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="">
+                            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-black" style="background:rgba(74,44,64,.7)">Corporate Gala</div>
+                        </div>
+                        <div class="group relative rounded-2xl overflow-hidden h-32 sm:h-40 cursor-pointer">
+                            <img src="img/gallery-3.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="">
+                            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-black" style="background:rgba(74,44,64,.7)">Reception · Chennai</div>
+                        </div>
+                        <div class="group relative rounded-2xl overflow-hidden h-32 sm:h-40 cursor-pointer">
+                            <img src="img/gallery-2.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="">
+                            <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-black" style="background:rgba(74,44,64,.7)">Rose Wall · Mumbai</div>
+                        </div>
+                        <div class="group relative rounded-2xl overflow-hidden h-32 sm:h-40 cursor-pointer flex items-center justify-center border-2 border-dashed" style="border-color:rgba(181,130,106,.3)">
+                            <div class="text-center">
+                                <i class="fas fa-plus text-2xl mb-2" style="color:rgba(181,130,106,.4)"></i>
+                                <p class="text-[9px] text-gray-400">Upload New</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ NOTIFICATIONS ══ -->
+            <div id="page-notifications" class="page-node">
+                <div class="luxe-card bg-white dark:bg-[#2a1520] p-5 sm:p-7 rounded-2xl">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h3 class="serif text-xl font-bold text-gray-800 dark:text-white">Notifications</h3>
+                            <p class="text-[9px] text-gray-400 mt-0.5">5 unread notifications</p>
+                        </div>
+                        <button class="text-[9px] font-black px-4 py-2 rounded-xl badge-rose">
+                            <i class="fas fa-check-double mr-1"></i> Mark All Read
+                        </button>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-4 rounded-2xl border notif-item transition-all" style="background:rgba(181,130,106,.05);border-color:rgba(181,130,106,.2)">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(181,130,106,.15)"><i class="fas fa-calendar-plus text-sm" style="color:var(--rose)"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between flex-wrap gap-1">
+                                        <p class="text-sm font-bold text-gray-800 dark:text-white">New booking request received</p>
+                                        <span class="text-[8px] text-gray-400">10 min ago</span>
+                                    </div>
+                                    <p class="text-[9px] text-gray-500 mt-0.5">Priya Mehta · Wedding · March 2026 · ₹25L budget</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 rounded-2xl notif-item transition-all" style="background:rgba(124,92,138,.04)">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(124,92,138,.15)"><i class="fas fa-check-circle text-sm" style="color:var(--plum)"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between flex-wrap gap-1">
+                                        <p class="text-sm font-bold text-gray-800 dark:text-white">Contract signed — Sharma Wedding</p>
+                                        <span class="text-[8px] text-gray-400">1 hr ago</span>
+                                    </div>
+                                    <p class="text-[9px] text-gray-500 mt-0.5">Advance payment of ₹5,60,000 received</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 rounded-2xl notif-item transition-all" style="background:rgba(201,169,110,.04)">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(201,169,110,.15)"><i class="fas fa-star text-sm" style="color:var(--gold)"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between flex-wrap gap-1">
+                                        <p class="text-sm font-bold text-gray-800 dark:text-white">New 5-star review</p>
+                                        <span class="text-[8px] text-gray-400">3 hrs ago</span>
+                                    </div>
+                                    <p class="text-[9px] text-gray-500 mt-0.5">Sunita Mehta: "Absolutely magical! Every detail was perfect."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 rounded-2xl notif-item transition-all" style="background:rgba(34,197,94,.04)">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(34,197,94,.12)"><i class="fas fa-handshake text-sm text-green-600"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between flex-wrap gap-1">
+                                        <p class="text-sm font-bold text-gray-800 dark:text-white">Vendor confirmed for Apr 2 event</p>
+                                        <span class="text-[8px] text-gray-400">5 hrs ago</span>
+                                    </div>
+                                    <p class="text-[9px] text-gray-500 mt-0.5">Lumière Lighting — AV setup confirmed for InnovateTech Gala</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 rounded-2xl notif-item transition-all" style="background:rgba(245,158,11,.04)">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(245,158,11,.12)"><i class="fas fa-exclamation-triangle text-sm text-amber-500"></i></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between flex-wrap gap-1">
+                                        <p class="text-sm font-bold text-gray-800 dark:text-white">Budget alert — Rambagh Wedding</p>
+                                        <span class="text-[8px] text-gray-400">Yesterday</span>
+                                    </div>
+                                    <p class="text-[9px] text-gray-500 mt-0.5">Decor spend is 12% over initial estimate. Review required.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ FINANCE ══ -->
+            <div id="page-finance" class="page-node">
+                <div class="luxe-card bg-white dark:bg-[#2a1520] p-5 sm:p-7 rounded-2xl">
+                    <h3 class="serif text-xl font-bold text-gray-800 dark:text-white mb-6">Finance Overview</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-7">
+                        <div class="p-5 rounded-2xl text-center" style="background:rgba(181,130,106,.07);border:1px solid rgba(181,130,106,.15)">
+                            <p class="text-[9px] font-black uppercase tracking-widest mb-1" style="color:var(--rose)">Total Revenue (2025)</p>
+                            <p class="serif text-2xl font-bold text-gray-800 dark:text-white">₹1,28,40,000</p>
+                            <p class="text-[9px] text-gray-400 mt-1">+18% vs 2024</p>
+                        </div>
+                        <div class="p-5 rounded-2xl text-center" style="background:rgba(124,92,138,.07);border:1px solid rgba(124,92,138,.15)">
+                            <p class="text-[9px] font-black uppercase tracking-widest mb-1" style="color:var(--plum)">Outstanding Invoices</p>
+                            <p class="serif text-2xl font-bold text-gray-800 dark:text-white">₹14,50,000</p>
+                            <p class="text-[9px] text-gray-400 mt-1">6 pending invoices</p>
+                        </div>
+                        <div class="p-5 rounded-2xl text-center" style="background:rgba(201,169,110,.07);border:1px solid rgba(201,169,110,.15)">
+                            <p class="text-[9px] font-black uppercase tracking-widest mb-1" style="color:var(--gold)">Advances Received</p>
+                            <p class="serif text-2xl font-bold text-gray-800 dark:text-white">₹38,20,000</p>
+                            <p class="text-[9px] text-gray-400 mt-1">For upcoming events</p>
+                        </div>
+                    </div>
+                    <h4 class="serif text-lg font-bold text-gray-800 dark:text-white mb-4">Recent Transactions</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-4 rounded-xl" style="background:rgba(181,130,106,.05)">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:rgba(34,197,94,.12)"><i class="fas fa-arrow-down text-green-600 text-xs"></i></div>
+                                <div><p class="text-sm font-bold text-gray-800 dark:text-white">Advance — Sharma Wedding</p><p class="text-[9px] text-gray-400">Received · 15 Mar 2025</p></div>
+                            </div>
+                            <p class="font-black text-green-600">+₹5,60,000</p>
+                        </div>
+                        <div class="flex items-center justify-between p-4 rounded-xl" style="background:rgba(181,130,106,.05)">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:rgba(239,68,68,.1)"><i class="fas fa-arrow-up text-red-500 text-xs"></i></div>
+                                <div><p class="text-sm font-bold text-gray-800 dark:text-white">Vendor Payment — Bloom & Blossom</p><p class="text-[9px] text-gray-400">Paid · 14 Mar 2025</p></div>
+                            </div>
+                            <p class="font-black text-red-500">-₹1,20,000</p>
+                        </div>
+                        <div class="flex items-center justify-between p-4 rounded-xl" style="background:rgba(181,130,106,.05)">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:rgba(34,197,94,.12)"><i class="fas fa-arrow-down text-green-600 text-xs"></i></div>
+                                <div><p class="text-sm font-bold text-gray-800 dark:text-white">Full Payment — InnovateTech Gala</p><p class="text-[9px] text-gray-400">Received · 10 Mar 2025</p></div>
+                            </div>
+                            <p class="font-black text-green-600">+₹12,00,000</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══ SETTINGS ══ -->
+            <div id="page-settings" class="page-node">
+                <div class="luxe-card bg-white dark:bg-[#2a1520] p-5 sm:p-7 rounded-2xl">
+                    <div class="flex items-center gap-2 mb-6">
+                        <i class="fas fa-shield-alt" style="color:var(--rose)"></i>
+                        <h3 class="serif text-xl font-bold text-gray-800 dark:text-white">Settings & Security</h3>
+                    </div>
+                    <div class="space-y-5">
+                        <!-- Profile -->
+                        <div class="rounded-2xl p-5" style="background:rgba(181,130,106,.05);border:1px solid rgba(181,130,106,.15)">
+                            <h4 class="text-xs font-black uppercase mb-4 flex items-center gap-2" style="color:var(--rose)"><i class="fas fa-user"></i> Studio Profile</h4>
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div><label class="text-[9px] font-black uppercase tracking-widest block mb-1" style="color:var(--rose)">Studio Name</label><input class="luxe-input" value="LuxeEvents Studio" type="text"></div>
+                                <div><label class="text-[9px] font-black uppercase tracking-widest block mb-1" style="color:var(--rose)">Director Name</label><input class="luxe-input" value="Meera Nair" type="text"></div>
+                                <div><label class="text-[9px] font-black uppercase tracking-widest block mb-1" style="color:var(--rose)">Email</label><input class="luxe-input" value="meera@luxeevents.in" type="email"></div>
+                                <div><label class="text-[9px] font-black uppercase tracking-widest block mb-1" style="color:var(--rose)">Phone</label><input class="luxe-input" value="+11 111111113333" type="tel"></div>
+                            </div>
+                            <button class="btn-rose mt-4 px-6 py-2.5 rounded-xl text-xs font-black">Save Profile</button>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="rounded-2xl p-5" style="background:rgba(124,92,138,.05);border:1px solid rgba(124,92,138,.15)">
+                            <h4 class="text-xs font-black uppercase mb-4 flex items-center gap-2" style="color:var(--plum)"><i class="fas fa-key"></i> Password Strength</h4>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <div class="flex gap-1 mt-2">
+                                        <span class="w-8 h-1.5 rounded-full" style="background:var(--rose)"></span>
+                                        <span class="w-8 h-1.5 rounded-full" style="background:var(--rose)"></span>
+                                        <span class="w-8 h-1.5 rounded-full" style="background:var(--rose)"></span>
+                                        <span class="w-8 h-1.5 rounded-full" style="background:var(--rose)"></span>
+                                        <span class="w-8 h-1.5 rounded-full bg-gray-200"></span>
+                                    </div>
+                                    <p class="text-[9px] font-black mt-1" style="color:var(--rose)">Strong</p>
+                                </div>
+                                <button class="text-[9px] font-black hover:underline" style="color:var(--plum)">Change Password</button>
+                            </div>
+                        </div>
+
+                        <!-- 2FA -->
+                        <div class="rounded-2xl p-5" style="background:rgba(201,169,110,.05);border:1px solid rgba(201,169,110,.2)">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h4 class="text-xs font-black" style="color:var(--gold)">Two-Factor Authentication</h4>
+                                    <p class="text-[9px] text-gray-400 mt-1">Protect your studio admin account</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-rose peer-checked:to-plum" style="--tw-gradient-from:var(--rose);--tw-gradient-to:var(--plum)"></div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Active Session -->
+                        <div class="rounded-2xl p-5" style="background:rgba(181,130,106,.05);border:1px solid rgba(181,130,106,.15)">
+                            <h4 class="text-xs font-black mb-3" style="color:var(--rose)">Active Sessions</h4>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <i class="fas fa-laptop text-gray-400"></i>
+                                    <span class="text-xs text-gray-600 dark:text-gray-300">Chrome · MacBook · Bangalore</span>
+                                </div>
+                                <span class="text-[8px] font-black px-2 py-1 rounded-full badge-green">Current</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /mainDisplay -->
+
+        <!-- Footer -->
+        <footer class="mt-10 text-center text-[8px] text-gray-400 uppercase tracking-wider">
+            <p>© 2025 LuxeEvents Studio · <span style="color:var(--rose)">Admin Panel</span> · All rights reserved</p>
+        </footer>
+
+    </main>
+</div><!-- /flex -->
+
+<!-- ══════════════════════ SCRIPTS ══════════════════════ -->
+<script>
+    /* ── Dark mode restore ── */
+    if(localStorage.getItem('darkMode')==='dark'){
+        document.documentElement.classList.add('dark');
+        document.body.classList.remove('light');
+        document.body.classList.add('dark');
+    }
+
+    /* ── Sidebar toggle ── */
+    function toggleSidebar(){
+        var s=document.getElementById('sidebar');
+        var o=document.getElementById('sidebarOverlay');
+        s.classList.toggle('-translate-x-full');
+        if(o) o.classList.toggle('hidden');
+    }
+
+    window.addEventListener('resize',function(){
+        var s=document.getElementById('sidebar');
+        var o=document.getElementById('sidebarOverlay');
+        if(window.innerWidth>=1024){
+            s.classList.remove('-translate-x-full');
+            if(o) o.classList.add('hidden');
+        } else {
+            s.classList.add('-translate-x-full');
+            if(o) o.classList.add('hidden');
+        }
+    });
+
+    /* ── Dark mode toggle ── */
+    function toggleDarkMode(){
+        var html=document.documentElement;
+        var body=document.body;
+        html.classList.toggle('dark');
+        var isDark=html.classList.contains('dark');
+        body.classList.toggle('dark', isDark);
+        body.classList.toggle('light', !isDark);
+        var icon=document.getElementById('themeIconFA');
+        if(icon){ icon.className = isDark ? 'fas fa-sun text-sm' : 'fas fa-moon text-sm'; }
+        localStorage.setItem('darkMode', isDark ? 'dark' : 'light');
+    }
+    /* Apply correct icon on load */
+    (function(){
+        var isDark=document.documentElement.classList.contains('dark');
+        var icon=document.getElementById('themeIconFA');
+        if(icon) icon.className = isDark ? 'fas fa-sun text-sm' : 'fas fa-moon text-sm';
+        document.body.classList.add(isDark ? 'dark' : 'light');
+    })();
+
+    /* ── Direction toggle ── */
+    function toggleDirection(){
+        var html=document.getElementById('htmlTag');
+        html.dir = html.dir==='rtl' ? 'ltr' : 'rtl';
+    }
+
+    /* ── Page switching ── */
+    var pageTitles={
+        dashboard:'Dashboard', events:'Events', clients:'Clients',
+        bookings:'New Booking', vendors:'Vendors', gallery:'Gallery',
+        notifications:'Notifications', finance:'Finance', settings:'Settings'
+    };
+
+    function showPage(id){
+        document.querySelectorAll('.page-node').forEach(function(p){ p.classList.remove('active'); });
+        var node=document.getElementById('page-'+id);
+        if(node) node.classList.add('active');
+
+        var title=document.getElementById('pageTitle');
+        if(title) title.innerText = pageTitles[id] || id;
+
+        document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.remove('sidebar-active'); });
+        var btn=document.getElementById('btn-'+id);
+        if(btn) btn.classList.add('sidebar-active');
+
+        if(window.innerWidth<1024){
+            var s=document.getElementById('sidebar');
+            var o=document.getElementById('sidebarOverlay');
+            if(s && !s.classList.contains('-translate-x-full')) toggleSidebar();
+        }
+
+        if(id==='dashboard' && window.revenueChart){
+            setTimeout(function(){ window.revenueChart.update(); window.eventTypeChart && window.eventTypeChart.update(); },100);
+        }
+    }
+
+    /* ── Live clock ── */
+    function updateClock(){
+        var el=document.getElementById('liveTime');
+        if(!el) return;
+        var now=new Date();
+        var h=now.getHours(), m=now.getMinutes();
+        var ampm=h>=12?'PM':'AM';
+        h=h%12||12;
+        el.innerText=h+':'+(m<10?'0':'')+m+' '+ampm+' IST';
+    }
+    setInterval(updateClock,1000); updateClock();
+
+    /* ── Charts ── */
+    var ctxRev=document.getElementById('revenueChart');
+    if(ctxRev){
+        window.revenueChart=new Chart(ctxRev.getContext('2d'),{
+            type:'line',
+            data:{
+                labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug'],
+                datasets:[{
+                    label:'Revenue (₹ L)',
+                    data:[8,11,14,18,22,16,25,28],
+                    borderColor:'#b5826a',
+                    backgroundColor:'rgba(181,130,106,0.1)',
+                    borderWidth:2.5,
+                    pointRadius:4,
+                    pointHoverRadius:7,
+                    pointBackgroundColor:'#b5826a',
+                    tension:0.4,
+                    fill:true
+                }]
+            },
+            options:{
+                responsive:true, maintainAspectRatio:false,
+                plugins:{ legend:{display:false} },
+                scales:{
+                    y:{ beginAtZero:true, grid:{color:'rgba(181,130,106,0.08)'}, ticks:{color:'#9ca3af',font:{size:10}} },
+                    x:{ grid:{display:false}, ticks:{color:'#9ca3af',font:{size:10}} }
+                }
+            }
+        });
+    }
+
+    var ctxType=document.getElementById('eventTypeChart');
+    if(ctxType){
+        window.eventTypeChart=new Chart(ctxType.getContext('2d'),{
+            type:'doughnut',
+            data:{
+                labels:['Weddings','Corporate','Private'],
+                datasets:[{
+                    data:[45,28,27],
+                    backgroundColor:['#b5826a','#7c5c8a','#c9a96e'],
+                    borderWidth:0,
+                    hoverOffset:6
+                }]
+            },
+            options:{
+                responsive:true, maintainAspectRatio:false, cutout:'72%',
+                plugins:{legend:{display:false}}
+            }
+        });
+    }
+
+    /* ── Init ── */
+    showPage('dashboard');
+</script>
+</body>
+</html>

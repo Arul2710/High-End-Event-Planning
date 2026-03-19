@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>LuxeEvents – Contact Us | High-End Event Planning & Styling Studio</title>
+    <link rel="icon" type="image/png" href="img/groww-prak-logo.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary:   '#b5826a',
+                        secondary: '#7c5c8a',
+                        gold:      '#c9a96e',
+                        plum:      '#4a2c40',
+                    },
+                    fontFamily: {
+                        inter:     ['Inter','sans-serif'],
+                        cormorant: ['Cormorant Garamond','serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- ── Early theme restore (no flash) ── -->
+    <script>
+        (function(){
+            var t=localStorage.getItem('theme');
+            if(t==='dark'){document.documentElement.classList.add('dark');}
+        })();
+        /* Stubs so onclick attrs never throw before main JS loads */
+        function toggleMobileMenu(){}
+        function closeMobileMenu(){}
+        function toggleMobileSubmenu(){}
+        function toggleTheme(){}
+        function toggleDirection(){}
+    </script>
+
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Inter',sans-serif;overflow-x:hidden;width:100%;min-height:100vh;transition:background .3s,color .3s;}
+        body.light{background:linear-gradient(135deg,#fdf6f0 0%,#f5ece8 100%);}
+        body.dark {background:linear-gradient(135deg,#1a0f14 0%,#2d1a23 100%);}
+        body.menu-open{overflow:hidden;}
+
+        .serif{font-family:'Cormorant Garamond',serif;}
+        .gradient-text{background:linear-gradient(135deg,#b5826a,#7c5c8a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+        /* ── NAVBAR ── */
+        .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,248,244,.96);backdrop-filter:blur(20px);border-bottom:1px solid rgba(181,130,106,.25);transition:all .3s ease;}
+        .dark .navbar{background:rgba(26,15,20,.96);border-color:rgba(181,130,106,.3);box-shadow:0 10px 30px -10px rgba(181,130,106,.2);}
+        .navbar.scrolled{box-shadow:0 5px 30px rgba(181,130,106,.2);}
+        .logo{display:flex;align-items:center;gap:8px;transition:all .3s ease;padding:8px 16px;}
+        .logo:hover{transform:scale(1.05);}
+        .logo-text{font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.6rem;background:linear-gradient(135deg,#b5826a,#7c5c8a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:.5px;}
+        .dark .logo-text{background:linear-gradient(135deg,#d4a58a,#a87ab8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+        .nav-link{font-size:14px;font-weight:600;padding:10px 18px;border-radius:40px;color:#3d2010;letter-spacing:.3px;transition:all .3s ease;background:transparent;border:none;cursor:pointer;display:flex;align-items:center;gap:4px;}
+        .dark .nav-link{color:#f0ddd4;}
+        .nav-link:hover,.nav-link.active{background:linear-gradient(135deg,#b5826a,#7c5c8a);color:white!important;box-shadow:0 5px 15px rgba(181,130,106,.4);transform:translateY(-2px);}
+        .nav-link i{transition:transform .3s ease;}
+        .nav-link:hover i,.nav-link.active i{color:white;transform:rotate(180deg);}
+        .dropdown-menu{position:absolute;top:100%;margin-top:15px;min-width:220px;background:white;border-radius:24px;padding:12px;box-shadow:0 20px 40px -10px rgba(181,130,106,.3);border:1px solid rgba(181,130,106,.2);opacity:0;visibility:hidden;transform:translateY(-10px);transition:all .3s ease;z-index:1000;}
+        .dark .dropdown-menu{background:#2d1a23;border-color:rgba(181,130,106,.3);}
+        .dropdown-group:hover .dropdown-menu{opacity:1;visibility:visible;transform:translateY(0);}
+        .dropdown-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:16px;color:#3d2010;font-weight:500;font-size:13px;transition:all .3s ease;text-decoration:none;}
+        .dark .dropdown-item{color:#f0ddd4;}
+        .dropdown-item:hover{background:linear-gradient(135deg,#b5826a,#7c5c8a);color:white;transform:translateX(5px);}
+        .dropdown-item.active{background:linear-gradient(135deg,#b5826a,#7c5c8a);color:white;}
+
+        /* ── MOBILE MENU ── */
+        #mobileMenu{position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100vh;background:rgba(255,248,244,.98);backdrop-filter:blur(20px);z-index:2000;transform:translateX(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);overflow-y:auto;padding:20px;}
+        .dark #mobileMenu{background:rgba(26,15,20,.98);}
+        #mobileMenu.open{transform:translateX(0);}
+        .mobile-header{display:flex;justify-content:space-between;align-items:center;padding:20px;margin-bottom:30px;background:linear-gradient(135deg,rgba(181,130,106,.1),rgba(124,92,138,.1));border-radius:30px;}
+        .close-btn{width:50px;height:50px;border-radius:25px;background:linear-gradient(135deg,#b5826a,#7c5c8a);display:flex;align-items:center;justify-content:center;transition:all .3s ease;cursor:pointer;color:white;border:none;box-shadow:0 5px 15px rgba(181,130,106,.4);}
+        .close-btn:hover{transform:rotate(90deg) scale(1.1);}
+        .mobile-link{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;margin:8px 0;border-radius:20px;font-weight:600;font-size:15px;color:#3d2010;background:white;border:1px solid rgba(181,130,106,.2);width:100%;cursor:pointer;transition:all .3s ease;box-shadow:0 2px 10px rgba(181,130,106,.1);text-decoration:none;}
+        .dark .mobile-link{color:#f0ddd4;background:rgba(181,130,106,.1);border-color:rgba(181,130,106,.2);}
+        .mobile-link:hover,.mobile-link.active{background:linear-gradient(135deg,#b5826a,#7c5c8a);color:white!important;transform:translateX(10px);border-color:transparent;}
+        .mobile-submenu{margin-left:20px;padding-left:20px;border-left:2px solid #b5826a;display:none;}
+        @keyframes slideIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+        .mobile-submenu.open{display:block;animation:slideIn .3s ease;}
+        .mobile-submenu a{display:flex;align-items:center;gap:12px;padding:14px 20px;margin:8px 0;border-radius:16px;color:#3d2010;font-weight:500;font-size:14px;text-decoration:none;transition:all .3s ease;background:white;border:1px solid rgba(181,130,106,.2);}
+        .dark .mobile-submenu a{color:#f0ddd4;background:rgba(181,130,106,.1);}
+        .mobile-submenu a:hover{background:linear-gradient(135deg,#b5826a,#7c5c8a);color:white;transform:translateX(10px);border-color:transparent;}
+        .action-btn{width:45px;height:45px;border-radius:45px;background:linear-gradient(135deg,#b5826a,#7c5c8a);transition:all .3s ease;display:flex;align-items:center;justify-content:center;color:white;cursor:pointer;border:none;box-shadow:0 5px 15px rgba(181,130,106,.3);}
+        .action-btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 10px 25px rgba(181,130,106,.5);}
+        .settings-section{background:linear-gradient(135deg,rgba(181,130,106,.1),rgba(124,92,138,.1));border:2px solid rgba(181,130,106,.3);border-radius:30px;padding:24px;margin-top:30px;}
+        .settings-item{display:flex;align-items:center;justify-content:space-between;padding:12px 0;}
+        .settings-label{font-weight:600;color:#3d2010;display:flex;align-items:center;gap:10px;}
+        .dark .settings-label{color:#f0ddd4;}
+        @media(max-width:1024px){.desktop-menu{display:none!important;}.desktop-auth{display:none!important;}.mobile-toggle{display:flex!important;}}
+        @media(min-width:1025px){.mobile-toggle{display:none!important;}.desktop-menu{display:flex!important;}.desktop-auth{display:block!important;}}
+        @media(min-width:1024px) and (max-width:1366px) and (orientation:portrait){.desktop-menu{display:none!important;}.desktop-auth{display:none!important;}.mobile-toggle{display:flex!important;}}
+
+        /* ── REVEAL ── */
+        .reveal{opacity:0;transform:translateY(26px);transition:all .75s ease;}
+        .reveal.active{opacity:1;transform:translateY(0);}
+
+        /* ── BUTTONS ── */
+        .btn-primary{background:linear-gradient(135deg,#b5826a,#7c5c8a);color:white;transition:all .3s ease;display:inline-flex;align-items:center;gap:8px;}
+        .btn-primary:hover{box-shadow:0 10px 28px rgba(181,130,106,.5);transform:translateY(-2px) scale(1.03);}
+
+        /* ── FORM INPUTS ── */
+        .form-input{width:100%;padding:14px 18px;border-radius:14px;border:2px solid rgba(181,130,106,.25);background:white;color:#1a0f14;font-size:14px;transition:all .3s ease;outline:none;font-family:'Inter',sans-serif;}
+        .dark .form-input{background:#2d1a23;color:#f0ddd4;border-color:rgba(181,130,106,.3);}
+        .form-input:focus{border-color:#b5826a;box-shadow:0 0 0 3px rgba(181,130,106,.15);}
+        .form-input::placeholder{color:#9ca3af;}
+        .form-label{display:block;font-weight:600;font-size:13px;color:#3d2010;margin-bottom:6px;letter-spacing:.3px;}
+        .dark .form-label{color:#f0ddd4;}
+        select.form-input{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23b5826a' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:44px;}
+
+        /* ── INFO CARD ── */
+        .info-card{transition:all .35s ease;}
+        .info-card:hover{transform:translateY(-8px);box-shadow:0 24px 48px rgba(181,130,106,.3);border-color:#b5826a!important;}
+        .info-card:hover .info-icon{background:linear-gradient(135deg,#b5826a,#7c5c8a)!important;}
+        .info-card:hover .info-icon i{color:white!important;}
+        .info-icon{transition:all .3s ease;}
+
+        /* ── SOCIAL CARD ── */
+        .social-card{transition:all .3s ease;}
+        .social-card:hover{transform:translateY(-5px);box-shadow:0 15px 35px rgba(181,130,106,.3);}
+
+        /* ── MAP ── */
+        .map-wrap{border-radius:24px;overflow:hidden;border:4px solid rgba(181,130,106,.3);box-shadow:0 20px 50px rgba(181,130,106,.2);transition:all .3s ease;}
+        .map-wrap:hover{border-color:#b5826a;box-shadow:0 30px 60px rgba(181,130,106,.35);}
+
+        /* ── TOAST ── */
+        #successToast{display:none;position:fixed;top:20px;right:20px;z-index:9999;background:linear-gradient(135deg,#b5826a,#7c5c8a);color:white;padding:16px 24px;border-radius:16px;box-shadow:0 10px 30px rgba(181,130,106,.5);font-weight:600;font-size:14px;align-items:center;gap:10px;}
+        #successToast.show{display:flex;animation:slideInR .4s ease;}
+        @keyframes slideInR{from{transform:translateX(120%);opacity:0}to{transform:translateX(0);opacity:1}}
+
+        /* ── HERO ── */
+        .hero-grid{background-image:linear-gradient(rgba(181,130,106,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(181,130,106,.07) 1px,transparent 1px);background-size:50px 50px;}
+        @keyframes floatAnim{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+        .float-el{animation:floatAnim 5s ease-in-out infinite;}
+
+        ::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:transparent;} ::-webkit-scrollbar-thumb{background:#b5826a;border-radius:3px;}
+        footer .flex-col{align-items:flex-start;}
+        @media(max-width:639px){footer h4{font-size:.8rem;margin-bottom:.75rem;}footer p,footer li{font-size:.75rem;}}
+        footer a{transition:all .2s ease-in-out;}
+    </style>
+</head>
+<body class="light font-inter">
+
+<!-- ═══════════════════ NAVBAR ═══════════════════ -->
+<nav class="navbar" id="navbar">
+    <div class="max-w-7xl mx-auto px-4 py-2">
+        <div class="flex items-center justify-between">
+            <a href="index.html" class="logo">
+                <i class="fas fa-gem text-xl" style="color:#b5826a"></i>
+                <span class="logo-text">LuxeEvents</span>
+            </a>
+            <div class="desktop-menu items-center gap-1">
+                <div class="dropdown-group relative">
+                    <button class="nav-link">Home <i data-lucide="chevron-down" class="w-4 h-4"></i></button>
+                    <div class="dropdown-menu">
+                        <a href="index.html"  class="dropdown-item">Home 1</a>
+                        <a href="home2.html"  class="dropdown-item">Home 2</a>
+                    </div>
+                </div>
+                <a href="about.html"    class="nav-link">About</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="gallery.html"  class="nav-link">Gallery</a>
+                <a href="booking.html"    class="nav-link">Booking</a>
+                <a href="contact.html"  class="nav-link active">Contact</a>
+                <div class="dropdown-group relative">
+                    <button class="nav-link">Dashboard <i data-lucide="chevron-down" class="w-4 h-4"></i></button>
+                    <div class="dropdown-menu">
+                        <a href="admin.html" class="dropdown-item">Admin Panel</a>
+                        <a href="user.html"  class="dropdown-item">Client Dashboard</a>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <div class="desktop-menu flex items-center gap-2">
+                    <button onclick="toggleDirection()" class="action-btn"><i class="fa-solid fa-arrow-right-arrow-left"></i></button>
+                    <button onclick="toggleTheme()" class="action-btn">
+                        <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                        <i data-lucide="sun"  class="w-4 h-4 hidden dark:block"></i>
+                    </button>
+                </div>
+                <div class="desktop-auth dropdown-group relative">
+                    <button class="action-btn"><i data-lucide="user" class="w-4 h-4"></i></button>
+                    <div class="dropdown-menu" style="right:0;left:auto;">
+                        <a href="login.html"  class="dropdown-item"><i data-lucide="log-in"></i> Login</a>
+                        <a href="signup.html" class="dropdown-item"><i data-lucide="user-plus"></i> Sign Up</a>
+                    </div>
+                </div>
+                <button onclick="toggleMobileMenu()" class="mobile-toggle action-btn">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ═══════════════════ MOBILE MENU ═══════════════════ -->
+<div id="mobileMenu">
+    <div class="mobile-header">
+        <a href="index.html" class="logo">
+            <i class="fas fa-gem text-xl" style="color:#b5826a"></i>
+            <span class="logo-text">LuxeEvents</span>
+        </a>
+        <button onclick="toggleMobileMenu()" class="close-btn"><i data-lucide="x" class="w-6 h-6"></i></button>
+    </div>
+    <div class="px-4">
+        <button onclick="toggleMobileSubmenu('mobileHomeSub')" class="mobile-link">
+            <span>HOME</span><i data-lucide="chevron-down" class="w-5 h-5" id="homeSubIcon"></i>
+        </button>
+        <div id="mobileHomeSub" class="mobile-submenu open">
+            <a href="index.html" onclick="closeMobileMenu()">HOME 1</a>
+            <a href="home2.html" onclick="closeMobileMenu()">HOME 2</a>
+        </div>
+        <a href="about.html"    class="mobile-link" onclick="closeMobileMenu()"><span>ABOUT</span><i data-lucide="arrow-right" class="w-5 h-5"></i></a>
+        <a href="services.html" class="mobile-link" onclick="closeMobileMenu()"><span>SERVICES</span><i data-lucide="arrow-right" class="w-5 h-5"></i></a>
+        <a href="gallery.html"  class="mobile-link" onclick="closeMobileMenu()"><span>GALLERY</span><i data-lucide="arrow-right" class="w-5 h-5"></i></a>
+        <a href="booking.html"    class="mobile-link" onclick="closeMobileMenu()"><span>BOOKING</span><i data-lucide="arrow-right" class="w-5 h-5"></i></a>
+        <a href="contact.html"  class="mobile-link active" onclick="closeMobileMenu()"><span>CONTACT</span><i data-lucide="arrow-right" class="w-5 h-5"></i></a>
+        <button onclick="toggleMobileSubmenu('mobileDashSub')" class="mobile-link">
+            <span>CLIENT DASHBOARD</span><i data-lucide="chevron-down" class="w-5 h-5" id="dashSubIcon"></i>
+        </button>
+        <div id="mobileDashSub" class="mobile-submenu">
+            <a href="admin.html" onclick="closeMobileMenu()">ADMIN</a>
+            <a href="user.html"  onclick="closeMobileMenu()">CLIENT</a>
+        </div>
+        <button onclick="toggleMobileSubmenu('mobileAuthSub')" class="mobile-link">
+            <span><i data-lucide="log-in" class="w-5 h-5 inline mr-2"></i>ACCOUNT</span>
+            <i data-lucide="chevron-down" class="w-5 h-5" id="authSubIcon"></i>
+        </button>
+        <div id="mobileAuthSub" class="mobile-submenu">
+            <a href="login.html"  onclick="closeMobileMenu()"><i data-lucide="log-in"></i>LOGIN</a>
+            <a href="signup.html" onclick="closeMobileMenu()"><i data-lucide="user-plus"></i>SIGN UP</a>
+        </div>
+        <div class="settings-section">
+            <div class="settings-item">
+                <span class="settings-label"><i class="fa-solid fa-arrow-right-arrow-left" style="color:#b5826a"></i>DIRECTION</span>
+                <button onclick="toggleDirection()" class="action-btn"><i class="fa-solid fa-left-right"></i></button>
+            </div>
+            <div class="settings-item">
+                <span class="settings-label"><i data-lucide="moon" class="w-5 h-5"></i>THEME</span>
+                <button onclick="toggleTheme()" class="action-btn">
+                    <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                    <i data-lucide="sun"  class="w-4 h-4 hidden dark:block"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 1 – HERO                                       -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section class="relative min-h-[62vh] flex items-center justify-center overflow-hidden pt-16"
+         style="background:linear-gradient(135deg,#2d1320 0%,#1a0f14 55%,#261424 100%)">
+    <div class="absolute inset-0 pointer-events-none opacity-25">
+        <div class="absolute top-16 left-12 w-72 h-72 rounded-full filter blur-3xl animate-pulse" style="background:#b5826a"></div>
+        <div class="absolute bottom-10 right-12 w-80 h-80 rounded-full filter blur-3xl animate-pulse" style="background:#7c5c8a;animation-delay:1.5s"></div>
+    </div>
+    <div class="absolute inset-0 hero-grid opacity-35 pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center py-20 reveal active">
+        <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full mb-6 border" style="background:rgba(181,130,106,.18);border-color:rgba(201,169,110,.4)">
+            <i class="fas fa-envelope-open-text" style="color:#c9a96e"></i>
+            <span class="text-sm font-semibold text-gray-200 tracking-widest uppercase">Get In Touch</span>
+            <i class="fas fa-envelope-open-text" style="color:#c9a96e"></i>
+        </div>
+        <h1 class="serif text-5xl sm:text-6xl md:text-7xl font-bold text-white leading-tight mb-5">
+            Let's Create Something
+            <span class="block mt-1" style="background:linear-gradient(135deg,#c9a96e,#b5826a,#d4a58a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
+                Extraordinary Together
+            </span>
+        </h1>
+        <p class="text-gray-300 text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-8">
+            Ready to begin your event journey? Reach out to our studio — we respond to every enquiry personally within 24 hours.
+        </p>
+        <!-- Quick contact pills -->
+        <div class="flex flex-wrap justify-center gap-3">
+            <a href="tel:+11111111113333" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white border-2 transition-all hover:bg-white/10" style="border-color:rgba(181,130,106,.5)">
+                <i class="fas fa-phone" style="color:#c9a96e"></i> +11 111111113333
+            </a>
+            <a href="https://wa.me/11111111113333" target="_blank" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white border-2 transition-all hover:bg-white/10" style="border-color:rgba(181,130,106,.5)">
+                <i class="fab fa-whatsapp text-green-400"></i> WhatsApp Us
+            </a>
+            <a href="mailto:hello@luxeevents.in" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white border-2 transition-all hover:bg-white/10" style="border-color:rgba(181,130,106,.5)">
+                <i class="fas fa-envelope" style="color:#c9a96e"></i> hello@luxeevents.in
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 2 – CONTACT INFO CARDS ROW                    -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section class="py-14 bg-white dark:bg-gray-900 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 reveal">
+
+            <!-- Studio Location -->
+            <div class="info-card bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 text-center">
+                <div class="info-icon w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4" style="background:rgba(181,130,106,.12)">
+                    <i class="fas fa-map-marker-alt text-2xl" style="color:#b5826a"></i>
+                </div>
+                <h3 class="font-bold text-gray-900 dark:text-white mb-1">Our Studio</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">12, 4th Cross, Indiranagar<br>Bangalore – 560 038, India</p>
+                <a href="https://maps.google.com" target="_blank" class="inline-flex items-center gap-1 text-xs font-semibold mt-3 transition-all" style="color:#b5826a">
+                    Get Directions <i class="fas fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+
+            <!-- Phone -->
+            <div class="info-card bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 text-center">
+                <div class="info-icon w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4" style="background:rgba(124,92,138,.12)">
+                    <i class="fas fa-phone-alt text-2xl" style="color:#7c5c8a"></i>
+                </div>
+                <h3 class="font-bold text-gray-900 dark:text-white mb-1">Call / WhatsApp</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    <a href="tel:+11111111113333" class="hover:underline">+11 111111113333</a><br>
+                    <a href="tel:+918012345678" class="hover:underline">+91 80123 45678</a>
+                </p>
+                <a href="https://wa.me/11111111113333" target="_blank" class="inline-flex items-center gap-1 text-xs font-semibold mt-3 text-green-500 transition-all hover:underline">
+                    <i class="fab fa-whatsapp"></i> Open WhatsApp
+                </a>
+            </div>
+
+            <!-- Email -->
+            <div class="info-card bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 text-center">
+                <div class="info-icon w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4" style="background:rgba(201,169,110,.12)">
+                    <i class="fas fa-envelope text-2xl" style="color:#c9a96e"></i>
+                </div>
+                <h3 class="font-bold text-gray-900 dark:text-white mb-1">Email Us</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    <a href="mailto:hello@luxeevents.in" class="hover:underline">hello@luxeevents.in</a><br>
+                    <a href="mailto:bookings@luxeevents.in" class="hover:underline">bookings@luxeevents.in</a>
+                </p>
+                <span class="inline-flex items-center gap-1 text-xs font-semibold mt-3" style="color:#b5826a">
+                    <i class="fas fa-clock text-xs"></i> Reply within 24 hrs
+                </span>
+            </div>
+
+            <!-- Studio Hours -->
+            <div class="info-card bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 text-center">
+                <div class="info-icon w-14 h-14 rounded-xl flex items-center justify-center mx-auto mb-4" style="background:rgba(181,130,106,.12)">
+                    <i class="fas fa-clock text-2xl" style="color:#b5826a"></i>
+                </div>
+                <h3 class="font-bold text-gray-900 dark:text-white mb-1">Studio Hours</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    Mon – Sat: 9am – 7pm<br>
+                    Sunday: 10am – 4pm
+                </p>
+                <span class="inline-flex items-center gap-1 text-xs font-semibold mt-3 text-green-500">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse inline-block"></span> WhatsApp 24/7
+                </span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 3 – MAIN CONTACT FORM + SIDEBAR               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section class="py-16 md:py-20 lg:py-24 bg-gray-50 dark:bg-gray-800 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12 reveal">
+            <span class="font-semibold tracking-widest text-sm uppercase" style="color:#b5826a">Send a Message</span>
+            <h2 class="serif text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mt-1 mb-3">
+                We'd Love to <span class="gradient-text">Hear From You</span>
+            </h2>
+            <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base">Share your event vision — we'll get back to you with ideas and a personalised proposal</p>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8 items-start">
+
+            <!-- FORM (2 cols) -->
+            <div class="lg:col-span-2 reveal">
+                <form id="contactForm" class="bg-white dark:bg-gray-900 rounded-3xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700 shadow-lg space-y-5">
+
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="form-label">Full Name *</label>
+                            <input type="text" class="form-input" placeholder="e.g. Priya Sharma" required>
+                        </div>
+                        <div>
+                            <label class="form-label">Email Address *</label>
+                            <input type="email" class="form-input" placeholder="priya@email.com" required>
+                        </div>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-input" placeholder="+11 111111113333">
+                        </div>
+                        <div>
+                            <label class="form-label">Event Type</label>
+                            <select class="form-input">
+                                <option value="" disabled selected>Select event type</option>
+                                <option>Wedding</option>
+                                <option>Engagement / Roka</option>
+                                <option>Corporate Gala</option>
+                                <option>Birthday Celebration</option>
+                                <option>Baby Shower</option>
+                                <option>Anniversary</option>
+                                <option>Product Launch</option>
+                                <option>General Enquiry</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="form-label">Preferred Event Date</label>
+                            <input type="date" class="form-input">
+                        </div>
+                        <div>
+                            <label class="form-label">Approximate Budget</label>
+                            <select class="form-input">
+                                <option value="" disabled selected>Select range</option>
+                                <option>Under ₹2 Lakhs</option>
+                                <option>₹2 – ₹5 Lakhs</option>
+                                <option>₹5 – ₹10 Lakhs</option>
+                                <option>₹10 – ₹25 Lakhs</option>
+                                <option>₹25 Lakhs+</option>
+                                <option>Prefer to discuss</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="form-label">Subject *</label>
+                        <input type="text" class="form-input" placeholder="e.g. Wedding styling enquiry for March 2026" required>
+                    </div>
+
+                    <div>
+                        <label class="form-label">Your Message *</label>
+                        <textarea class="form-input" rows="5" style="resize:vertical;min-height:120px;"
+                            placeholder="Tell us about your vision, venue, inspiration, guest count, or any specific requirements..." required></textarea>
+                    </div>
+
+                    <!-- How did you hear -->
+                    <div>
+                        <label class="form-label">How Did You Find Us?</label>
+                        <select class="form-input">
+                            <option value="" disabled selected>Select an option</option>
+                            <option>Instagram</option>
+                            <option>Pinterest</option>
+                            <option>Google Search</option>
+                            <option>Friend / Family Referral</option>
+                            <option>Previous Client</option>
+                            <option>Wedding Blog / Magazine</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn-primary w-full py-4 rounded-2xl font-bold text-base sm:text-lg justify-center shadow-xl">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                    
+                </form>
+            </div>
+
+            <!-- SIDEBAR (1 col) -->
+            <div class="space-y-5 reveal">
+
+                <!-- Hero image -->
+                <div class="rounded-2xl overflow-hidden shadow-lg h-52 sm:h-60 relative group">
+                    <img src="img/services-1.jpg"
+                         alt="Luxury event by LuxeEvents" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 flex items-end p-4" style="background:linear-gradient(to top,rgba(74,44,64,.75),transparent)">
+                        <p class="text-white serif text-lg font-bold">500+ Events Crafted With Love</p>
+                    </div>
+                </div>
+
+                <!-- Quick contact -->
+                <div class="bg-white dark:bg-gray-900 rounded-2xl p-5 border border-gray-200 dark:border-gray-700">
+                    <h3 class="serif text-lg font-bold text-gray-900 dark:text-white mb-4">Prefer to Talk Directly?</h3>
+                    <div class="space-y-3">
+                        <a href="tel:+11111111113333" class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-primary transition-all">
+                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(181,130,106,.15)">
+                                <i class="fas fa-phone text-sm" style="color:#b5826a"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Call</p>
+                                <p class="font-semibold text-gray-900 dark:text-white text-sm">+11 111111113333</p>
+                            </div>
+                        </a>
+                        <a href="https://wa.me/11111111113333" target="_blank" class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-primary transition-all">
+                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(34,197,94,.12)">
+                                <i class="fab fa-whatsapp text-sm text-green-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">WhatsApp</p>
+                                <p class="font-semibold text-gray-900 dark:text-white text-sm">Chat with us now</p>
+                            </div>
+                        </a>
+                        <a href="mailto:hello@luxeevents.in" class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-primary transition-all">
+                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style="background:rgba(124,92,138,.15)">
+                                <i class="fas fa-envelope text-sm" style="color:#7c5c8a"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Email</p>
+                                <p class="font-semibold text-gray-900 dark:text-white text-sm">hello@luxeevents.in</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Response guarantee -->
+                <div class="rounded-2xl p-5 border" style="background:linear-gradient(135deg,rgba(181,130,106,.07),rgba(124,92,138,.07));border-color:rgba(181,130,106,.2)">
+                    <h3 class="serif text-lg font-bold text-gray-900 dark:text-white mb-3">Our Promise to You</h3>
+                    <ul class="space-y-2.5">
+                        <li class="flex items-start gap-2.5">
+                            <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style="background:linear-gradient(135deg,#b5826a,#7c5c8a)">
+                                <i class="fas fa-check text-white" style="font-size:9px"></i>
+                            </div>
+                            <p class="text-sm text-gray-700 dark:text-gray-300">Personal reply within 24 hours</p>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style="background:linear-gradient(135deg,#b5826a,#7c5c8a)">
+                                <i class="fas fa-check text-white" style="font-size:9px"></i>
+                            </div>
+                            <p class="text-sm text-gray-700 dark:text-gray-300">Free consultation — no pressure</p>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style="background:linear-gradient(135deg,#b5826a,#7c5c8a)">
+                                <i class="fas fa-check text-white" style="font-size:9px"></i>
+                            </div>
+                            <p class="text-sm text-gray-700 dark:text-gray-300">100% confidential enquiries</p>
+                        </li>
+                        <li class="flex items-start gap-2.5">
+                            <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style="background:linear-gradient(135deg,#b5826a,#7c5c8a)">
+                                <i class="fas fa-check text-white" style="font-size:9px"></i>
+                            </div>
+                            <p class="text-sm text-gray-700 dark:text-gray-300">Tailored to your vision & budget</p>
+                        </li>
+                    </ul>
+                </div>
+
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- SECTION 5 – MAP                                        -->
+<!-- ══════════════════════════════════════════════════════ -->
+<section class="py-12 md:py-16 bg-gray-50 dark:bg-gray-800 transition-colors">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-8 reveal">
+            <span class="font-semibold tracking-widest text-sm uppercase" style="color:#b5826a">Visit Our Studio</span>
+            <h2 class="serif text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mt-1">
+                Find Us in <span class="gradient-text">Indiranagar, Bangalore</span>
+            </h2>
+        </div>
+        <div class="map-wrap reveal" style="height:420px;">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.9759745516296!2d77.63852531482185!3d12.978452890857316!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae168c0c3b6dc9%3A0x4b2f4b13b6a9f6c2!2sIndiranagar%2C%20Bengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                width="100%" height="420" style="border:0;display:block;"
+                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                title="LuxeEvents Studio Location">
+            </iframe>
+        </div>
+        <!-- Address bar below map -->
+        <div class="mt-5 flex flex-wrap justify-center gap-4 reveal">
+            <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                <i class="fas fa-map-marker-alt" style="color:#b5826a"></i>
+                <span>12, 4th Cross, Indiranagar, Bangalore – 560 038</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                <i class="fas fa-clock" style="color:#7c5c8a"></i>
+                <span>Mon–Sat: 9am–7pm &nbsp;|&nbsp; Sun: 10am–4pm</span>
+            </div>
+            <a href="https://maps.google.com" target="_blank" class="flex items-center gap-2 text-sm font-semibold transition-all hover:underline" style="color:#b5826a">
+                <i class="fas fa-directions"></i> Open in Google Maps
+            </a>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="bg-gray-900 text-white pt-10 pb-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 mb-10">
+            <div class="col-span-2 lg:col-span-1 flex flex-col items-start">
+                <a href="index.html" class="mb-3 flex items-center gap-2">
+                    <i class="fas fa-gem" style="color:#b5826a"></i>
+                    <span class="font-black text-2xl" style="background:linear-gradient(135deg,#d4a58a,#a87ab8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">LuxeEvents</span>
+                </a>
+                <p class="text-gray-400 text-xs sm:text-sm mb-4 leading-relaxed max-w-sm">High-End Event Planning & Styling Studio — where every celebration becomes a timeless memory.</p>
+                <div class="flex gap-3">
+                    <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-pink-600 transition-all"><i class="fab fa-instagram text-xs text-white"></i></a>
+                    <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-500 transition-all"><i class="fab fa-pinterest text-xs text-white"></i></a>
+                    <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition-all"><i class="fab fa-facebook-f text-xs text-white"></i></a>
+                    <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition-all"><i class="fab fa-youtube text-xs text-white"></i></a>
+                </div>
+            </div>
+            <div class="col-span-1 flex flex-col items-start">
+                <h4 class="font-bold text-sm sm:text-base mb-4 uppercase tracking-wider" style="color:#b5826a">Quick Links</h4>
+                <ul class="space-y-2 text-gray-400 text-xs sm:text-sm">
+                    <li><a href="index.html"    class="hover:text-white transition-colors">Home</a></li>
+                    <li><a href="about.html"    class="hover:text-white transition-colors">About Us</a></li>
+                    <li><a href="services.html" class="hover:text-white transition-colors">Services</a></li>
+                    <li><a href="gallery.html"  class="hover:text-white transition-colors">Gallery</a></li>
+                    <li><a href="booking.html"    class="hover:text-white transition-colors">Booking</a></li>
+                    <li><a href="contact.html"  class="hover:text-white transition-colors">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-span-1 flex flex-col items-start">
+                <h4 class="font-bold text-sm sm:text-base mb-4 uppercase tracking-wider" style="color:#b5826a">Services</h4>
+                <ul class="space-y-2 text-gray-400 text-xs sm:text-sm">
+                    <li><a href="#" class="hover:text-white transition-colors">Wedding Planning</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Luxury Styling</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Corporate Galas</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Private Celebrations</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Floral Design</a></li>
+                </ul>
+            </div>
+            <div class="col-span-2 lg:col-span-1 flex flex-col items-start">
+                <h4 class="font-bold text-sm sm:text-base mb-4 uppercase tracking-wider" style="color:#b5826a">Contact</h4>
+                <div class="grid grid-cols-1 gap-4 w-full">
+                    <div class="flex items-start gap-2 text-gray-400 text-xs sm:text-sm">
+                        <i data-lucide="map-pin" class="w-4 h-4 shrink-0 mt-0.5" style="color:#b5826a"></i>
+                        <span>Indiranagar, Bangalore, India</span>
+                    </div>
+                    <div class="flex items-start gap-2 text-gray-400 text-xs sm:text-sm">
+                        <i data-lucide="mail" class="w-4 h-4 shrink-0 mt-0.5" style="color:#b5826a"></i>
+                        <a href="mailto:hello@luxeevents.in" class="hover:text-white">hello@luxeevents.in</a>
+                    </div>
+                    <div class="flex items-start gap-2 text-gray-400 text-xs sm:text-sm">
+                        <i data-lucide="phone" class="w-4 h-4 shrink-0 mt-0.5" style="color:#b5826a"></i>
+                        <a href="tel:+11111111113333" class="hover:text-white">+11 111111113333</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pt-6 border-t border-gray-800 flex flex-row justify-between items-center text-gray-500 text-[10px] sm:text-xs">
+            <p>© 2026 LuxeEvents Studio. All rights reserved.</p>
+            <div class="flex gap-3"><a href="#" class="hover:text-white">Privacy</a><a href="#" class="hover:text-white">Terms</a></div>
+            <div class="hidden sm:flex items-center gap-1"><i class="fas fa-heart text-xs" style="color:#b5826a"></i><span class="text-[10px]">Made with love</span></div>
+        </div>
+    </div>
+</footer>
+
+<!-- ══════════════════ SUCCESS TOAST ══════════════════ -->
+<div id="successToast">
+    <i class="fas fa-check-circle text-xl"></i>
+    <span>Message sent! We'll reply within 24 hours. 💌</span>
+</div>
+
+<!-- ══════════════════ LUCIDE + MAIN JS (end of body) ══════════════════ -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script>
+    /* ── Apply theme to body (body now exists) ── */
+    if(localStorage.getItem('theme')==='dark'){
+        document.documentElement.classList.add('dark');
+        document.body.classList.add('dark');
+    }
+
+    /* ── Lucide icons ── */
+    lucide.createIcons();
+
+    /* ── Navbar scroll ── */
+    var _nb = document.getElementById('navbar');
+    if(_nb) window.addEventListener('scroll', function(){
+        _nb.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    /* ── Scroll-reveal ── */
+    var _ro = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('active'); });
+    },{threshold:0.1});
+    document.querySelectorAll('.reveal').forEach(function(r){ _ro.observe(r); });
+
+    /* ── Dropdown outside click ── */
+    window.addEventListener('click', function(e){
+        if(!e.target.closest('.dropdown-group'))
+            document.querySelectorAll('.dropdown-menu').forEach(function(d){
+                d.style.opacity='0'; d.style.visibility='hidden';
+            });
+    });
+
+    /* ── Escape key ── */
+    document.addEventListener('keydown', function(e){
+        if(e.key==='Escape') closeMobileMenu();
+    });
+
+    /* ── Real function implementations ── */
+    function toggleMobileMenu(){
+        var m=document.getElementById('mobileMenu');
+        if(!m) return;
+        m.classList.toggle('open');
+        document.body.classList.toggle('menu-open');
+        setTimeout(function(){ lucide.createIcons(); },100);
+    }
+    function closeMobileMenu(){
+        var m=document.getElementById('mobileMenu');
+        if(!m) return;
+        m.classList.remove('open');
+        document.body.classList.remove('menu-open');
+        setTimeout(function(){ lucide.createIcons(); },100);
+    }
+    function toggleMobileSubmenu(id){
+        var sub=document.getElementById(id);
+        if(!sub) return;
+        var btn=sub.previousElementSibling;
+        var icon=btn ? btn.querySelector('i:last-child') : null;
+        document.querySelectorAll('.mobile-submenu').forEach(function(m){
+            if(m.id!==id && m.classList.contains('open')){
+                m.classList.remove('open');
+                var pb=m.previousElementSibling;
+                var pi=pb ? pb.querySelector('i:last-child') : null;
+                if(pi) pi.style.transform='rotate(0deg)';
+            }
+        });
+        sub.classList.toggle('open');
+        if(icon) icon.style.transform=sub.classList.contains('open')?'rotate(180deg)':'rotate(0deg)';
+        setTimeout(function(){ lucide.createIcons(); },10);
+    }
+    function toggleTheme(){
+        document.documentElement.classList.toggle('dark');
+        document.body.classList.toggle('dark');
+        localStorage.setItem('theme', document.documentElement.classList.contains('dark')?'dark':'light');
+        setTimeout(function(){ lucide.createIcons(); },10);
+    }
+    function toggleDirection(){
+        var html=document.documentElement;
+        html.dir = html.dir==='rtl' ? 'ltr' : 'rtl';
+        setTimeout(function(){ lucide.createIcons(); },10);
+    }
+
+    /* ── Contact form submit ── */
+    var _cf = document.getElementById('contactForm');
+    if(_cf){
+        _cf.addEventListener('submit', function(e){
+            e.preventDefault();
+            var toast = document.getElementById('successToast');
+            if(toast){ toast.classList.add('show'); setTimeout(function(){ toast.classList.remove('show'); },5000); }
+            this.reset();
+        });
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>LuxeEvents – Home 2 | High-End Event Planning & Styling Studio</title>
+    <link rel="icon" type="image/png" href="img/groww-prak-logo.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#b5826a',
+                        secondary: '#7c5c8a',
+                        gold: '#c9a96e',
+                        blush: '#f2e0d8',
+                        plum: '#4a2c40',
+                        darkBg: '#1a0f14'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                        cormorant: ['Cormorant Garamond', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* RESET */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --rose: #b5826a;
+            --plum: #7c5c8a;
+            --gold: #c9a96e;
+            --deep: #4a2c40;
+            --blush: #f9ede6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body.light {
+            background: linear-gradient(135deg, #fdf6f0 0%, #f5ece8 100%);
+        }
+
+        body.dark {
+            background: linear-gradient(135deg, #1a0f14 0%, #2d1a23 100%);
+        }
+
+        body.menu-open {
+            overflow: hidden;
+        }
+
+        /* MAIN CONTENT WRAPPER */
+        .main-content {
+            flex: 1 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            margin-top: 80px; /* Space for fixed navbar */
+        }
+
+        /* Ensure all sections are visible */
+        section {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            min-height: auto;
+        }
+
+        /* Fix for hero section */
+        #home {
+            min-height: 100vh;
+            margin-top: -80px; /* Offset for navbar */
+            padding-top: 80px;
+        }
+
+        /* Force visibility for all content sections */
+        .bg-white, 
+        .bg-gray-100, 
+        .bg-gray-900,
+        .glass-card,
+        .feat-card,
+        .sol-card {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        /* Fix for reveal animations */
+        .reveal {
+            opacity: 1 !important; /* Override initial hidden state */
+            transform: translateY(0) !important;
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* SERIF HELPER */
+        .serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(255, 248, 244, 0.96);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(181, 130, 106, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .dark .navbar {
+            background: rgba(26, 15, 20, 0.96);
+            border-color: rgba(181, 130, 106, 0.3);
+            box-shadow: 0 10px 30px -10px rgba(181, 130, 106, 0.2);
+        }
+
+        .navbar.scrolled {
+            box-shadow: 0 5px 30px rgba(181, 130, 106, 0.2);
+        }
+
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, #b5826a, #7c5c8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+        }
+
+        .dark .logo-text {
+            background: linear-gradient(135deg, #d4a58a, #a87ab8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Nav links */
+        .nav-link {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 40px;
+            color: #3d2010;
+            letter-spacing: 0.3px;
+            transition: all 0.3s ease;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .dark .nav-link {
+            color: #f0ddd4;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: linear-gradient(135deg, #b5826a, #7c5c8a);
+            color: white !important;
+            box-shadow: 0 5px 15px rgba(181, 130, 106, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .nav-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover i,
+        .nav-link.active i {
+            color: white;
+            transform: rotate(180deg);
+        }
+
+        /* Dropdown */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            margin-top: 15px;
+            min-width: 220px;
+            background: white;
+            border-radius: 24px;
+            padding: 12px;
+            box-shadow: 0 20px 40px -10px rgba(181, 130, 106, 0.3);
+            border: 1px solid rgba(181, 130, 106, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .dark .dropdown-menu {
+            background: #2d1a23;
+            border-color: rgba(181, 130, 106, 0.3);
+        }
+
+        .dropdown-group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 16px;
+            color: #3d2010;
+            font-weight: 500;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .dark .dropdown-item {
+            color: #f0ddd4;
+        }
+
+        .dropdown-item:hover {
+            background: linear-gradient(135deg, #b5826a, #7c5c8a);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .dropdown-item.active {
+            background: linear-gradient(135deg, #b5826a, #7c5c8a);
+            color: white;
+        }
+
+        /* Mobile menu */
+        #mobileMenu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255, 248, 244, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .dark #mobileMenu {
+            background: rgba(26, 15, 20, 0.98);
+        }
+
+        #mobileMenu.open {
+            transform: translateX(0);
+        }
+
+        .mobile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, rgba(181, 130, 106, 0.1), rgba(124, 92, 138, 0.1));
+            border-radius: 30px;
+        }
+
+        .close-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #b5826a, #7c5c8a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            color: white;
+            border: none;
+            box-shadow: 0 5px 15px rgba(181, 130, 106, 0.4);
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg) scale(1.1);
+        }
+
+        .mobile-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            margin: 8px 0;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 15px;
+            color: #3d2010;
+            background: white;
+            border: 1px solid rgba(181, 130, 106, 0.2);
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(181, 130, 106, 0.1);
+            text-decoration: none;
+        }
+
+        .dark .mobile-link {
+            color: #f0ddd4;
+            background: rgba(181, 130, 106, 0.1);
+            border-color: rgba(181, 130, 106, 0.2);
+        }
+
+        .mobile-link:hover,
+        .mobile-link.active {
+            background: linear-gradient(135deg, #b5826a, #7c5c8a);
+            color: white !important;
+            transform: translateX(10px);
+            border-color: transparent;
+        }
+
+        .mobile-submenu {
+            margin-left: 20px;
+            padding-left: 20px;
+            border-left: 2px solid #b5826a;
+            display: none;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .mobile-submenu.open {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        .mobile-submenu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border-radius: 16px;
+            color: #3d2010;
+            font-weight: 500;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            background: white;
+            border: 1px solid rgba(181, 130, 106, 0.2);
+        }
+
+        .dark .mobile-submenu a {
+            color: #f0ddd4;
+            background: rgba(181, 130, 106, 0.1);
+        }
+
+        .mobile-submenu a:hover {
+            background: linear-gradient(135deg, #b5826a, #7c5c8a);
+            color: white;
+            transform: translateX(10px);
+            border-color: transparent;
+        }
+
+        .action-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 45px;
+            background: linear-gradient(135deg, #b5826a, #7c5c8a);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 5px 15px rgba(181, 130, 106, 0.3);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(181, 130, 106, 0.5);
+        }
+
+        .settings-section {
+            background: linear-gradient(135deg, rgba(181, 130, 106, 0.1), rgba(124, 92, 138, 0.1));
+            border: 2px solid rgba(181, 130, 106, 0.3);
+            border-radius: 30px;
+            padding: 24px;
+            margin-top: 30px;
+        }
+
+        .settings-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+        }
+
+        .settings-label {
+            font-weight: 600;
+            color: #3d2010;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dark .settings-label {
+            color: #f0ddd4;
+        }
+
+        /* Responsive */
+        @media (max-width:1024px) {
+            .desktop-menu {
+                display: none !important;
+            }
+
+            .desktop-auth {
+                display: none !important;
+            }
+
+            .mobile-toggle {
+                display: flex !important;
+            }
+        }
+
+        @media (min-width:1025px) {
+            .mobile-toggle {
+                display: none !important;
+            }
+
+            .desktop-menu {
+                display: flex !important;
+            }
+
+            .desktop-auth {
+                display: block !important;
+            }
+        }
+
+        @media (min-width:1024px) and (max-width:1366px) and (orientation:portrait) {
+            .desktop-menu {
+                display: none !important;
+            }
+
+            .desktop-auth {
+                display: none !important;
+            }
+
+            .mobile-toggle {
+                display: flex !important;
+            }
+        }
+
+        /* GRADIENT TEXT */
+        .gradient-text {
+            background: linear-gradient(135deg, #b5826a, #7c5c8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* FLOAT ANIMATION */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* GLASS CARD */
+        .glass-card {
+            background: rgba(74, 44, 64, 0.55);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(201, 169, 110, 0.25);
+        }
+
+        /* HOVER CARD */
+        .hover-card {
+            transition: all 0.3s ease;
+        }
+
+        .hover-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px -8px rgba(181, 130, 106, 0.35);
+            border-color: #b5826a !important;
+        }
+
+        /* FEATURE CARD */
+        .feat-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .feat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -10px rgba(181, 130, 106, 0.4);
+            border-color: #b5826a !important;
+        }
+
+        .feat-card:hover .feat-icon {
+            background: linear-gradient(135deg, #b5826a, #7c5c8a) !important;
+            transform: scale(1.1);
+        }
+
+        .feat-card:hover .feat-icon i {
+            color: white !important;
+        }
+
+        .feat-icon {
+            transition: all 0.3s ease;
+        }
+
+        /* HERO PATTERN */
+        .hero-pattern {
+            background-image: radial-gradient(circle at 30% 50%, rgba(181, 130, 106, 0.15) 0%, transparent 55%), radial-gradient(circle at 80% 20%, rgba(124, 92, 138, 0.12) 0%, transparent 45%);
+        }
+
+        /* SOLUTION CARD */
+        .sol-card {
+            transition: all 0.3s ease;
+        }
+
+        .sol-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(181, 130, 106, 0.25);
+            border-color: #b5826a !important;
+        }
+
+        .sol-card:hover .sol-icon {
+            background: linear-gradient(135deg, rgba(181, 130, 106, 0.2), rgba(124, 92, 138, 0.2)) !important;
+        }
+
+        .sol-card:hover .sol-link {
+            gap: 8px;
+        }
+
+        /* BTN PRIMARY */
+        .btn-primary {
+            background: linear-gradient(135deg, #b5826a, #7c5c8a);
+            color: white;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 10px 25px rgba(181, 130, 106, 0.5);
+            transform: translateY(-2px) scale(1.03);
+        }
+
+        .btn-outline {
+            border: 2px solid #b5826a;
+            color: #b5826a;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dark .btn-outline {
+            color: #d4a58a;
+            border-color: #d4a58a;
+        }
+
+        .btn-outline:hover {
+            background: linear-gradient(135deg, #b5826a, #7c5c8a);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+
+        /* CHECK ICON */
+        .check-rose {
+            color: #b5826a;
+        }
+
+        /* SCROLL BAR */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #b5826a;
+            border-radius: 3px;
+        }
+
+        /* Responsive text */
+        @media (max-width:640px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        footer .flex-col {
+            align-items: flex-start;
+        }
+
+        @media (max-width:639px) {
+            footer h4 {
+                font-size: 0.8rem;
+                margin-bottom: 0.75rem;
+            }
+
+            footer p,
+            footer li {
+                font-size: 0.75rem;
+            }
+        }
+
+        footer a {
+            transition: all 0.2s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="light font-inter">
+    <!-- NAVBAR -->
+    <nav class="navbar" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 py-2">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-gem text-xl" style="color:#b5826a"></i>
+                    <span class="logo-text">LuxeEvents</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="desktop-menu items-center gap-1">
+                    <div class="dropdown-group relative">
+                        <button class="nav-link active">Home <i data-lucide="chevron-down" class="w-4 h-4"></i></button>
+                        <div class="dropdown-menu">
+                            <a href="index.html" class="dropdown-item">Home 1</a>
+                            <a href="home2.html" class="dropdown-item active">Home 2</a>
+                        </div>
+                    </div>
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="services.html" class="nav-link">Services</a>
+                    <a href="gallery.html" class="nav-link">Gallery</a>
+                    <a href="booking.html" class="nav-link">Booking</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                    <div class="dropdown-group relative">
+                        <button class="nav-link">Dashboard <i data-lucide="chevron-down" class="w-4 h-4"></i></button>
+                        <div class="dropdown-menu">
+                            <a href="admin.html" class="dropdown-item">Admin Panel</a>
+                            <a href="user.html" class="dropdown-item">Client Dashboard</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Actions -->
+                <div class="flex items-center gap-2">
+                    <div class="desktop-menu flex items-center gap-2">
+                        <button onclick="toggleDirection()" class="action-btn"><i class="fa-solid fa-arrow-right-arrow-left"></i></button>
+                        <button onclick="toggleTheme()" class="action-btn">
+                            <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                            <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                        </button>
+                    </div>
+                    <div class="desktop-auth dropdown-group relative">
+                        <button class="action-btn"><i data-lucide="user" class="w-4 h-4"></i></button>
+                        <div class="dropdown-menu" style="right:0;left:auto;">
+                            <a href="login.html" class="dropdown-item"><i data-lucide="log-in"></i> Login</a>
+                            <a href="signup.html" class="dropdown-item"><i data-lucide="user-plus"></i> Sign Up</a>
+                        </div>
+                    </div>
+                    <button onclick="toggleMobileMenu()" class="mobile-toggle action-btn">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div id="mobileMenu">
+        <div class="mobile-header">
+            <a href="index.html" class="logo">
+                <i class="fas fa-gem text-xl" style="color:#b5826a"></i>
+                <span class="logo-text">LuxeEvents</span>
+            </a>
+            <button onclick="toggleMobileMenu()" class="close-btn"><i data-lucide="x" class="w-6 h-6"></i></button>
+        </div>
+        <div class="px-4">
+            <button onclick="toggleMobileSubmenu('mobileHomeSub')" class="mobile-link active">
+                <span>HOME</span>
+                <i data-lucide="chevron-down" class="w-5 h-5 transition-transform" id="homeSubIcon"></i>
+            </button>
+            <div id="mobileHomeSub" class="mobile-submenu open">
+                <a href="index.html" onclick="closeMobileMenu()">HOME 1</a>
+                <a href="home2.html" onclick="closeMobileMenu()" class="active">HOME 2</a>
+            </div>
+
+            <a href="about.html" class="mobile-link" onclick="closeMobileMenu()"><span>ABOUT</span><i data-lucide="arrow-right" class="w-5 h-5"></i></a>
+            <a href="services.html" class="mobile-link" onclick="closeMobileMenu()"><span>SERVICES</span><i data-lucide="arrow-right" class="w-5 h-5"></i></a>
+            <a href="gallery.html" class="mobile-link" onclick="closeMobileMenu()"><span>GALLERY</span><i data-lucide="arrow-right" class="w-5 h-5"></i></a>
+            <a href="booking.html" class="mobile-link" onclick="closeMobileMenu()"><span>BOOKING</span><i data-lucide="arrow-right" class="w-5 h-5"></i></a>
+            <a href="contact.html" class="mobile-link" onclick="closeMobileMenu()"><span>CONTACT</span><i data-lucide="arrow-right" class="w-5 h-5"></i></a>
+
+            <button onclick="toggleMobileSubmenu('mobileDashSub')" class="mobile-link">
+                <span>CLIENT DASHBOARD</span>
+                <i data-lucide="chevron-down" class="w-5 h-5" id="dashSubIcon"></i>
+            </button>
+            <div id="mobileDashSub" class="mobile-submenu">
+                <a href="admin.html" onclick="closeMobileMenu()">ADMIN</a>
+                <a href="user.html" onclick="closeMobileMenu()">CLIENT</a>
+            </div>
+
+            <button onclick="toggleMobileSubmenu('mobileAuthSub')" class="mobile-link">
+                <span><i data-lucide="log-in" class="w-5 h-5 inline mr-2"></i>ACCOUNT</span>
+                <i data-lucide="chevron-down" class="w-5 h-5" id="authSubIcon"></i>
+            </button>
+            <div id="mobileAuthSub" class="mobile-submenu">
+                <a href="login.html" onclick="closeMobileMenu()"><i data-lucide="log-in"></i>LOGIN</a>
+                <a href="signup.html" onclick="closeMobileMenu()"><i data-lucide="user-plus"></i>SIGN UP</a>
+            </div>
+
+            <div class="settings-section">
+                <div class="settings-item">
+                    <span class="settings-label"><i class="fa-solid fa-arrow-right-arrow-left" style="color:#b5826a"></i>DIRECTION</span>
+                    <button onclick="toggleDirection()" class="action-btn"><i class="fa-solid fa-left-right"></i></button>
+                </div>
+                <div class="settings-item">
+                    <span class="settings-label"><i data-lucide="moon" class="w-5 h-5"></i>THEME</span>
+                    <button onclick="toggleTheme()" class="action-btn">
+                        <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                        <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <div class="main-content">
+        <!-- HERO SECTION -->
+        <section id="home" class="relative min-h-screen flex items-center overflow-hidden">
+            <!-- Background image -->
+            <div class="absolute inset-0">
+                <img src="img/home2-1.jpg" alt="Luxury wedding venue" class="w-full h-full object-cover">
+                <div class="absolute inset-0" style="background:linear-gradient(135deg,rgba(74,44,64,0.88) 0%,rgba(26,15,20,0.82) 100%)"></div>
+            </div>
+
+            <!-- Animated blobs -->
+            <div class="absolute inset-0 hero-pattern pointer-events-none"></div>
+            <div class="absolute inset-0 opacity-20 pointer-events-none">
+                <div class="absolute top-24 left-12 w-80 h-80 rounded-full filter blur-3xl animate-pulse" style="background:#b5826a"></div>
+                <div class="absolute bottom-24 right-12 w-96 h-96 rounded-full filter blur-3xl animate-pulse" style="background:#7c5c8a;animation-delay:1.5s"></div>
+            </div>
+
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full z-10">
+                <div class="max-w-4xl mx-auto text-center reveal active">
+                
+
+                    <!-- Headline -->
+                    <h1 class="serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
+                        <span class="block">Where Every Detail</span>
+                        <span class="block" style="background:linear-gradient(135deg,#c9a96e,#b5826a,#d4a58a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Tells Your Story</span>
+                    </h1>
+
+                    <p class="text-base sm:text-lg md:text-xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
+                        LuxeEvents is India's premier event planning and styling studio — orchestrating weddings, galas, and intimate celebrations with artistry, elegance, and flawless execution.
+                    </p>
+
+                    <!-- CTA Buttons -->
+                    <div class="flex flex-wrap gap-4 justify-center mb-14">
+                        <a href="contact.html" class="btn-primary px-7 sm:px-10 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base shadow-lg">
+                            <i class="fas fa-calendar-check"></i> Book a Consultation
+                        </a>
+                        <a href="gallery.html" class="btn-outline px-7 sm:px-10 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base border-2" style="border-color:#c9a96e;color:#c9a96e;">
+                            <i class="fas fa-images"></i> Explore Portfolio
+                        </a>
+                    </div>
+
+                    
+                </div>
+            </div>
+        </section>
+
+        <!-- ACHIEVEMENTS / GLASS CARDS -->
+        <section class="py-12 sm:py-16 bg-white dark:bg-gray-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                    <div class="glass-card p-5 sm:p-7 rounded-2xl text-center hover-card border border-transparent">
+                        <i class="fas fa-award text-3xl sm:text-4xl mb-3" style="color:#c9a96e"></i>
+                        <h3 class="serif text-2xl sm:text-3xl font-bold text-white">15+</h3>
+                        <p class="text-xs sm:text-sm text-gray-300 mt-1">Industry Awards</p>
+                    </div>
+
+                    <div class="glass-card p-5 sm:p-7 rounded-2xl text-center hover-card border border-transparent">
+                        <i class="fas fa-heart text-3xl sm:text-4xl mb-3" style="color:#b5826a"></i>
+                        <h3 class="serif text-2xl sm:text-3xl font-bold text-white">2,500+</h3>
+                        <p class="text-xs sm:text-sm text-gray-300 mt-1">Happy Clients</p>
+                    </div>
+
+                    <div class="glass-card p-5 sm:p-7 rounded-2xl text-center hover-card border border-transparent">
+                        <i class="fas fa-star text-3xl sm:text-4xl mb-3" style="color:#c9a96e"></i>
+                        <h3 class="serif text-2xl sm:text-3xl font-bold text-white">500+</h3>
+                        <p class="text-xs sm:text-sm text-gray-300 mt-1">Events Executed</p>
+                    </div>
+
+                    <div class="glass-card p-5 sm:p-7 rounded-2xl text-center hover-card border border-transparent">
+                        <i class="fas fa-map-marker-alt text-3xl sm:text-4xl mb-3" style="color:#b5826a"></i>
+                        <h3 class="serif text-2xl sm:text-3xl font-bold text-white">12+</h3>
+                        <p class="text-xs sm:text-sm text-gray-300 mt-1">Cities Served</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SIGNATURE SERVICES -->
+        <section id="services" class="py-16 sm:py-20 lg:py-24 bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Header -->
+                <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+                    <span class="inline-block font-semibold tracking-widest text-sm sm:text-base uppercase mb-3" style="color:#b5826a">Signature Services</span>
+                    <h2 class="serif text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                        Everything You Need for a <span class="gradient-text">Flawless Event</span>
+                    </h2>
+                    <p class="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                        From first consultation to final petal drop — our studio handles every element with passion and precision.
+                    </p>
+                </div>
+
+                <!-- Feature Cards Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
+                    <!-- Card 1: Wedding Planning -->
+                    <div class="feat-card bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
+                        <div class="feat-icon w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-5 sm:mb-6" style="background:rgba(181,130,106,0.12)">
+                            <i class="fas fa-ring text-2xl sm:text-3xl" style="color:#b5826a"></i>
+                        </div>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-3">Wedding Planning</h3>
+                        <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-5">Full-service wedding orchestration — from venue scouting and décor to vendor management and day-of coordination.</p>
+                        <ul class="space-y-2 sm:space-y-3">
+                            <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-check-circle check-rose text-sm"></i> Bespoke venue curation
+                            </li>
+                            <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-check-circle check-rose text-sm"></i> Floral design & installation
+                            </li>
+                            <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-check-circle check-rose text-sm"></i> Ceremony & reception styling
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Card 2: Luxury Styling -->
+                    <div class="feat-card bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
+                        <div class="feat-icon w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-5 sm:mb-6" style="background:rgba(124,92,138,0.12)">
+                            <i class="fas fa-palette text-2xl sm:text-3xl" style="color:#7c5c8a"></i>
+                        </div>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-3">Luxury Styling</h3>
+                        <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-5">Transform any space into a breathtaking masterpiece with our signature tablescapes, draping, and ambient lighting design.</p>
+                        <ul class="space-y-2 sm:space-y-3">
+                            <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-check-circle check-rose text-sm"></i> Mood board & concept design
+                            </li>
+                            <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-check-circle check-rose text-sm"></i> Tableware & linen curation
+                            </li>
+                            <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-check-circle check-rose text-sm"></i> Dramatic floral arches & walls
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Card 3: Corporate Galas -->
+                    <div class="feat-card bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
+                        <div class="feat-icon w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-5 sm:mb-6" style="background:rgba(201,169,110,0.12)">
+                            <i class="fas fa-building text-2xl sm:text-3xl" style="color:#c9a96e"></i>
+                        </div>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-3">Corporate Galas</h3>
+                        <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-5">Sophisticated corporate events that impress clients, energise teams, and elevate your brand identity.</p>
+                        <ul class="space-y-2 sm:space-y-3">
+                            <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-check-circle check-rose text-sm"></i> Brand-aligned décor themes
+                            </li>
+                            <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-check-circle check-rose text-sm"></i> AV & production management
+                            </li>
+                            <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-check-circle check-rose text-sm"></i> Catering coordination
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Card 4: Private Celebrations -->
+                    <div class="feat-card bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
+                        <div class="feat-icon w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-5 sm:mb-6" style="background:rgba(181,130,106,0.12)">
+                            <i class="fas fa-gift text-2xl sm:text-3xl" style="color:#b5826a"></i>
+                        </div>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-3">Private Celebrations</h3>
+                        <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-5">Intimate milestones deserve grand moments — birthdays, anniversaries, baby showers, and more crafted with personal flair.</p>
+                        <ul class="space-y-2 sm:space-y-3">
+                            <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-check-circle check-rose text-sm"></i> Fully personalised themes
+                            </li>
+                            <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-check-circle check-rose text-sm"></i> Custom cake & dessert bars
+                            </li>
+                            <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-check-circle check-rose text-sm"></i> Surprise planning & execution
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Card 5: Styled Shoots & Content -->
+                    <div class="feat-card bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
+                        <div class="feat-icon w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-5 sm:mb-6" style="background:rgba(124,92,138,0.12)">
+                            <i class="fas fa-camera-retro text-2xl sm:text-3xl" style="color:#7c5c8a"></i>
+                        </div>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-3">Styled Shoots & Content</h3>
+                        <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-5">Editorial-quality styled shoots and social-ready content that showcase your event at its most beautiful.</p>
+                        <ul class="space-y-2 sm:space-y-3">
+                            <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-check-circle check-rose text-sm"></i> Professional photography direction
+                            </li>
+                            <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-check-circle check-rose text-sm"></i> Brand & PR content creation
+                            </li>
+                            <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-check-circle check-rose text-sm"></i> Reel & short-form video styling
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Card 6: White-Glove Concierge -->
+                    <div class="feat-card bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
+                        <div class="feat-icon w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center mb-5 sm:mb-6" style="background:rgba(201,169,110,0.12)">
+                            <i class="fas fa-headset text-2xl sm:text-3xl" style="color:#c9a96e"></i>
+                        </div>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-3">White-Glove Concierge</h3>
+                        <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-5">Your personal planner is available round the clock — handling every request from travel arrangements to last-minute surprises.</p>
+                        <ul class="space-y-2 sm:space-y-3">
+                            <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-check-circle check-rose text-sm"></i> Dedicated personal planner
+                            </li>
+                            <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-check-circle check-rose text-sm"></i> 24/7 WhatsApp & call support
+                            </li>
+                            <li class="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                                <i class="fas fa-check-circle check-rose text-sm"></i> Post-event wrap-up service
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Bottom CTA -->
+                <div class="text-center mt-12 sm:mt-16">
+                    <a href="services.html" class="btn-primary px-8 py-4 rounded-xl text-sm sm:text-base font-semibold shadow-lg">
+                        View All Services <i class="fas fa-arrow-right text-sm ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- EVENT TYPES -->
+        <section id="event-types" class="py-16 sm:py-20 lg:py-24 bg-white dark:bg-gray-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Header -->
+                <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+                    <span class="inline-block font-semibold tracking-widest text-sm sm:text-base uppercase mb-3" style="color:#b5826a">Event Types</span>
+                    <h2 class="serif text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                        Tailored for <span class="gradient-text">Every Occasion</span>
+                    </h2>
+                    <p class="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                        Specialised styling and planning for every type of celebration — from intimate to grand.
+                    </p>
+                </div>
+
+                <!-- 4-col grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-8">
+                    <!-- Weddings -->
+                    <div class="sol-card group bg-gray-50 dark:bg-gray-800 p-6 sm:p-8 rounded-2xl text-center border border-gray-200 dark:border-gray-700">
+                        <div class="sol-icon w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-5 sm:mb-6 transition-all" style="background:rgba(181,130,106,0.1)">
+                            <i class="fas fa-ring text-2xl sm:text-3xl" style="color:#b5826a"></i>
+                        </div>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-2">Weddings</h3>
+                        <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4">South Indian, Destination, Minimalist & Fairytale weddings — we do them all.</p>
+                        <a href="services.html" class="sol-link inline-flex items-center text-sm sm:text-base font-semibold transition-all" style="color:#b5826a">
+                            Explore <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                        </a>
+                    </div>
+
+                    <!-- Engagements -->
+                    <div class="sol-card group bg-gray-50 dark:bg-gray-800 p-6 sm:p-8 rounded-2xl text-center border border-gray-200 dark:border-gray-700">
+                        <div class="sol-icon w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-5 sm:mb-6 transition-all" style="background:rgba(124,92,138,0.1)">
+                            <i class="fas fa-heart text-2xl sm:text-3xl" style="color:#7c5c8a"></i>
+                        </div>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-2">Engagements</h3>
+                        <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4">Romantic proposals, roka ceremonies, and engagement parties styled to perfection.</p>
+                        <a href="services.html" class="sol-link inline-flex items-center text-sm sm:text-base font-semibold transition-all" style="color:#7c5c8a">
+                            Explore <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                        </a>
+                    </div>
+
+                    <!-- Corporates -->
+                    <div class="sol-card group bg-gray-50 dark:bg-gray-800 p-6 sm:p-8 rounded-2xl text-center border border-gray-200 dark:border-gray-700">
+                        <div class="sol-icon w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-5 sm:mb-6 transition-all" style="background:rgba(201,169,110,0.1)">
+                            <i class="fas fa-briefcase text-2xl sm:text-3xl" style="color:#c9a96e"></i>
+                        </div>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-2">Corporate</h3>
+                        <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4">Product launches, award nights, brand activations, and leadership summits.</p>
+                        <a href="services.html" class="sol-link inline-flex items-center text-sm sm:text-base font-semibold transition-all" style="color:#c9a96e">
+                            Explore <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                        </a>
+                    </div>
+
+                    <!-- Birthdays -->
+                    <div class="sol-card group bg-gray-50 dark:bg-gray-800 p-6 sm:p-8 rounded-2xl text-center border border-gray-200 dark:border-gray-700">
+                        <div class="sol-icon w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-5 sm:mb-6 transition-all" style="background:rgba(181,130,106,0.1)">
+                            <i class="fas fa-birthday-cake text-2xl sm:text-3xl" style="color:#b5826a"></i>
+                        </div>
+                        <h3 class="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-2">Celebrations</h3>
+                        <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4">Milestone birthdays, baby showers, reunions, and festive celebrations done right.</p>
+                        <a href="services.html" class="sol-link inline-flex items-center text-sm sm:text-base font-semibold transition-all" style="color:#b5826a">
+                            Explore <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="text-center mt-12 sm:mt-16">
+                    <a href="services.html" class="btn-primary px-8 py-4 rounded-xl text-sm sm:text-base font-semibold">
+                        View All Event Types <i class="fas fa-arrow-right text-sm ml-1"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="about" class="py-16 sm:py-20 lg:py-24 bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Header -->
+                <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+                    <h2 class="serif text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                        Curating <span class="gradient-text">Timeless Moments</span><br>Since 2012
+                    </h2>
+                    <p class="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                        We are a studio of dreamers, designers, and detail-obsessed planners who believe every event should feel like a work of art.
+                    </p>
+                </div>
+
+                <!-- Main Grid – Content Left · Image Right -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
+                    <!-- Left – content card -->
+                    <div class="space-y-6 sm:space-y-8 order-2 lg:order-1">
+                        <div class="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-xl">
+                            <span class="font-semibold tracking-wider text-sm flex items-center gap-2 mb-4" style="color:#b5826a">
+                                <i class="fas fa-gem"></i> Our Story
+                            </span>
+                            <h3 class="serif text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                                Born from a Passion for <span class="gradient-text">Beautiful Celebrations</span>
+                            </h3>
+                            <p class="text-sm sm:text-base text-gray-700 dark:text-gray-400 mb-6 leading-relaxed">
+                                Founded in Bangalore in 2012, LuxeEvents began as a boutique styling studio and has grown into India's most trusted event planning brand. Over 500 events, 12 years, and countless tears of joy later — we still treat every event as our first.
+                            </p>
+
+                            <!-- Feature list -->
+                            <div class="space-y-4 mb-6">
+                                <div class="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+                                    <div class="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style="background:rgba(181,130,106,0.15)">
+                                        <i class="fas fa-check text-xs" style="color:#b5826a"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm sm:text-base text-gray-900 dark:text-white font-bold">Artistry-First Approach</p>
+                                        <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">Every design is a handcrafted, one-of-a-kind creation tailored to you</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+                                    <div class="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style="background:rgba(181,130,106,0.15)">
+                                        <i class="fas fa-check text-xs" style="color:#b5826a"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm sm:text-base text-gray-900 dark:text-white font-bold">Trusted Vendor Network</p>
+                                        <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">30+ curated partners — florists, caterers, photographers, and more</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+                                    <div class="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style="background:rgba(181,130,106,0.15)">
+                                        <i class="fas fa-check text-xs" style="color:#b5826a"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm sm:text-base text-gray-900 dark:text-white font-bold">Transparent & On-Budget</p>
+                                        <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">No hidden costs, clear timelines, and honest communication always</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- CTAs -->
+                            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                                <a href="about.html" class="btn-primary px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-sm sm:text-base font-semibold justify-center">
+                                    <i class="fas fa-scroll"></i> Read Our Story <i class="fas fa-arrow-right text-xs ml-1"></i>
+                                </a>
+                                <a href="contact.html" class="btn-outline px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-sm sm:text-base font-semibold justify-center border-2" style="border-color:#b5826a;color:#b5826a">
+                                    <i class="fas fa-headset"></i> Get in Touch
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right – image card -->
+                    <div class="relative rounded-2xl sm:rounded-3xl overflow-hidden h-72 sm:h-96 lg:h-[500px] shadow-2xl hover:shadow-[0_30px_60px_rgba(181,130,106,0.4)] transition-all duration-500 group order-1 lg:order-2">
+                        <img src="img/home2-2.jpg" alt="Our styling team at work" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/65 via-black/20 to-transparent flex items-end justify-center">
+                            <div class="text-center p-6 sm:p-8 transform group-hover:translate-y-0 translate-y-2 transition-transform duration-300">
+                                <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center mx-auto mb-3 border-2 border-white/40" style="background:rgba(181,130,106,0.3);backdrop-filter:blur(8px)">
+                                    <i class="fas fa-users text-xl sm:text-2xl text-white"></i>
+                                </div>
+                                <p class="text-lg sm:text-2xl font-bold text-white mb-1 serif">Our Studio Team</p>
+                                <p class="text-xs sm:text-sm text-white/75">25+ Creative Professionals</p>
+                            </div>
+                        </div>
+                        <!-- Corner accents -->
+                        <div class="absolute top-4 left-4 w-16 h-16 sm:w-20 sm:h-20 border-t-2 border-l-2 border-white/30 rounded-tl-3xl"></div>
+                        <div class="absolute bottom-4 right-4 w-16 h-16 sm:w-20 sm:h-20 border-b-2 border-r-2 border-white/30 rounded-br-3xl"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA SECTION -->
+        <section id="contact" class="py-14 sm:py-20" style="background:linear-gradient(135deg,#4a2c40,#7c5c8a)">
+            <div class="max-w-4xl mx-auto text-center px-4">
+                <i class="fas fa-gem text-3xl sm:text-5xl mb-4 sm:mb-6" style="color:#c9a96e"></i>
+                <h2 class="serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 sm:mb-4">
+                    Ready to Create Your Perfect Event?
+                </h2>
+                <p class="text-sm sm:text-base lg:text-xl text-purple-200 mb-6 sm:mb-8">
+                    Join 2,500+ happy clients who trusted LuxeEvents with their most precious celebrations
+                </p>
+                <div class="flex flex-wrap gap-3 sm:gap-4 justify-center">
+                    <a href="contact.html" class="btn-primary px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-sm sm:text-base font-bold shadow-xl">
+                        <i class="fas fa-calendar-check"></i> Book a Free Consultation
+                    </a>
+                    <a href="gallery.html" class="border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-sm sm:text-base font-bold hover:bg-white hover:text-[#b5826a] transition-all inline-flex items-center gap-2">
+                        <i class="fas fa-images"></i> See Our Work
+                    </a>
+                </div>
+                <p class="text-purple-300 mt-4 sm:mt-6 text-xs sm:text-sm">✓ No obligations &nbsp;·&nbsp; ✓ Free initial consultation &nbsp;·&nbsp; ✓ Flexible packages for all budgets</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-white pt-10 pb-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 mb-10">
+                <div class="col-span-2 lg:col-span-1 flex flex-col items-start">
+                    <a href="index.html" class="mb-3 flex items-center gap-2">
+                        <i class="fas fa-gem" style="color:#b5826a"></i>
+                        <span class="font-black text-2xl" style="background:linear-gradient(135deg,#d4a58a,#a87ab8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">LuxeEvents</span>
+                    </a>
+                    <p class="text-gray-400 text-xs sm:text-sm mb-4 leading-relaxed text-left max-w-sm">
+                        High-End Event Planning & Styling Studio — where every celebration becomes a timeless memory.
+                    </p>
+                    <div class="flex gap-3">
+                        <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-pink-600 transition-all"><i class="fab fa-instagram text-xs text-white"></i></a>
+                        <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-500 transition-all"><i class="fab fa-pinterest text-xs text-white"></i></a>
+                        <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition-all"><i class="fab fa-facebook-f text-xs text-white"></i></a>
+                        <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition-all"><i class="fab fa-youtube text-xs text-white"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-span-1 flex flex-col items-start">
+                    <h4 class="font-bold text-sm sm:text-base mb-4 uppercase tracking-wider" style="color:#b5826a">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400 text-xs sm:text-sm text-left">
+                        <li><a href="index.html" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="about.html" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="services.html" class="hover:text-white transition-colors">Services</a></li>
+                        <li><a href="gallery.html" class="hover:text-white transition-colors">Gallery</a></li>
+                        <li><a href="booking.html" class="hover:text-white transition-colors">Booking</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-span-1 flex flex-col items-start">
+                    <h4 class="font-bold text-sm sm:text-base mb-4 uppercase tracking-wider" style="color:#b5826a">Services</h4>
+                    <ul class="space-y-2 text-gray-400 text-xs sm:text-sm text-left">
+                        <li><a href="#" class="hover:text-white transition-colors">Wedding Planning</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Luxury Styling</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Corporate Galas</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Private Celebrations</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Floral Design</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-span-2 lg:col-span-1 flex flex-col items-start">
+                    <h4 class="font-bold text-sm sm:text-base mb-4 uppercase tracking-wider" style="color:#b5826a">Contact</h4>
+                    <div class="grid grid-cols-1 gap-4 w-full">
+                        <div class="flex items-start gap-2 text-gray-400 text-xs sm:text-sm">
+                            <i data-lucide="map-pin" class="w-4 h-4 shrink-0 mt-0.5" style="color:#b5826a"></i>
+                            <span>Indiranagar, Bangalore, India</span>
+                        </div>
+                        <div class="flex items-start gap-2 text-gray-400 text-xs sm:text-sm">
+                            <i data-lucide="mail" class="w-4 h-4 shrink-0 mt-0.5" style="color:#b5826a"></i>
+                            <a href="mailto:hello@luxeevents.in" class="hover:text-white">hello@luxeevents.in</a>
+                        </div>
+                        <div class="flex items-start gap-2 text-gray-400 text-xs sm:text-sm">
+                            <i data-lucide="phone" class="w-4 h-4 shrink-0 mt-0.5" style="color:#b5826a"></i>
+                            <a href="tel:+11111111113333" class="hover:text-white">+11 111111113333</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-gray-800 flex flex-row justify-between items-center text-gray-500 text-[10px] sm:text-xs">
+                <p>© 2026 LuxeEvents Studio. All rights reserved.</p>
+                <div class="flex gap-3">
+                    <a href="#" class="hover:text-white">Privacy</a>
+                    <a href="#" class="hover:text-white">Terms</a>
+                </div>
+                <div class="hidden sm:flex items-center gap-1">
+                    <i class="fas fa-heart text-xs" style="color:#b5826a"></i>
+                    <span class="text-[10px]">Made with love</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile menu functions
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('open');
+            document.body.classList.toggle('menu-open');
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        function closeMobileMenu() {
+            document.getElementById('mobileMenu').classList.remove('open');
+            document.body.classList.remove('menu-open');
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        function toggleMobileSubmenu(id) {
+            const sub = document.getElementById(id);
+            const btn = sub.previousElementSibling;
+            const icon = btn.querySelector('i:last-child');
+
+            // Close other submenus
+            document.querySelectorAll('.mobile-submenu').forEach(m => {
+                if (m.id !== id && m.classList.contains('open')) {
+                    m.classList.remove('open');
+                    const pi = m.previousElementSibling.querySelector('i:last-child');
+                    if (pi) pi.style.transform = 'rotate(0deg)';
+                }
+            });
+
+            sub.classList.toggle('open');
+            if (icon) icon.style.transform = sub.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Theme functions
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            document.body.classList.toggle('dark');
+            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Initialize theme from localStorage
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.body.classList.add('dark');
+        }
+
+        // Direction toggle
+        function toggleDirection() {
+            const html = document.documentElement;
+            html.dir = html.dir === 'rtl' ? 'ltr' : 'rtl';
+            setTimeout(() => lucide.createIcons(), 10);
+        }
+
+        // Keyboard escape for mobile menu
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeMobileMenu();
+        });
+
+        // Click outside dropdown
+        window.addEventListener('click', e => {
+            if (!e.target.closest('.dropdown-group')) {
+                document.querySelectorAll('.dropdown-menu').forEach(d => {
+                    d.style.opacity = '0';
+                    d.style.visibility = 'hidden';
+                });
+            }
+        });
+
+        // Reveal on scroll (optional, can be removed if not needed)
+        const reveals = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) e.target.classList.add('active');
+            });
+        }, { threshold: 0.12 });
+
+        reveals.forEach(r => observer.observe(r));
+
+        // Force all sections to be visible
+        document.addEventListener('DOMContentLoaded', () => {
+            // Make sure all sections are visible
+            document.querySelectorAll('section').forEach(section => {
+                section.style.display = 'block';
+                section.style.visibility = 'visible';
+                section.style.opacity = '1';
+            });
+            
+            // Reinitialize icons
+            lucide.createIcons();
+        });
+    </script>
+</body>
+
+</html>

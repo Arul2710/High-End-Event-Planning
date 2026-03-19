@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>LuxeEvents – Gallery | High-End Event Planning & Styling Studio</title>
+    <link rel="icon" type="image/png" href="img/groww-prak-logo.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary:   '#b5826a',
+                        secondary: '#7c5c8a',
+                        gold:      '#c9a96e',
+                        plum:      '#4a2c40',
+                    },
+                    fontFamily: {
+                        inter:     ['Inter','sans-serif'],
+                        cormorant: ['Cormorant Garamond','serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body{
+            font-family:'Inter',sans-serif;
+            overflow-x:hidden;
+            width:100%;
+            min-height:100vh;
+            transition:all .3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        body.light{background:linear-gradient(135deg,#fdf6f0 0%,#f5ece8 100%);}
+        body.dark{background:linear-gradient(135deg,#1a0f14 0%,#2d1a23 100%);}
+        body.menu-open{overflow:hidden;}
+
+        .serif{font-family:'Cormorant Garamond',serif;}
+        .gradient-text{background:linear-gradient(135deg,#b5826a,#7c5c8a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+        /* Main content wrapper for proper spacing */
+        .main-content {
+            margin-top: 80px; /* Height of navbar */
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            flex: 1 0 auto;
+        }
+
+        /* Ensure all sections are visible */
+        section {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* FIXED: REVEAL ANIMATION - Content visible by default */
+        .reveal { 
+            opacity: 1 !important; 
+            transform: translateY(0) !important; 
+            transition: all .75s ease; 
+        }
+
+        /* ── NAVBAR ── */
+        .navbar{
+            position:fixed;
+            top:0;
+            left:0;
+            right:0;
+            z-index:1000;
+            background:rgba(255,248,244,.96);
+            backdrop-filter:blur(20px);
+            border-bottom:1px solid rgba(181,130,106,.25);
+            transition:all .3s ease;
+        }
+        .dark .navbar{
+            background:rgba(26,15,20,.96);
+            border-color:rgba(181,130,106,.3);
+            box-shadow:0 10px 30px -10px rgba(181,130,106,.2);
+        }
+        .navbar.scrolled{box-shadow:0 5px 30px rgba(181,130,106,.2);}
+        .logo{display:flex;align-items:center;gap:8px;transition:all .3s ease;padding:8px 16px;}
+        .logo:hover{transform:scale(1.05);}
+        .logo-text{
+            font-family:'Cormorant Garamond',serif;
+            font-weight:700;
+            font-size:1.6rem;
+            background:linear-gradient(135deg,#b5826a,#7c5c8a);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            letter-spacing:.5px;
+        }
+        .dark .logo-text{background:linear-gradient(135deg,#d4a58a,#a87ab8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+        .nav-link{
+            font-size:14px;
+            font-weight:600;
+            padding:10px 18px;
+            border-radius:40px;
+            color:#3d2010;
+            letter-spacing:.3px;
+            transition:all .3s ease;
+            background:transparent;
+            border:none;
+            cursor:pointer;
+            display:flex;
+            align-items:center;
+            gap:4px;
+        }
+        .dark .nav-link{color:#f0ddd4;}
+        .nav-link:hover,.nav-link.active{
+            background:linear-gradient(135deg,#b5826a,#7c5c8a);
+            color:white!important;
+            box-shadow:0 5px 15px rgba(181,130,106,.4);
+            transform:translateY(-2px);
+        }
+        .nav-link i{transition:transform .3s ease;}
+        .nav-link:hover i,.nav-link.active i{color:white;transform:rotate(180deg);}
+        .dropdown-menu{
+            position:absolute;
+            top:100%;
+            margin-top:15px;
+            min-width:220px;
+            background:white;
+            border-radius:24px;
+            padding:12px;
+            box-shadow:0 20px 40px -10px rgba(181,130,106,.3);
+            border:1px solid rgba(181,130,106,.2);
+            opacity:0;
+            visibility:hidden;
+            transform:translateY(-10px);
+            transition:all .3s ease;
+            z-index:1000;
+        }
+        .dark .dropdown-menu{background:#2d1a23;border-color:rgba(181,130,106,.3);}
+        .dropdown-group:hover .dropdown-menu{opacity:1;visibility:visible;transform:translateY(0);}
+        .dropdown-item{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            padding:12px 16px;
+            border-radius:16px;
+            color:#3d2010;
+            font-weight:500;
+            font-size:13px;
+            transition:all .3s ease;
+            text-decoration:none;
+        }
+        .dark .dropdown-item{color:#f0ddd4;}
+        .dropdown-item:hover{background:linear-gradient(135deg,#b5826a,#7c5c8a);color:white;transform:translateX(5px);}
+        .dropdown-item.active{background:linear-gradient(135deg,#b5826a,#7c5c8a);color:white;}
+
+        /* ── MOBILE MENU ── */
+        #mobileMenu{
+            position:fixed;
+            top:0;
+            left:0;
+            right:0;
+            bottom:0;
+            width:100%;
+            height:100vh;
+            background:rgba(255,248,244,.98);
+            backdrop-filter:blur(20px);
+            z-index:2000;
+            transform:translateX(100%);
+            transition:transform .4s cubic-bezier(.4,0,.2,1);
+            overflow-y:auto;
+            padding:20px;
+        }
+        .dark #mobileMenu{background:rgba(26,15,20,.98);}
+        #mobileMenu.open{transform:translateX(0);}
+        .mobile-header{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:20px;
+            margin-bottom:30px;
+            background:linear-gradient(135deg,rgba(181,130,106,.1),rgba(124,92,138,.1));
+            border-radius:30px;
+        }
+        .close-btn{
+            width:50px;
+            height:50px;
+            border-radius:25px;
+            background:linear-gradient(135deg,#b5826a,#7c5c8a);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            transition:all .3s ease;
+            cursor:pointer;
+            color:white;
+            border:none;
+            box-shadow:0 5px 15px rgba(181,130,106,.4);
+        }
+        .close-btn:hover{transform:rotate(90deg) scale(1.1);}
+        .mobile-link{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:16px 20px;
+            margin:8px 0;
+            border-radius:20px;
+            font-weight:600;
+            font-size:15px;
+            color:#3d2010;
+            background:white;
+            border:1px solid rgba(181,130,106,.2);
+            width:100%;
+            cursor:pointer;
+            transition:all .3s ease;
+            box-shadow:0 2px 10px rgba(181,130,106,.1);
+            text-decoration:none;
+        }
+        .dark .mobile-link{color:#f0ddd4;background:rgba(181,130,106,.1);border-color:rgba(181,130,106,.2);}
+        .mobile-link:hover,.mobile-link.active{
+            background:linear-gradient(135deg,#b5826a,#7c5c8a);
+            color:white!important;
+            transform:translateX(10px);
+            border-color:transparent;
+        }
+        .mobile-submenu{margin-left:20px;padding-left:20px;border-left:2px solid #b5826a;display:none;}
+        @keyframes slideIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+        .mobile-submenu.open{display:block;animation:slideIn .3s ease;}
+        .mobile-submenu a{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            padding:14px 20px;
+            margin:8px 0;
+            border-radius:16px;
+            color:#3d2010;
+            font-weight:500;
+            font-size:14px;
+            text-decoration:none;
+            transition:all .3s ease;
+            background:white;
+            border:1px solid rgba(181,130,106,.2);
+        }
+        .dark .mobile-submenu a{color:#f0ddd4;background:rgba(181,130,106,.1);}
+        .mobile-submenu a:hover{background:linear-gradient(135deg,#b5826a,#7c5c8a);color:white;transform:translateX(10px);border-color:transparent;}
+        .action-btn{
+            width:45px;
+            height:45px;
+            border-radius:45px;
+            background:linear-gradient(135deg,#b5826a,#7c5c8a);
+            transition:all .3s ease;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:white;
+            cursor:pointer;
+            border:none;
+            box-shadow:0 5px 15px rgba(181,130,106,.3);
+        }
+        .action-btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 10px 25px rgba(181,130,106,.5);}
+        .settings-section{
+            background:linear-gradient(135deg,rgba(181,130,106,.1),rgba(124,92,138,.1));
+            border:2px solid rgba(181,130,106,.3);
+            border-radius:30px;
+            padding:24px;
+            margin-top:30px;
+        }
+        .settings-item{display:flex;align-items:center;justify-content:space-between;padding:12px 0;}
+        .settings-label{font-weight:600;color:#3d2010;display:flex;align-items:center;gap:10px;}
+        .dark .settings-label{color:#f0ddd4;}
+        @media(max-width:1024px){.desktop-menu{display:none!important;}.desktop-auth{display:none!important;}.mobile-toggle{display:flex!important;}}
+        @media(min-width:1025px){.mobile-toggle{display:none!important;}.desktop-menu{display:flex!important;}.desktop-auth{display:block!important;}}
+        @media(min-width:1024px) and (max-width:1366px) and (orientation:portrait){.desktop-menu{display:none!important;}.desktop-auth{display:none!important;}.mobile-toggle{display:flex!important;}}
+
+        /* ── BUTTONS ── */
+        .btn-primary{background:linear-gradient(135deg,#b5826a,#7c5c8a);color:white;transition:all .3s ease;display:inline-flex;align-items:center;gap:8px;}
+        .btn-primary:hover{box-shadow:0 10px 28px rgba(181,130,106,.5);transform:translateY(-2px) scale(1.03);}
+
+        /* ── FILTER TABS ── */
+        .filter-btn{padding:10px 22px;border-radius:50px;font-weight:600;font-size:14px;border:2px solid rgba(181,130,106,.3);color:#3d2010;background:white;cursor:pointer;transition:all .3s ease;}
+        .dark .filter-btn{background:#2d1a23;color:#f0ddd4;border-color:rgba(181,130,106,.3);}
+        .filter-btn:hover,.filter-btn.active{background:linear-gradient(135deg,#b5826a,#7c5c8a);color:white;border-color:transparent;box-shadow:0 5px 18px rgba(181,130,106,.4);}
+
+        /* ── GALLERY GRID ── */
+        .gallery-item{position:relative;overflow:hidden;border-radius:16px;cursor:pointer;}
+        .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.4,0,.2,1);}
+        .gallery-item:hover img{transform:scale(1.08);}
+        .gallery-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(74,44,64,.88),rgba(74,44,64,.15),transparent);opacity:0;transition:opacity .4s ease;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;}
+        .gallery-item:hover .gallery-overlay{opacity:1;}
+        .gallery-zoom{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.7);opacity:0;transition:all .35s ease;width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.25);backdrop-filter:blur(8px);border:2px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;}
+        .gallery-item:hover .gallery-zoom{transform:translate(-50%,-50%) scale(1);opacity:1;}
+
+        /* ── HIDDEN FILTER STATE ── */
+        .gallery-item.hidden-item{display:none;}
+
+        /* ── LIGHTBOX ── */
+        #lightbox{position:fixed;inset:0;z-index:9999;background:rgba(26,15,20,.96);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all .35s ease;backdrop-filter:blur(10px);}
+        #lightbox.open{opacity:1;visibility:visible;}
+        #lightbox img{max-width:90vw;max-height:85vh;object-fit:contain;border-radius:12px;box-shadow:0 30px 80px rgba(0,0,0,.6);}
+        .lb-close{position:absolute;top:20px;right:24px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:white;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s ease;}
+        .lb-close:hover{background:linear-gradient(135deg,#b5826a,#7c5c8a);}
+        .lb-prev,.lb-next{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:white;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s ease;}
+        .lb-prev:hover,.lb-next:hover{background:linear-gradient(135deg,#b5826a,#7c5c8a);}
+        .lb-prev{left:20px;} .lb-next{right:20px;}
+        .lb-caption{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);text-align:center;color:white;}
+        .lb-dots{display:flex;gap:6px;justify-content:center;margin-top:6px;}
+        .lb-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35);cursor:pointer;transition:all .3s ease;}
+        .lb-dot.active{background:#c9a96e;transform:scale(1.3);}
+
+        /* ── MASONRY LAYOUT HELPERS ── */
+        .gallery-grid{columns:1;column-gap:16px;}
+        @media(min-width:640px){.gallery-grid{columns:2;}}
+        @media(min-width:1024px){.gallery-grid{columns:3;}}
+        @media(min-width:1280px){.gallery-grid{columns:4;}}
+        .gallery-grid .gallery-item{break-inside:avoid;margin-bottom:16px;display:block;}
+
+        /* ── HERO BG GRID ── */
+        .hero-grid{background-image:linear-gradient(rgba(181,130,106,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(181,130,106,.07) 1px,transparent 1px);background-size:50px 50px;}
+
+        /* ── STAT CARD ── */
+        .stat-card{transition:all .35s ease;}
+        .stat-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(181,130,106,.3);}
+
+        ::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:transparent;} ::-webkit-scrollbar-thumb{background:#b5826a;border-radius:3px;}
+        footer .flex-col{align-items:flex-start;}
+        @media(max-width:639px){footer h4{font-size:.8rem;margin-bottom:.75rem;}footer p,footer li{font-size:.75rem;}}
+        footer a{transition:all .2s ease-in-out;}
+    </style>
+</head>
+<body class="light font-inter">
+
+<!-- ═══════════════════ NAVBAR ═══════════════════ -->
+<nav class="navbar" id="navbar">
+    <div class="max-w-7xl mx-auto px-4 py-2">
+        <div class="flex items-center justify-between">
+            <a href="index.html" class="logo">
+                <i class="fas fa-gem text-xl" style="color:#b5826a"></i>
+                <span class="logo-text">LuxeEvents</span>
+            </a>
+            <div class="desktop-menu items-center gap-1">
+                <div class="dropdown-group relative">
+                    <button class="nav-link">Home <i data-lucide="chevron-down" class="w-4 h-4"></i></button>
+                    <div class="dropdown-menu">
+                        <a href="index.html"  class="dropdown-item">Home 1</a>
+                        <a href="home2.html"  class="dropdown-item">Home 2</a>
+                    </div>
+                </div>
+                <a href="about.html"    class="nav-link">About</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="gallery.html"  class="nav-link active">Gallery</a>
+                <a href="booking.html"    class="nav-link">Booking</a>
+                <a href="contact.html"  class="nav-link">Contact</a>
+                <div class="dropdown-group relative">
+                    <button class="nav-link">Dashboard <i data-lucide="chevron-down" class="w-4 h-4"></i></button>
+                    <div class="dropdown-menu">
+                        <a href="admin.html" class="dropdown-item">Admin Panel</a>
+                        <a href="user.html"  class="dropdown-item">Client Dashboard</a>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <div class="desktop-menu flex items-center gap-2">
+                    <button onclick="toggleDirection()" class="action-btn"><i class="fa-solid fa-arrow-right-arrow-left"></i></button>
+                    <button onclick="toggleTheme()" class="action-btn">
+                        <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                        <i data-lucide="sun"  class="w-4 h-4 hidden dark:block"></i>
+                    </button>
+                </div>
+                <div class="desktop-auth dropdown-group relative">
+                    <button class="action-btn"><i data-lucide="user" class="w-4 h-4"></i></button>
+                    <div class="dropdown-menu" style="right:0;left:auto;">
+                        <a href="login.html"  class="dropdown-item"><i data-lucide="log-in"></i> Login</a>
+                        <a href="signup.html" class="dropdown-item"><i data-lucide="user-plus"></i> Sign Up</a>
+                    </div>
+                </div>
+                <button onclick="toggleMobileMenu()" class="mobile-toggle action-btn">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ═══════════════════ MOBILE MENU ═══════════════════ -->
+<div id="mobileMenu">
+    <div class="mobile-header">
+        <a href="index.html" class="logo">
+            <i class="fas fa-gem text-xl" style="color:#b5826a"></i>
+            <span class="logo-text">LuxeEvents</span>
+        </a>
+        <button onclick="toggleMobileMenu()" class="close-btn"><i data-lucide="x" class="w-6 h-6"></i></button>
+    </div>
+    <div class="px-4">
+        <button onclick="toggleMobileSubmenu('mobileHomeSub')" class="mobile-link">
+            <span>HOME</span><i data-lucide="chevron-down" class="w-5 h-5" id="homeSubIcon"></i>
+        </button>
+        <div id="mobileHomeSub" class="mobile-submenu open">
+            <a href="index.html" onclick="closeMobileMenu()">HOME 1</a>
+            <a href="home2.html" onclick="closeMobileMenu()">HOME 2</a>
+        </div>
+        <a href="about.html"    class="mobile-link" onclick="closeMobileMenu()"><span>ABOUT</span><i data-lucide="arrow-right" class="w-5 h-5"></i></a>
+        <a href="services.html" class="mobile-link" onclick="closeMobileMenu()"><span>SERVICES</span><i data-lucide="arrow-right" class="w-5 h-5"></i></a>
+        <a href="gallery.html"  class="mobile-link active" onclick="closeMobileMenu()"><span>GALLERY</span><i data-lucide="arrow-right" class="w-5 h-5"></i></a>
+        <a href="booking.html"    class="mobile-link" onclick="closeMobileMenu()"><span>BOOKING</span><i data-lucide="arrow-right" class="w-5 h-5"></i></a>
+        <a href="contact.html"  class="mobile-link" onclick="closeMobileMenu()"><span>CONTACT</span><i data-lucide="arrow-right" class="w-5 h-5"></i></a>
+        <button onclick="toggleMobileSubmenu('mobileDashSub')" class="mobile-link">
+            <span>CLIENT DASHBOARD</span><i data-lucide="chevron-down" class="w-5 h-5" id="dashSubIcon"></i>
+        </button>
+        <div id="mobileDashSub" class="mobile-submenu">
+            <a href="admin.html" onclick="closeMobileMenu()">ADMIN</a>
+            <a href="user.html"  onclick="closeMobileMenu()">CLIENT</a>
+        </div>
+        <button onclick="toggleMobileSubmenu('mobileAuthSub')" class="mobile-link">
+            <span><i data-lucide="log-in" class="w-5 h-5 inline mr-2"></i>ACCOUNT</span>
+            <i data-lucide="chevron-down" class="w-5 h-5" id="authSubIcon"></i>
+        </button>
+        <div id="mobileAuthSub" class="mobile-submenu">
+            <a href="login.html"  onclick="closeMobileMenu()"><i data-lucide="log-in"></i>LOGIN</a>
+            <a href="signup.html" onclick="closeMobileMenu()"><i data-lucide="user-plus"></i>SIGN UP</a>
+        </div>
+        <div class="settings-section">
+            <div class="settings-item">
+                <span class="settings-label"><i class="fa-solid fa-arrow-right-arrow-left" style="color:#b5826a"></i>DIRECTION</span>
+                <button onclick="toggleDirection()" class="action-btn"><i class="fa-solid fa-left-right"></i></button>
+            </div>
+            <div class="settings-item">
+                <span class="settings-label"><i data-lucide="moon" class="w-5 h-5"></i>THEME</span>
+                <button onclick="toggleTheme()" class="action-btn">
+                    <i data-lucide="moon" class="w-4 h-4 dark:hidden"></i>
+                    <i data-lucide="sun"  class="w-4 h-4 hidden dark:block"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    lucide.createIcons();
+    const navbar=document.getElementById('navbar');
+    window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',window.scrollY>50));
+    
+    function toggleMobileMenu(){
+        document.getElementById('mobileMenu').classList.toggle('open');
+        document.body.classList.toggle('menu-open');
+        setTimeout(()=>lucide.createIcons(),100);
+    }
+    
+    function closeMobileMenu(){
+        document.getElementById('mobileMenu').classList.remove('open');
+        document.body.classList.remove('menu-open');
+        setTimeout(()=>lucide.createIcons(),100);
+    }
+    
+    function toggleMobileSubmenu(id){
+        const sub=document.getElementById(id);
+        const btn=sub.previousElementSibling;
+        const icon=btn.querySelector('i:last-child');
+        document.querySelectorAll('.mobile-submenu').forEach(m=>{
+            if(m.id!==id&&m.classList.contains('open')){
+                m.classList.remove('open');
+                const pi=m.previousElementSibling.querySelector('i:last-child');
+                if(pi)pi.style.transform='rotate(0deg)';
+            }
+        });
+        sub.classList.toggle('open');
+        if(icon)icon.style.transform=sub.classList.contains('open')?'rotate(180deg)':'rotate(0deg)';
+        setTimeout(()=>lucide.createIcons(),10);
+    }
+    
+    function toggleTheme(){
+        document.documentElement.classList.toggle('dark');
+        document.body.classList.toggle('dark');
+        localStorage.setItem('theme',document.documentElement.classList.contains('dark')?'dark':'light');
+        setTimeout(()=>lucide.createIcons(),10);
+    }
+    
+    if(localStorage.getItem('theme')==='dark'){
+        document.documentElement.classList.add('dark');
+        document.body.classList.add('dark');
+    }
+    
+    function toggleDirection(){
+        const html=document.documentElement;
+        html.dir=html.dir==='rtl'?'ltr':'rtl';
+        setTimeout(()=>lucide.createIcons(),10);
+    }
+    
+    document.addEventListener('DOMContentLoaded',()=>{
+        lucide.createIcons();
+        // Force all sections to be visible
+        document.querySelectorAll('section').forEach(section=>{
+            section.style.display='block';
+            section.style.visibility='visible';
+            section.style.opacity='1';
+        });
+    });
+    
+    document.addEventListener('keydown',e=>{
+        if(e.key==='Escape'){
+            closeMobileMenu();
+            closeLightbox();
+        }
+    });
+    
+    window.addEventListener('click',e=>{
+        if(!e.target.closest('.dropdown-group'))
+            document.querySelectorAll('.dropdown-menu').forEach(d=>{
+                d.style.opacity='0';
+                d.style.visibility='hidden';
+            });
+    });
+</script>
+
+<!-- MAIN CONTENT WRAPPER -->
+<div class="main-content">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 1 – HERO                                            -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="relative min-h-[60vh] flex items-center justify-center overflow-hidden pt-16"
+         style="background:linear-gradient(135deg,#2d1320 0%,#1a0f14 55%,#261424 100%)">
+    <!-- Blobs -->
+    <div class="absolute inset-0 pointer-events-none opacity-25">
+        <div class="absolute top-16 left-12 w-72 h-72 rounded-full filter blur-3xl animate-pulse" style="background:#b5826a"></div>
+        <div class="absolute bottom-10 right-12 w-80 h-80 rounded-full filter blur-3xl animate-pulse" style="background:#7c5c8a;animation-delay:1.5s"></div>
+    </div>
+    <div class="absolute inset-0 hero-grid opacity-35 pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center py-20">
+        
+
+        <!-- Title -->
+        <h1 class="serif text-5xl sm:text-6xl md:text-7xl font-bold text-white leading-tight mb-5">
+            A World of
+            <span class="block" style="background:linear-gradient(135deg,#c9a96e,#b5826a,#d4a58a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">
+                Beautiful Moments
+            </span>
+        </h1>
+        <p class="text-gray-300 text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-8">
+            Each image tells a story of love, laughter, and luxurious detail. Explore our curated portfolio of weddings, galas, florals, and private celebrations across India.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3">
+            <a href="contact.html" class="btn-primary px-7 py-3 rounded-xl font-semibold text-sm sm:text-base">
+                <i class="fas fa-calendar-check"></i> Plan Your Event
+            </a>
+            <a href="#gallery" class="px-7 py-3 rounded-xl font-semibold text-sm sm:text-base text-white border-2 flex items-center gap-2 transition-all hover:bg-white/10" style="border-color:rgba(201,169,110,.6)">
+                <i class="fas fa-arrow-down" style="color:#c9a96e"></i> Browse Gallery
+            </a>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 3 – FILTER TABS + MASONRY GALLERY                   -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section id="gallery" class="py-16 md:py-20 lg:py-24 bg-gray-50 dark:bg-gray-800 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Section Header -->
+        <div class="text-center max-w-2xl mx-auto mb-10">
+            <span class="font-semibold tracking-widest text-sm uppercase" style="color:#b5826a">Our Work</span>
+            <h2 class="serif text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mt-2 mb-3">
+                Every Frame, a <span class="gradient-text">Memory</span>
+            </h2>
+            <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base">Filter by event type to explore our world of luxury styling and celebration</p>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="flex flex-wrap justify-center gap-3 mb-10">
+            <button class="filter-btn active" data-filter="all">
+                <i class="fas fa-th mr-1"></i> All Events
+            </button>
+            <button class="filter-btn" data-filter="wedding">
+                <i class="fas fa-ring mr-1"></i> Weddings
+            </button>
+            <button class="filter-btn" data-filter="floral">
+                <i class="fas fa-spa mr-1"></i> Florals
+            </button>
+            <button class="filter-btn" data-filter="corporate">
+                <i class="fas fa-briefcase mr-1"></i> Corporate
+            </button>
+            <button class="filter-btn" data-filter="private">
+                <i class="fas fa-gift mr-1"></i> Private Events
+            </button>
+            <button class="filter-btn" data-filter="tablescape">
+                <i class="fas fa-utensils mr-1"></i> Tablescapes
+            </button>
+        </div>
+
+        <!-- Masonry Gallery Grid -->
+        <div class="gallery-grid" id="galleryGrid">
+
+            <!-- Wedding 1 – tall -->
+            <div class="gallery-item" data-category="wedding" data-src="img/gallery-26.jpg" data-title="Grand Ballroom Wedding · Mumbai" style="height:320px;">
+                <img src="img/gallery-1.jpg" alt="Grand Ballroom Wedding">
+                <div class="gallery-overlay">
+                    <div class="gallery-zoom"><i class="fas fa-expand text-white text-lg"></i></div>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full text-white mb-2 w-fit" style="background:linear-gradient(135deg,#b5826a,#7c5c8a)">Wedding</span>
+                    <p class="text-white font-semibold text-sm">Grand Ballroom Wedding</p>
+                    <p class="text-gray-300 text-xs">ITC Grand Chola · Mumbai</p>
+                </div>
+            </div>
+
+            <!-- Floral 1 – short -->
+            <div class="gallery-item" data-category="floral" data-src="img/gallery-27.jpg" data-title="Floral Arch Installation · Bangalore" style="height:230px;">
+                <img src="img/gallery-2.jpg" alt="Floral Arch">
+                <div class="gallery-overlay">
+                    <div class="gallery-zoom"><i class="fas fa-expand text-white text-lg"></i></div>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full text-white mb-2 w-fit" style="background:linear-gradient(135deg,#7c5c8a,#4a2c40)">Florals</span>
+                    <p class="text-white font-semibold text-sm">Floral Arch Installation</p>
+                    <p class="text-gray-300 text-xs">Leela Palace · Bangalore</p>
+                </div>
+            </div>
+
+            <!-- Tablescape 1 -->
+            <div class="gallery-item" data-category="tablescape" data-src="img/gallery-28.jpg" data-title="Gold Ivory Tablescape · Delhi" style="height:240px;">
+                <img src="img/gallery-3.jpg" alt="Tablescape">
+                <div class="gallery-overlay">
+                    <div class="gallery-zoom"><i class="fas fa-expand text-white text-lg"></i></div>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full text-white mb-2 w-fit" style="background:linear-gradient(135deg,#c9a96e,#b5826a)">Tablescape</span>
+                    <p class="text-white font-semibold text-sm">Gold & Ivory Tablescape</p>
+                    <p class="text-gray-300 text-xs">Taj Mahal Hotel · Delhi</p>
+                </div>
+            </div>
+
+            <!-- Corporate 1 – tall -->
+            <div class="gallery-item" data-category="corporate" data-src="img/gallery-29.jpg" data-title="Corporate Awards Gala · Bangalore" style="height:300px;">
+                <img src="img/gallery-4.jpg" alt="Corporate Gala">
+                <div class="gallery-overlay">
+                    <div class="gallery-zoom"><i class="fas fa-expand text-white text-lg"></i></div>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full text-white mb-2 w-fit" style="background:linear-gradient(135deg,#4a2c40,#7c5c8a)">Corporate</span>
+                    <p class="text-white font-semibold text-sm">Corporate Awards Gala</p>
+                    <p class="text-gray-300 text-xs">JW Marriott · Bangalore</p>
+                </div>
+            </div>
+
+            <!-- Private 1 -->
+            <div class="gallery-item" data-category="private" data-src="img/gallery-30.jpg" data-title="Garden Birthday Soirée · Mysore" style="height:250px;">
+                <img src="img/gallery-5.jpg" alt="Garden Party">
+                <div class="gallery-overlay">
+                    <div class="gallery-zoom"><i class="fas fa-expand text-white text-lg"></i></div>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full text-white mb-2 w-fit" style="background:linear-gradient(135deg,#b5826a,#c9a96e)">Private Event</span>
+                    <p class="text-white font-semibold text-sm">Garden Birthday Soirée</p>
+                    <p class="text-gray-300 text-xs">Private Estate · Mysore</p>
+                </div>
+            </div>
+
+            <!-- Wedding 2 – short -->
+            <div class="gallery-item" data-category="wedding" data-src="img/gallery-31.jpg" data-title="Candlelit Reception · Chennai" style="height:220px;">
+                <img src="img/gallery-6.jpg" alt="Wedding Reception">
+                <div class="gallery-overlay">
+                    <div class="gallery-zoom"><i class="fas fa-expand text-white text-lg"></i></div>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full text-white mb-2 w-fit" style="background:linear-gradient(135deg,#b5826a,#7c5c8a)">Wedding</span>
+                    <p class="text-white font-semibold text-sm">Candlelit Reception</p>
+                    <p class="text-gray-300 text-xs">Radisson Blu · Chennai</p>
+                </div>
+            </div>
+
+            <!-- Floral 2 – tall -->
+            <div class="gallery-item" data-category="floral" data-src="img/gallery-32.jpg" data-title="Rose Wall Installation · Mumbai" style="height:340px;">
+                <img src="img/gallery-7.jpg" alt="Rose Wall">
+                <div class="gallery-overlay">
+                    <div class="gallery-zoom"><i class="fas fa-expand text-white text-lg"></i></div>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full text-white mb-2 w-fit" style="background:linear-gradient(135deg,#7c5c8a,#4a2c40)">Florals</span>
+                    <p class="text-white font-semibold text-sm">Rose Wall Installation</p>
+                    <p class="text-gray-300 text-xs">Four Seasons · Mumbai</p>
+                </div>
+            </div>
+
+            <!-- Tablescape 2 -->
+            <div class="gallery-item" data-category="tablescape" data-src="img/gallery-33.jpg" data-title="Midnight Blue Tablescape · Hyderabad" style="height:260px;">
+                <img src="img/gallery-8.jpg" alt="Blue Tablescape">
+                <div class="gallery-overlay">
+                    <div class="gallery-zoom"><i class="fas fa-expand text-white text-lg"></i></div>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full text-white mb-2 w-fit" style="background:linear-gradient(135deg,#c9a96e,#b5826a)">Tablescape</span>
+                    <p class="text-white font-semibold text-sm">Midnight Blue Tablescape</p>
+                    <p class="text-gray-300 text-xs">Taj Krishna · Hyderabad</p>
+                </div>
+            </div>
+
+            <!-- Corporate 2 -->
+            <div class="gallery-item" data-category="corporate" data-src="img/gallery-34.jpg" data-title="Tech Summit Styling · Pune" style="height:245px;">
+                <img src="img/gallery-9.jpg" alt="Tech Summit">
+                <div class="gallery-overlay">
+                    <div class="gallery-zoom"><i class="fas fa-expand text-white text-lg"></i></div>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full text-white mb-2 w-fit" style="background:linear-gradient(135deg,#4a2c40,#7c5c8a)">Corporate</span>
+                    <p class="text-white font-semibold text-sm">Tech Summit Stage Styling</p>
+                    <p class="text-gray-300 text-xs">Grand Hyatt · Pune</p>
+                </div>
+            </div>
+
+            <!-- Wedding 3 – tall -->
+            <div class="gallery-item" data-category="wedding" data-src="img/gallery-35.jpg" data-title="South Indian Wedding · Kochi" style="height:310px;">
+                <img src="img/gallery-10.jpg" alt="South Indian Wedding">
+                <div class="gallery-overlay">
+                    <div class="gallery-zoom"><i class="fas fa-expand text-white text-lg"></i></div>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full text-white mb-2 w-fit" style="background:linear-gradient(135deg,#b5826a,#7c5c8a)">Wedding</span>
+                    <p class="text-white font-semibold text-sm">Traditional South Indian Wedding</p>
+                    <p class="text-gray-300 text-xs">Casino Hotel · Kochi</p>
+                </div>
+            </div>
+
+            <!-- Private 2 -->
+            <div class="gallery-item" data-category="private" data-src="img/gallery-36.jpg" data-title="Surprise Anniversary Party · Goa" style="height:235px;">
+                <img src="img/gallery-11.jpg" alt="Anniversary Party">
+                <div class="gallery-overlay">
+                    <div class="gallery-zoom"><i class="fas fa-expand text-white text-lg"></i></div>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full text-white mb-2 w-fit" style="background:linear-gradient(135deg,#b5826a,#c9a96e)">Private Event</span>
+                    <p class="text-white font-semibold text-sm">Surprise Anniversary Party</p>
+                    <p class="text-gray-300 text-xs">W Hotel · Goa</p>
+                </div>
+            </div>
+
+            <!-- Floral 3 -->
+            <div class="gallery-item" data-category="floral" data-src="img/gallery-37.jpg" data-title="Marigold Mandap Decor · Jaipur" style="height:270px;">
+                <img src="img/gallery-12.jpg" alt="Mandap Decor">
+                <div class="gallery-overlay">
+                    <div class="gallery-zoom"><i class="fas fa-expand text-white text-lg"></i></div>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full text-white mb-2 w-fit" style="background:linear-gradient(135deg,#7c5c8a,#4a2c40)">Florals</span>
+                    <p class="text-white font-semibold text-sm">Marigold Mandap Décor</p>
+                    <p class="text-gray-300 text-xs">Rambagh Palace · Jaipur</p>
+                </div>
+            </div>
+
+            <!-- Tablescape 3 – tall -->
+            <div class="gallery-item" data-category="tablescape" data-src="img/gallery-38.jpg" data-title="Rustic Chic Tablescape · Coorg" style="height:290px;">
+                <img src="img/gallery-13.jpg" alt="Rustic Tablescape">
+                <div class="gallery-overlay">
+                    <div class="gallery-zoom"><i class="fas fa-expand text-white text-lg"></i></div>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full text-white mb-2 w-fit" style="background:linear-gradient(135deg,#c9a96e,#b5826a)">Tablescape</span>
+                    <p class="text-white font-semibold text-sm">Rustic Chic Tablescape</p>
+                    <p class="text-gray-300 text-xs">Evolve Back · Coorg</p>
+                </div>
+            </div>
+
+            <!-- Wedding 4 -->
+            <div class="gallery-item" data-category="wedding" data-src="img/gallery-39.jpg" data-title="Destination Beach Wedding · Maldives" style="height:250px;">
+                <img src="img/gallery-14.jpg" alt="Beach Wedding">
+                <div class="gallery-overlay">
+                    <div class="gallery-zoom"><i class="fas fa-expand text-white text-lg"></i></div>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full text-white mb-2 w-fit" style="background:linear-gradient(135deg,#b5826a,#7c5c8a)">Wedding</span>
+                    <p class="text-white font-semibold text-sm">Destination Beach Wedding</p>
+                    <p class="text-gray-300 text-xs">Overwater Bungalow · Maldives</p>
+                </div>
+            </div>
+
+            <!-- Corporate 3 -->
+            <div class="gallery-item" data-category="corporate" data-src="img/gallery-40.jpg" data-title="Product Launch Event · Delhi" style="height:240px;">
+                <img src="img/gallery-5.jpg" alt="Product Launch">
+                <div class="gallery-overlay">
+                    <div class="gallery-zoom"><i class="fas fa-expand text-white text-lg"></i></div>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full text-white mb-2 w-fit" style="background:linear-gradient(135deg,#4a2c40,#7c5c8a)">Corporate</span>
+                    <p class="text-white font-semibold text-sm">Luxury Brand Launch</p>
+                    <p class="text-gray-300 text-xs">Shangri-La · Delhi</p>
+                </div>
+            </div>
+
+            <!-- Private 3 – tall -->
+            <div class="gallery-item" data-category="private" data-src="img/gallery-41.jpg" data-title="50th Birthday Gala · Chennai" style="height:300px;">
+                <img src="img/gallery-6.jpg" alt="Birthday Gala">
+                <div class="gallery-overlay">
+                    <div class="gallery-zoom"><i class="fas fa-expand text-white text-lg"></i></div>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full text-white mb-2 w-fit" style="background:linear-gradient(135deg,#b5826a,#c9a96e)">Private Event</span>
+                    <p class="text-white font-semibold text-sm">Golden 50th Birthday Gala</p>
+                    <p class="text-gray-300 text-xs">Private Venue · Chennai</p>
+                </div>
+            </div>
+
+        </div><!-- /gallery-grid -->
+
+        <!-- Load More -->
+        <div class="text-center mt-12">
+            <button id="loadMoreBtn" class="btn-primary px-8 py-4 rounded-xl font-semibold text-sm sm:text-base shadow-lg">
+                <i class="fas fa-images"></i> Load More Photos
+            </button>
+        </div>
+
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 4 – FEATURED LARGE EVENT (Editorial)               -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="py-16 md:py-20 bg-white dark:bg-gray-900 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+            <span class="font-semibold tracking-widest text-sm uppercase" style="color:#b5826a">Featured Event</span>
+            <h2 class="serif text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mt-2">
+                The <span class="gradient-text">Sharma–Kapoor</span> Wedding
+            </h2>
+            <p class="text-gray-500 dark:text-gray-400 text-sm mt-2">A 3-day grand celebration for 800 guests · ITC Grand Chola, Mumbai</p>
+        </div>
+
+        <!-- Featured Grid -->
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
+            <!-- Large left -->
+            <div class="col-span-2 md:col-span-2 row-span-2 gallery-item rounded-2xl overflow-hidden h-72 sm:h-80 md:h-96 cursor-pointer"
+                 data-category="wedding" data-src="img/gallery-42.jpg" data-title="Sharma–Kapoor Wedding · Grand Venue">
+                <img src="img/about-1.jpg" alt="Featured Wedding" class="w-full h-full object-cover">
+                <div class="gallery-overlay">
+                    <div class="gallery-zoom"><i class="fas fa-expand text-white text-xl"></i></div>
+                    <p class="text-white serif font-bold text-xl sm:text-2xl">Grand Ballroom Setup</p>
+                    <p class="text-gray-300 text-xs sm:text-sm">800 guests · 3-day celebration</p>
+                </div>
+            </div>
+            <!-- Top right -->
+            <div class="gallery-item rounded-2xl overflow-hidden h-44 sm:h-48 cursor-pointer"
+                 data-category="floral" data-src="img/gallery-43.jpg" data-title="Floral Mandap · Sharma Wedding">
+                <img src="img/about-3.jpg" alt="Floral Mandap" class="w-full h-full object-cover">
+                <div class="gallery-overlay">
+                    <div class="gallery-zoom"><i class="fas fa-expand text-white text-lg"></i></div>
+                    <p class="text-white font-semibold text-sm">Mandap Florals</p>
+                </div>
+            </div>
+            <!-- Bottom right -->
+            <div class="gallery-item rounded-2xl overflow-hidden h-44 sm:h-48 cursor-pointer"
+                 data-category="tablescape" data-src="img/gallery-44.jpg" data-title="Tablescape · Sharma Wedding">
+                <img src="img/about-5.jpg" alt="Tablescape" class="w-full h-full object-cover">
+                <div class="gallery-overlay">
+                    <div class="gallery-zoom"><i class="fas fa-expand text-white text-lg"></i></div>
+                    <p class="text-white font-semibold text-sm">Gold Tablescape</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SECTION 5 – INSTAGRAM-STYLE FEED STRIP                      -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="py-14 bg-gray-50 dark:bg-gray-800 transition-colors overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
+            <div>
+                <span class="font-semibold tracking-widest text-xs uppercase" style="color:#b5826a">Follow Our Work</span>
+                <h2 class="serif text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mt-1">
+                    <i class="fab fa-instagram mr-2" style="color:#b5826a"></i>@luxeevents.studio
+                </h2>
+            </div>
+            <a href="https://instagram.com" target="_blank" class="btn-primary px-6 py-3 rounded-xl font-semibold text-sm">
+                <i class="fab fa-instagram"></i> Follow on Instagram
+            </a>
+        </div>
+
+        <!-- 6-col square grid -->
+        <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3">
+            <div class="gallery-item aspect-square rounded-xl overflow-hidden cursor-pointer"
+                 data-category="wedding" data-src="img/gallery-45.jpg" data-title="Instagram · Wedding Décor">
+                <img src="img/services-1.jpg " alt="Insta 1" class="w-full h-full object-cover">
+                <div class="gallery-overlay"><div class="gallery-zoom"><i class="fab fa-instagram text-white text-lg"></i></div></div>
+            </div>
+            <div class="gallery-item aspect-square rounded-xl overflow-hidden cursor-pointer"
+                 data-category="floral" data-src="img/gallery-46.jpg" data-title="Instagram · Florals">
+                <img src="img/services-2.jpg" alt="Insta 2" class="w-full h-full object-cover">
+                <div class="gallery-overlay"><div class="gallery-zoom"><i class="fab fa-instagram text-white text-lg"></i></div></div>
+            </div>
+            <div class="gallery-item aspect-square rounded-xl overflow-hidden cursor-pointer"
+                 data-category="tablescape" data-src="img/gallery-47.jpg" data-title="Instagram · Tablescape">
+                <img src="img/services-3.jpg" alt="Insta 3" class="w-full h-full object-cover">
+                <div class="gallery-overlay"><div class="gallery-zoom"><i class="fab fa-instagram text-white text-lg"></i></div></div>
+            </div>
+            <div class="gallery-item aspect-square rounded-xl overflow-hidden cursor-pointer"
+                 data-category="private" data-src="img/gallery-48.jpg" data-title="Instagram · Private Event">
+                <img src="img/services-6.jpg" alt="Insta 4" class="w-full h-full object-cover">
+                <div class="gallery-overlay"><div class="gallery-zoom"><i class="fab fa-instagram text-white text-lg"></i></div></div>
+            </div>
+            <div class="gallery-item aspect-square rounded-xl overflow-hidden cursor-pointer"
+                 data-category="corporate" data-src="img/gallery-49.jpg" data-title="Instagram · Corporate">
+                <img src="img/services-2.jpg" alt="Insta 5" class="w-full h-full object-cover">
+                <div class="gallery-overlay"><div class="gallery-zoom"><i class="fab fa-instagram text-white text-lg"></i></div></div>
+            </div>
+            <div class="gallery-item aspect-square rounded-xl overflow-hidden cursor-pointer"
+                 data-category="wedding" data-src="img/gallery-50.jpg" data-title="Instagram · South Indian Wedding">
+                <img src="img/services-10.jpg" alt="Insta 6" class="w-full h-full object-cover">
+                <div class="gallery-overlay"><div class="gallery-zoom"><i class="fab fa-instagram text-white text-lg"></i></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- LIGHTBOX                                                     -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="lightbox">
+    <button class="lb-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
+    <button class="lb-prev" onclick="lightboxNav(-1)"><i class="fas fa-chevron-left"></i></button>
+    <button class="lb-next" onclick="lightboxNav(1)"><i class="fas fa-chevron-right"></i></button>
+    <div class="text-center px-4">
+        <img id="lbImg" src="" alt="">
+        <div class="lb-caption mt-4">
+            <p id="lbTitle" class="font-semibold text-base text-white serif"></p>
+            <div class="lb-dots mt-3" id="lbDots"></div>
+        </div>
+    </div>
+</div>
+
+
+
+</div> <!-- End main-content -->
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer class="bg-gray-900 text-white pt-10 pb-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8 mb-10">
+            <div class="col-span-2 lg:col-span-1 flex flex-col items-start">
+                <a href="index.html" class="mb-3 flex items-center gap-2">
+                    <i class="fas fa-gem" style="color:#b5826a"></i>
+                    <span class="font-black text-2xl" style="background:linear-gradient(135deg,#d4a58a,#a87ab8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">LuxeEvents</span>
+                </a>
+                <p class="text-gray-400 text-xs sm:text-sm mb-4 leading-relaxed max-w-sm">High-End Event Planning & Styling Studio — where every celebration becomes a timeless memory.</p>
+                <div class="flex gap-3">
+                    <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-pink-600 transition-all"><i class="fab fa-instagram text-xs text-white"></i></a>
+                    <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-500 transition-all"><i class="fab fa-pinterest text-xs text-white"></i></a>
+                    <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-700 transition-all"><i class="fab fa-facebook-f text-xs text-white"></i></a>
+                    <a href="#" class="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-red-600 transition-all"><i class="fab fa-youtube text-xs text-white"></i></a>
+                </div>
+            </div>
+            <div class="col-span-1 flex flex-col items-start">
+                <h4 class="font-bold text-sm sm:text-base mb-4 uppercase tracking-wider" style="color:#b5826a">Quick Links</h4>
+                <ul class="space-y-2 text-gray-400 text-xs sm:text-sm">
+                    <li><a href="index.html"    class="hover:text-white transition-colors">Home</a></li>
+                    <li><a href="about.html"    class="hover:text-white transition-colors">About Us</a></li>
+                    <li><a href="services.html" class="hover:text-white transition-colors">Services</a></li>
+                    <li><a href="gallery.html"  class="hover:text-white transition-colors">Gallery</a></li>
+                    <li><a href="booking.html"    class="hover:text-white transition-colors">Booking</a></li>
+                    <li><a href="contact.html"  class="hover:text-white transition-colors">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-span-1 flex flex-col items-start">
+                <h4 class="font-bold text-sm sm:text-base mb-4 uppercase tracking-wider" style="color:#b5826a">Gallery</h4>
+                <ul class="space-y-2 text-gray-400 text-xs sm:text-sm">
+                    <li><a href="#" class="hover:text-white transition-colors">Weddings</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Florals</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Corporate</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Private Events</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Tablescapes</a></li>
+                </ul>
+            </div>
+            <div class="col-span-2 lg:col-span-1 flex flex-col items-start">
+                <h4 class="font-bold text-sm sm:text-base mb-4 uppercase tracking-wider" style="color:#b5826a">Contact</h4>
+                <div class="grid grid-cols-1 gap-4 w-full">
+                    <div class="flex items-start gap-2 text-gray-400 text-xs sm:text-sm">
+                        <i data-lucide="map-pin" class="w-4 h-4 shrink-0 mt-0.5" style="color:#b5826a"></i>
+                        <span>Indiranagar, Bangalore, India</span>
+                    </div>
+                    <div class="flex items-start gap-2 text-gray-400 text-xs sm:text-sm">
+                        <i data-lucide="mail" class="w-4 h-4 shrink-0 mt-0.5" style="color:#b5826a"></i>
+                        <a href="mailto:hello@luxeevents.in" class="hover:text-white">hello@luxeevents.in</a>
+                    </div>
+                    <div class="flex items-start gap-2 text-gray-400 text-xs sm:text-sm">
+                        <i data-lucide="phone" class="w-4 h-4 shrink-0 mt-0.5" style="color:#b5826a"></i>
+                        <a href="tel:+11111111113333" class="hover:text-white">+11 111111113333</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pt-6 border-t border-gray-800 flex flex-row justify-between items-center text-gray-500 text-[10px] sm:text-xs">
+            <p>© 2026 LuxeEvents Studio. All rights reserved.</p>
+            <div class="flex gap-3"><a href="#" class="hover:text-white">Privacy</a><a href="#" class="hover:text-white">Terms</a></div>
+            <div class="hidden sm:flex items-center gap-1"><i class="fas fa-heart text-xs" style="color:#b5826a"></i><span class="text-[10px]">Made with love</span></div>
+        </div>
+    </div>
+</footer>
+
+<!-- ═══════════════════ GALLERY + LIGHTBOX SCRIPTS ═══════════════════ -->
+<script>
+    // ── FILTER ──
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('#galleryGrid .gallery-item');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filter = btn.dataset.filter;
+            galleryItems.forEach(item => {
+                if (filter === 'all' || item.dataset.category === filter) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+
+    // ── LIGHTBOX ──
+    let lbImages = [];
+    let lbIndex  = 0;
+
+    function buildLbImages() {
+        lbImages = [];
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            if (item.dataset.src) {
+                lbImages.push({ src: item.dataset.src, title: item.dataset.title || '' });
+            }
+        });
+    }
+
+    function openLightbox(src, title) {
+        buildLbImages();
+        lbIndex = lbImages.findIndex(i => i.src === src);
+        renderLb();
+        document.getElementById('lightbox').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    function renderLb() {
+        const img = lbImages[lbIndex];
+        document.getElementById('lbImg').src = img.src;
+        document.getElementById('lbTitle').textContent = img.title;
+        // dots
+        const dotsEl = document.getElementById('lbDots');
+        dotsEl.innerHTML = '';
+        lbImages.forEach((_, i) => {
+            const d = document.createElement('span');
+            d.className = 'lb-dot' + (i === lbIndex ? ' active' : '');
+            d.onclick = () => { lbIndex = i; renderLb(); };
+            dotsEl.appendChild(d);
+        });
+    }
+
+    function lightboxNav(dir) {
+        lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
+        renderLb();
+    }
+
+    // Attach open to all gallery items
+    document.querySelectorAll('.gallery-item').forEach(item => {
+        item.addEventListener('click', () => {
+            if (item.dataset.src) openLightbox(item.dataset.src, item.dataset.title || '');
+        });
+    });
+
+    // Keyboard nav
+    document.addEventListener('keydown', e => {
+        const lb = document.getElementById('lightbox');
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'ArrowRight') lightboxNav(1);
+        if (e.key === 'ArrowLeft')  lightboxNav(-1);
+    });
+
+    // Close on bg click
+    document.getElementById('lightbox').addEventListener('click', e => {
+        if (e.target === document.getElementById('lightbox')) closeLightbox();
+    });
+
+    // ── LOAD MORE ──
+    document.getElementById('loadMoreBtn').addEventListener('click', function() {
+        this.innerHTML = '<i class="fas fa-check"></i> All Photos Loaded';
+        this.style.opacity = '0.6';
+        this.style.cursor = 'not-allowed';
+    });
+</script>
+
+</body>
+</html>
