@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" id="htmlTag" dir="ltr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
@@ -8,7 +9,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800;9..40,900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800;9..40,900&display=swap"
+        rel="stylesheet">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -21,8 +24,8 @@
                         deep: '#4a2c40',
                     },
                     fontFamily: {
-                        inter:     ['Inter','sans-serif'],
-                        cormorant: ['Cormorant Garamond','serif']
+                        inter: ['Inter', 'sans-serif'],
+                        cormorant: ['Cormorant Garamond', 'serif']
                     }
                 }
             }
@@ -30,20 +33,20 @@
     </script>
 
     <style>
-        :root { 
-            --rose: #b5826a; 
-            --plum: #7c5c8a; 
-            --gold: #c9a96e; 
-            --deep: #4a2c40; 
+        :root {
+            --rose: #b5826a;
+            --plum: #7c5c8a;
+            --gold: #c9a96e;
+            --deep: #4a2c40;
         }
 
-        * { 
-        
+        * {
+
             box-sizing: border-box;
             transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
         }
-        
-        body { 
+
+        body {
             background: #F8F9FD;
             min-height: 100vh;
             display: flex;
@@ -52,7 +55,7 @@
             margin: 0;
             padding: 12px;
         }
-        
+
         .dark body {
             background: #0F172A;
         }
@@ -67,17 +70,21 @@
             justify-content: center;
             text-decoration: none;
         }
-        
-        .logo:hover{transform:scale(1.05);}
-        .logo-text{
-            font-family:'Cormorant Garamond',serif;
-            font-weight:700;
-            font-size:1.6rem;
-            background:linear-gradient(135deg,#b5826a,#7c5c8a);
-            -webkit-background-clip:text;
-            -webkit-text-fill-color:transparent;
-            letter-spacing:.5px;}
-        
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, #b5826a, #7c5c8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: .5px;
+        }
+
         .action-btn {
             padding: 8px;
             background: white;
@@ -93,13 +100,13 @@
             justify-content: center;
             cursor: pointer;
         }
-        
+
         .dark .action-btn {
             background: #1E293B;
             border-color: #374151;
             color: #c9a96e;
         }
-        
+
         .action-btn:hover {
             transform: scale(1.1);
             box-shadow: 0 4px 12px rgba(124, 92, 138, 0.2);
@@ -109,44 +116,48 @@
         .dark .dark\:hidden {
             display: none;
         }
-        
+
         .dark .hidden.dark\:block {
             display: block;
         }
-        
+
         .dark\:block {
             display: none;
         }
-        
+
         .dark .dark\:block {
             display: block;
         }
-        
+
         .dark .dark\:hidden {
             display: none;
         }
 
         /* Fix for Font Awesome icons */
-        .fab, .fas, .far {
+        .fab,
+        .fas,
+        .far {
             font-family: 'Font Awesome 6 Brands' !important;
             font-weight: 400;
         }
-        
+
         .fas {
             font-family: 'Font Awesome 6 Free' !important;
             font-weight: 900;
         }
-        
+
         .fa-left-right::before {
             content: "\f07e";
         }
     </style>
 </head>
+
 <body class="bg-gradient-to-br font-inter from-rose/10 to-plum/10 dark:from-[#0F172A] dark:to-[#1E293B]">
-    
+
     <!-- Top Right Controls - With Working Icons -->
     <div class="fixed top-3 right-3 sm:top-4 sm:right-4 md:top-5 md:right-5 z-50">
-        <div class="desktop-menu flex items-center gap-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-1.5 rounded-xl shadow-lg border border-rose/20 dark:border-gray-700">
+        <div
+            class="desktop-menu flex items-center gap-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-1.5 rounded-xl shadow-lg border border-rose/20 dark:border-gray-700">
             <button onclick="toggleDirection()" class="action-btn" title="Toggle Direction">
                 <i class="fas fa-arrows-left-right"></i>
             </button>
@@ -159,8 +170,9 @@
 
     <!-- Login Card - Responsive -->
     <div class="w-full max-w-[90%] sm:max-w-[380px] md:max-w-[400px] lg:max-w-[420px] mx-auto">
-        <div class="bg-white dark:bg-[#1E293B] rounded-xl sm:rounded-2xl shadow-xl border border-rose/20 dark:border-gray-700 p-5 sm:p-6 md:p-7">
-            
+        <div
+            class="bg-white dark:bg-[#1E293B] rounded-xl sm:rounded-2xl shadow-xl border border-rose/20 dark:border-gray-700 p-5 sm:p-6 md:p-7">
+
             <!-- Logo - Using rose and plum gradient -->
             <div class="flex justify-center mb-6 sm:mb-7 md:mb-8">
                 <a href="index.html" class="logo">
@@ -168,62 +180,67 @@
                     <span class="logo-text">LuxeEvents</span>
                 </a>
             </div>
-            
+
             <!-- Title -->
             <h1 class="text-xl sm:text-xl md:text-2xl font-black text-center text-gray-900 dark:text-white mb-2">
                 Welcome <span class="text-rose dark:text-gold">Back</span>
             </h1>
-            
+
             <!-- Subtitle -->
-            <p class="text-center text-[10px] sm:text-xs md:text-sm text-gray-500 dark:text-gray-400 mb-5 sm:mb-6 md:mb-7">
+            <p
+                class="text-center text-[10px] sm:text-xs md:text-sm text-gray-500 dark:text-gray-400 mb-5 sm:mb-6 md:mb-7">
                 Sign in to continue to your account
             </p>
-            
+
             <!-- Form -->
             <form class="space-y-4 sm:space-y-5">
                 <!-- Email Field with Icon -->
                 <div>
-                    <label class="text-[9px] sm:text-[10px] md:text-xs font-black text-rose dark:text-gold uppercase tracking-wider block mb-1 ml-1">
+                    <label
+                        class="text-[9px] sm:text-[10px] md:text-xs font-black text-rose dark:text-gold uppercase tracking-wider block mb-1 ml-1">
                         <i class="fas fa-envelope mr-1 text-xs"></i>
                         Email Address
                     </label>
-                    <input type="email" placeholder="Enter your email" 
-                           class="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-rose/5 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-xs sm:text-sm focus:border-rose focus:outline-none transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-rose/20">
+                    <input type="email" placeholder="Enter your email"
+                        class="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-rose/5 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-xs sm:text-sm focus:border-rose focus:outline-none transition-all placeholder:text-gray-400 focus:ring-2 focus:ring-rose/20">
                 </div>
-                
+
                 <!-- Password Field with Icon -->
                 <div>
-                    <label class="text-[9px] sm:text-[10px] md:text-xs font-black text-rose dark:text-gold uppercase tracking-wider block mb-1 ml-1">
+                    <label
+                        class="text-[9px] sm:text-[10px] md:text-xs font-black text-rose dark:text-gold uppercase tracking-wider block mb-1 ml-1">
                         <i class="fas fa-lock mr-1 text-xs"></i>
                         Password
                     </label>
                     <div class="relative">
-                        <input type="password" id="password" placeholder="Enter your password" 
-                               class="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-rose/5 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-xs sm:text-sm focus:border-rose focus:outline-none transition-all pr-9 sm:pr-10 placeholder:text-gray-400 focus:ring-2 focus:ring-rose/20">
-                        <button type="button" onclick="togglePassword()" class="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-rose">
+                        <input type="password" id="password" placeholder="Enter your password"
+                            class="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-rose/5 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-xs sm:text-sm focus:border-rose focus:outline-none transition-all pr-9 sm:pr-10 placeholder:text-gray-400 focus:ring-2 focus:ring-rose/20">
+                        <button type="button" onclick="togglePassword()"
+                            class="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-rose">
                             <i id="passwordIcon" class="fas fa-eye"></i>
                         </button>
                     </div>
                 </div>
-                
+
                 <!-- Remember Me & Forgot Password -->
-                <div class="flex flex-col xs:flex-row items-start xs:items-center justify-between gap-3 xs:gap-0">
-                    <label class="flex items-center gap-1.5 sm:gap-2 cursor-pointer group">
-                        <input type="checkbox" class="accent-rose w-3.5 h-3.5 sm:w-4 sm:h-4 rounded">
-                        <span class="text-[10px] sm:text-xs md:text-sm text-gray-600 dark:text-gray-400 group-hover:text-rose transition-colors">Remember me</span>
+                <div class="flex items-center justify-between gap-4">
+                    <label class="flex items-center gap-1.5 cursor-pointer group">
+                        <input type="checkbox" class="accent-rose w-3.5 h-3.5 rounded">
+                        <span class="text-xs text-gray-600 dark:text-gray-400">Remember me</span>
                     </label>
-                    <a href="#" class="text-[10px] sm:text-xs md:text-sm font-bold text-rose dark:text-gold hover:underline hover:scale-105 transition-all">
+                    <a href="#" class="text-xs font-bold text-rose dark:text-gold hover:underline">
                         Forgot password?
                     </a>
                 </div>
-                
+
                 <!-- Login Button - Using rose to plum gradient -->
-                <button type="submit" class="w-full bg-gradient-to-r from-rose to-plum hover:from-rose/90 hover:to-plum/90 text-white font-bold py-2.5 sm:py-3 md:py-3.5 px-4 rounded-lg transition-all shadow-md text-xs sm:text-sm md:text-base mt-2 transform hover:scale-[1.02]">
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-rose to-plum hover:from-rose/90 hover:to-plum/90 text-white font-bold py-2.5 sm:py-3 md:py-3.5 px-4 rounded-lg transition-all shadow-md text-xs sm:text-sm md:text-base mt-2 transform hover:scale-[1.02]">
                     <i class="fas fa-sign-in-alt mr-2"></i>
                     Log In
                 </button>
             </form>
-            
+
             <!-- Divider -->
             <div class="relative my-5 sm:my-6">
                 <div class="absolute inset-0 flex items-center">
@@ -233,27 +250,37 @@
                     <span class="bg-white dark:bg-[#1E293B] px-3 text-gray-500">or continue with</span>
                 </div>
             </div>
-            
+
             <!-- Social Icons with Names -->
             <div class="grid grid-cols-3 gap-2 sm:gap-3 mb-5 sm:mb-6">
-                <button class="flex items-center justify-center gap-1 sm:gap-2 p-2 sm:p-2.5 md:p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-rose hover:text-rose transition-all group">
-                    <i class="fab fa-google text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 group-hover:text-rose"></i>
-                    <span class="text-[9px] sm:text-[10px] md:text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-rose">Google</span>
+                <button
+                    class="flex items-center justify-center gap-1 sm:gap-2 p-2 sm:p-2.5 md:p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-rose hover:text-rose transition-all group">
+                    <i
+                        class="fab fa-google text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 group-hover:text-rose"></i>
+                    <span
+                        class="text-[9px] sm:text-[10px] md:text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-rose">Google</span>
                 </button>
-                <button class="flex items-center justify-center gap-1 sm:gap-2 p-2 sm:p-2.5 md:p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-plum hover:text-plum transition-all group">
-                    <i class="fab fa-apple text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 group-hover:text-plum"></i>
-                    <span class="text-[9px] sm:text-[10px] md:text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-plum">Apple</span>
+                <button
+                    class="flex items-center justify-center gap-1 sm:gap-2 p-2 sm:p-2.5 md:p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-plum hover:text-plum transition-all group">
+                    <i
+                        class="fab fa-apple text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 group-hover:text-plum"></i>
+                    <span
+                        class="text-[9px] sm:text-[10px] md:text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-plum">Apple</span>
                 </button>
-                <button class="flex items-center justify-center gap-1 sm:gap-2 p-2 sm:p-2.5 md:p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-gold hover:text-gold transition-all group">
-                    <i class="fab fa-facebook-f text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 group-hover:text-gold"></i>
-                    <span class="text-[9px] sm:text-[10px] md:text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-gold">Facebook</span>
+                <button
+                    class="flex items-center justify-center gap-1 sm:gap-2 p-2 sm:p-2.5 md:p-3 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-gold hover:text-gold transition-all group">
+                    <i
+                        class="fab fa-facebook-f text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 group-hover:text-gold"></i>
+                    <span
+                        class="text-[9px] sm:text-[10px] md:text-xs font-medium text-gray-600 dark:text-gray-400 group-hover:text-gold">Facebook</span>
                 </button>
             </div>
-            
+
             <!-- Sign Up Link -->
             <p class="text-center text-[10px] sm:text-xs md:text-sm text-gray-500 dark:text-gray-400">
-                Don't have an account? 
-                <a href="signup.html" class="text-rose dark:text-gold font-bold hover:underline hover:scale-105 inline-block transition-all">
+                Don't have an account?
+                <a href="signup.html"
+                    class="text-rose dark:text-gold font-bold hover:underline hover:scale-105 inline-block transition-all">
                     Create new account
                 </a>
             </p>
@@ -288,7 +315,7 @@
         function togglePassword() {
             const password = document.getElementById('password');
             const icon = document.getElementById('passwordIcon');
-            
+
             if (password.type === 'password') {
                 password.type = 'text';
                 icon.classList.remove('fa-eye');
@@ -301,7 +328,7 @@
         }
 
         // Initialize any required scripts
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Ensure dark mode icon is correct on load
             if (document.documentElement.classList.contains('dark')) {
                 // Already handled by CSS
@@ -309,4 +336,5 @@
         });
     </script>
 </body>
+
 </html>
