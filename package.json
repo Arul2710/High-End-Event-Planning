@@ -1,0 +1,24 @@
+{
+  "name": "event-plannings",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tailwindcss -i ./style.css -o ./output.css --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arul2710/High-End-Event-Planning.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Arul2710/High-End-Event-Planning/issues"
+  },
+  "homepage": "https://github.com/Arul2710/High-End-Event-Planning#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.4.19"
+  }
+}
